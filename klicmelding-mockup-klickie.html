@@ -545,7 +545,7 @@ body.menu-open { overflow: hidden; }
 .klickie-hero{display:flex;align-items:center;justify-content:center;position:relative}
 .klickie-say{position:absolute;top:-22px;left:-34px;width:250px;opacity:0;transform:translateY(10px) scale(.9);transform-origin:bottom right;transition:opacity .3s var(--ease-standard),transform .3s var(--ease-standard);pointer-events:none;z-index:3;filter:drop-shadow(3px 4px 0 rgba(15,23,42,.16))}
 .klickie-say.show{opacity:1;transform:none}
-@media(max-width:1023px){.klickie-hero{flex-direction:column;gap:var(--space-2)}.klickie-hero .klickie{max-width:180px}.klickie-say{position:static;opacity:1;transform:none;width:auto;max-width:250px;margin:0 auto}}
+@media(max-width:1023px){.klickie-hero{display:none}}
 .klickie-say svg{display:block;width:100%;height:auto;overflow:visible}
 .klickie-say .klickie-say-text{font-family:'Comic Neue','Plus Jakarta Sans',cursive;font-weight:700;font-size:18.5px;line-height:1.28;-webkit-text-stroke:0.6px var(--color-ink-900);color:var(--color-ink-900);text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0 6px}
 .klickie-hero .klickie{max-width:240px}
@@ -565,7 +565,7 @@ body.menu-open { overflow: hidden; }
 .klickie-launcher .kl-ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--color-primary-500);opacity:.6;animation:k-pulse 2.4s ease-out infinite}
 @keyframes k-pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.6);opacity:0}}
 .kl-badge{position:absolute;top:2px;right:2px;background:var(--color-error-500);color:#fff;font-size:12px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
-.klickie-tip{position:fixed;right:104px;bottom:46px;background:var(--color-ink-900);color:#fff;font-size:13px;font-weight:600;padding:8px 12px;border-radius:var(--radius-md);box-shadow:var(--shadow-md);z-index:80;white-space:nowrap}
+.klickie-tip{position:fixed;right:104px;bottom:46px;max-width:250px;background:var(--color-ink-900);color:#fff;font-size:13px;font-weight:600;line-height:1.45;padding:10px 14px;border-radius:var(--radius-md);box-shadow:var(--shadow-md);z-index:80}
 .klickie-tip::after{content:"";position:absolute;right:-6px;bottom:14px;border:6px solid transparent;border-left-color:var(--color-ink-900)}
 .klickie-tip[hidden],.klickie-launcher[hidden]{display:none}
 
@@ -798,7 +798,7 @@ body.menu-open { overflow: hidden; }
 })();
 </script>
 <!-- KLICKIE WIDGET -->
-<div class="klickie-tip" id="klickie-tip">Hoi! Ik ben Klickie 👋</div>
+<div class="klickie-tip" id="klickie-tip" hidden>Hoi! Ik ben Klickie 👋</div>
 <button class="klickie-launcher" id="klickie-launcher" aria-label="Open Klickie chat">
   <span class="kl-ring" aria-hidden="true"></span>
   <svg class="klickie" viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -900,6 +900,28 @@ body.menu-open { overflow: hidden; }
       cta=document.getElementById('klickie-open-cta'),
       quick=document.getElementById('kp-quick');
   var mascot=launcher.querySelector('.klickie').outerHTML;
+  var say=document.getElementById('klickie-say');
+  var badge=launcher.querySelector('.kl-badge');
+  function used(){ try{return sessionStorage.getItem('klickie-used')==='1';}catch(e){return false;} }
+  function setUsed(){ try{sessionStorage.setItem('klickie-used','1');}catch(e){} }
+  var tipLines=[
+    'Eerst melden, dan graven \u2014 zo voorkom je een dure \u2018oeps\u2019.',
+    'Wist je dat 1 op de 10 graafklussen schade geeft? Niet met een klicmelding!',
+    'Schep al klaar? Ho even \u2014 eerst een klicmelding.',
+    'Vragen over je klicmelding? Ik graaf het antwoord zo voor je op.',
+    'Voor je de grond in duikt: ken je de kabels al?',
+    'Klic eerst, graaf daarna. Scheelt kopzorgen \u00e9n kabels.',
+    'Graven zonder melden? Dat is vragen om een kortsluiting in je dag.',
+    'Even melden en je graaft zorgeloos. Daar zorg ik voor!',
+    'Een zandkasteel bouw je zonder melding. Een sleuf? D\u00e1\u00e1r hoort een klicmelding bij!',
+    'Wie een gat graaft voor een ander\u2026 doet er eerst een klicmelding voor.',
+    'Wie een kuil graaft voor een ander, raakt liever geen gasleiding \u2014 dus eerst melden!',
+    'Op het strand graaf je vrij; daarbuiten geldt: eerst melden, dan scheppen.',
+    'Emmertje en schepje? Veilig. Graafmachine? Eerst een klicmelding!',
+    'Zand erover kan altijd nog \u2014 maar weet eerst wat er \u00f3nder ligt.'
+  ];
+  var tipTimers=[]; function clearTipTimers(){ tipTimers.forEach(clearTimeout); tipTimers=[]; }
+  var lastTip=-1; function pickTip(){ var i; do{i=Math.floor(Math.random()*tipLines.length);}while(i===lastTip&&tipLines.length>1); lastTip=i; return tipLines[i]; }
 
   var answers=[
     {k:['kost','prijs','tarief','euro','betal'],a:'Een klicmelding kost in totaal <strong>€ 58,80 incl. btw</strong>: € 39,50 voor verwerking + rapportage en € 11,00 Kadasterkosten. Je betaalt vooraf via iDEAL (zakelijk ook op factuur).'},
@@ -965,19 +987,27 @@ body.menu-open { overflow: hidden; }
     body.appendChild(t); body.scrollTop=body.scrollHeight;
     setTimeout(function(){ t.remove(); add('bot', reply(q)); }, 900);
   }
-  function open(){ panel.hidden=false; launcher.hidden=true; tip.hidden=true; var bd=launcher.querySelector('.kl-badge'); if(bd) bd.style.display='none'; setTimeout(function(){text.focus();},50); }
+  function open(){ panel.hidden=false; launcher.hidden=true; tip.hidden=true; if(badge) badge.style.display='none'; setUsed(); clearTipTimers(); if(say) say.hidden=true; setTimeout(function(){text.focus();},50); }
   function shut(){ panel.hidden=true; launcher.hidden=false; }
   launcher.addEventListener('click',open);
   if(cta) cta.addEventListener('click',open);
   close.addEventListener('click',shut);
   quick.addEventListener('click',function(e){ if(e.target.classList.contains('kp-chip')){ var q=e.target.textContent; add('user',q); botReply(q); } });
   form.addEventListener('submit',function(e){ e.preventDefault(); var q=text.value.trim(); if(!q)return; add('user',q); text.value=''; botReply(q); });
-  setTimeout(function(){ if(!panel.hidden) return; tip.hidden=false; }, 1200);
+  if(used()){ if(badge) badge.style.display='none'; }
+  else if(window.matchMedia('(max-width:1023px)').matches){
+    tipTimers.push(setTimeout(function(){ if(panel.hidden){ tip.textContent='Hoi! Ik ben Klickie \ud83d\udc4b'; tip.hidden=false; } }, 1000));
+    tipTimers.push(setTimeout(function(){ if(panel.hidden) tip.hidden=true; }, 11000));
+    var tipLoop=function(){ if(panel.hidden){ tip.textContent=pickTip(); tip.hidden=false; tipTimers.push(setTimeout(function(){ if(panel.hidden) tip.hidden=true; }, 8500)); tipTimers.push(setTimeout(tipLoop, 8500+5000+Math.random()*5000)); } };
+    tipTimers.push(setTimeout(tipLoop, 12000));
+  } else {
+    tipTimers.push(setTimeout(function(){ if(panel.hidden){ tip.textContent='Hoi! Ik ben Klickie \ud83d\udc4b'; tip.hidden=false; } }, 1200));
+  }
 })();
 </script>
 <script>
 (function(){
-  var say=document.getElementById('klickie-say'); if(!say) return;
+  var say=document.getElementById('klickie-say'); if(!say) return; if(window.matchMedia('(max-width:1023px)').matches) return; function used(){ try{return sessionStorage.getItem('klickie-used')==='1';}catch(e){return false;} }
   var lines=[
     'Eerst melden, dan graven — zo voorkom je een dure ‘oeps’.',
     'Wist je dat 1 op de 10 graafklussen schade geeft? Niet met een klicmelding!',
@@ -996,12 +1026,13 @@ body.menu-open { overflow: hidden; }
   ];
   var last=-1;
   function show(){
+    if(used()) return;
     var i; do{ i=Math.floor(Math.random()*lines.length); }while(i===last && lines.length>1); last=i;
     var st=document.getElementById("klickie-say-text"); if(st) st.textContent=lines[i]; say.hidden=false;
     requestAnimationFrame(function(){ say.classList.add('show'); });
     setTimeout(function(){ say.classList.remove('show'); }, 11000);
   }
-  function loop(){ show(); setTimeout(loop, 30000 + Math.random()*10000); }
+  function loop(){ if(used()) return; show(); setTimeout(loop, 30000 + Math.random()*10000); }
   setTimeout(loop, 3000);
 })();
 </script>
