@@ -536,6 +536,16 @@ body.menu-open { overflow: hidden; }
 .cta-band p{font-size:18px;color:rgba(255,255,255,.88);margin-bottom:var(--space-6);position:relative}
 .cta-band .btn{position:relative}
 </style>
+<style id="mobile-fixes">
+@media (max-width:1023px){ .header-actions .btn-ghost-lg{display:none} }
+@media (max-width:767px){
+  .mobile-menu{padding:var(--space-5) var(--space-5) var(--space-6);overflow-y:auto}
+  .mobile-menu .menu-inner{gap:var(--space-5)}
+  .mobile-menu nav a{font-size:19px;padding:var(--space-3) 0}
+  .mobile-menu .menu-actions{gap:var(--space-2)}
+  .mobile-menu .menu-actions .btn{height:48px;font-size:15px}
+}
+</style>
 </head>
 <body>
 
@@ -696,7 +706,7 @@ body.menu-open { overflow: hidden; }
         </ul>
         <div class="actions">
           <button class="btn btn-primary btn-md">Account &amp; aanvraag <span class="arrow">→</span></button>
-          <a class="btn btn-secondary btn-md" href="klicmelding-mockup-login.html">Inloggen</a>
+          <a class="btn btn-secondary btn-md btn-ghost-lg" href="klicmelding-mockup-login.html">Inloggen</a>
         </div>
       </div>
     </div>

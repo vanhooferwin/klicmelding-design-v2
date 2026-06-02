@@ -549,6 +549,7 @@ body.menu-open { overflow: hidden; }
 .price-table tr.sub td{font-weight:600;color:var(--color-ink-900)}
 .price-table tr.total td{font-weight:700;color:var(--color-ink-900);border-top:2px solid var(--color-ink-200);background:var(--color-ink-50);font-size:15px}
 .price-foot{font-size:12px;color:var(--color-ink-500);padding:var(--space-3) var(--space-5) var(--space-4)}
+@media(max-width:640px){.price-head .amt{font-size:28px}.price-table th,.price-table td{padding:var(--space-2) var(--space-3);font-size:13px}.price-table th:nth-child(2),.price-table td:nth-child(2){display:none}}
 .alert.alert-warning{margin-top:var(--space-3)}
 
 /* ---- disclaimer band ---- */
@@ -557,6 +558,16 @@ body.menu-open { overflow: hidden; }
 .disclaimer-band .ico{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--color-ink-200);color:var(--color-ink-700);display:inline-flex;align-items:center;justify-content:center}
 .disclaimer-band .ico svg{width:20px;height:20px}
 .disclaimer-band p{font-size:14px;color:var(--color-ink-700);line-height:1.6}
+</style>
+<style id="mobile-fixes">
+@media (max-width:1023px){ .header-actions .btn-ghost-lg{display:none} }
+@media (max-width:767px){
+  .mobile-menu{padding:var(--space-5) var(--space-5) var(--space-6);overflow-y:auto}
+  .mobile-menu .menu-inner{gap:var(--space-5)}
+  .mobile-menu nav a{font-size:19px;padding:var(--space-3) 0}
+  .mobile-menu .menu-actions{gap:var(--space-2)}
+  .mobile-menu .menu-actions .btn{height:48px;font-size:15px}
+}
 </style>
 </head>
 <body>

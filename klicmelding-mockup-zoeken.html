@@ -551,6 +551,16 @@ body.menu-open { overflow: hidden; }
 .disclaimer-band .ico svg{width:20px;height:20px}
 .disclaimer-band p{font-size:14px;color:var(--color-ink-700);line-height:1.6}
 </style>
+<style id="mobile-fixes">
+@media (max-width:1023px){ .header-actions .btn-ghost-lg{display:none} }
+@media (max-width:767px){
+  .mobile-menu{padding:var(--space-5) var(--space-5) var(--space-6);overflow-y:auto}
+  .mobile-menu .menu-inner{gap:var(--space-5)}
+  .mobile-menu nav a{font-size:19px;padding:var(--space-3) 0}
+  .mobile-menu .menu-actions{gap:var(--space-2)}
+  .mobile-menu .menu-actions .btn{height:48px;font-size:15px}
+}
+</style>
 </head>
 <body>
 <!-- HEADER -->

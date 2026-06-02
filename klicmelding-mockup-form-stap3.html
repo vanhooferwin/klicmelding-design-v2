@@ -263,6 +263,16 @@ a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius:
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(8px);background:var(--color-ink-900);color:white;padding:10px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:opacity 180ms,transform 180ms,visibility 0s linear 180ms;z-index:200;max-width:90vw;text-align:center}
 .toast.is-show{opacity:1;transform:translateX(-50%) translateY(0);visibility:visible;transition:opacity 180ms,transform 180ms,visibility 0s}
 </style>
+<style id="mobile-fixes">
+@media (max-width:1023px){ .header-actions .btn-ghost-lg{display:none} }
+@media (max-width:767px){
+  .mobile-menu{padding:var(--space-5) var(--space-5) var(--space-6);overflow-y:auto}
+  .mobile-menu .menu-inner{gap:var(--space-5)}
+  .mobile-menu nav a{font-size:19px;padding:var(--space-3) 0}
+  .mobile-menu .menu-actions{gap:var(--space-2)}
+  .mobile-menu .menu-actions .btn{height:48px;font-size:15px}
+}
+</style>
 </head>
 <body>
 
@@ -282,7 +292,7 @@ a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius:
       <a href="klicmelding-mockup-zoeken.html" class="nav-search" aria-label="Zoeken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
     </nav>
     <div class="header-actions">
-      <a class="btn btn-secondary btn-md" href="klicmelding-mockup-login.html">Inloggen</a>
+      <a class="btn btn-secondary btn-md btn-ghost-lg" href="klicmelding-mockup-login.html">Inloggen</a>
       <button class="hamburger" aria-label="Menu openen" aria-controls="mobile-menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
