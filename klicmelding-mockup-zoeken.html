@@ -340,6 +340,9 @@ body.menu-open { overflow: hidden; }
 }
 .mobile-menu nav a:hover { color: var(--color-primary-600); }
 .mobile-menu nav a.active { color: var(--color-primary-600); }
+.mobile-menu nav a.m-klickie{display:flex;align-items:center;justify-content:center;gap:10px}
+.mobile-menu nav a.m-klickie .m-av{width:32px;height:32px;flex:0 0 auto;display:block}
+.mobile-menu nav a.m-klickie .m-av svg{width:100%;height:100%;display:block}
 .mobile-menu .menu-actions {
   display: flex; flex-direction: column; gap: var(--space-3);
 }
@@ -609,7 +612,7 @@ body.menu-open { overflow: hidden; }
         <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
         <a href="klicmelding-mockup-downloads.html">Downloads</a>
         <a href="klicmelding-mockup-zoeken.html">Zoeken</a>
-        <a href="klicmelding-mockup-klickie.html">Vraag het Klickie</a>
+        <a href="klicmelding-mockup-klickie.html" class="m-klickie"><span class="m-av" aria-hidden="true"><svg viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="mk-body" cx="38%" cy="30%" r="85%"><stop offset="0" stop-color="#5A9BFF"/><stop offset="55%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1A43C0"/></radialGradient><linearGradient id="mk-helmet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD23F"/><stop offset="55%" stop-color="#F7A50A"/><stop offset="100%" stop-color="#E08C00"/></linearGradient><linearGradient id="mk-brim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8920A"/><stop offset="100%" stop-color="#C2740B"/></linearGradient></defs><path d="M60 21 C90 21 103 43 103 67 C103 91 88 106 62 106 L44 106 L32 119 L34 102 C22 95 17 82 17 67 C17 43 30 21 60 21 Z" fill="url(#mk-body)"/><ellipse cx="43" cy="56" rx="15" ry="9" fill="#fff" opacity=".12"/><circle cx="39" cy="80" r="7" fill="#60A5FA" opacity=".7"/><circle cx="81" cy="80" r="7" fill="#60A5FA" opacity=".7"/><circle cx="48" cy="70" r="10.5" fill="#fff"/><circle cx="72" cy="70" r="10.5" fill="#fff"/><circle cx="50" cy="72" r="4.8" fill="#0F172A"/><circle cx="74" cy="72" r="4.8" fill="#0F172A"/><circle cx="53" cy="69" r="1.7" fill="#fff"/><circle cx="77" cy="69" r="1.7" fill="#fff"/><path d="M49 90 Q60 99 71 90" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M15 53 C15 16 38 6 60 6 C82 6 105 16 105 53 Z" fill="url(#mk-helmet)" stroke="#C2740B" stroke-width="1.4"/><path d="M46 9 C41 24 40 39 43 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/><path d="M74 9 C79 24 80 39 77 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="46" cy="24" rx="9" ry="15" fill="#fff" opacity=".42" transform="rotate(-20 46 24)"/><circle cx="60" cy="8" r="3.6" fill="#E8920A" stroke="#C2740B" stroke-width="1"/><path d="M11 52 Q60 49 109 52 Q111 56 101 57 Q60 60 18 57 Q9 56 11 52 Z" fill="url(#mk-brim)" stroke="#C2740B" stroke-width="1"/></svg></span>Vraag het Klickie</a>
       </nav>
       <div class="menu-actions">
         <a class="btn btn-primary" href="klicmelding-mockup-form-stap1.html">Klicmelding aanvragen <span class="arrow">→</span></a>
