@@ -1,0 +1,31 @@
+# robots.txt — Klicmelding.nl
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+# AI-zoeken: zichtbaarheid in ChatGPT / Claude / Perplexity
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+
+# Training-bots — bewuste keuze (hier geweerd)
+User-agent: GPTBot
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+
+# Niet-indexeerbare flow-/accountpagina's
+User-agent: *
+Allow: /
+Disallow: /aanvragen/
+Disallow: /account
+Disallow: /inloggen
+Disallow: /wachtwoord-vergeten
+
+Sitemap: https://www.klicmelding.nl/sitemap.xml
