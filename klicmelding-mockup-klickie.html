@@ -545,7 +545,7 @@ body.menu-open { overflow: hidden; }
 .klickie-hero{display:flex;align-items:center;justify-content:center;position:relative}
 .klickie-say{position:absolute;top:-22px;left:-34px;width:250px;opacity:0;transform:translateY(10px) scale(.9);transform-origin:bottom right;transition:opacity .3s var(--ease-standard),transform .3s var(--ease-standard);pointer-events:none;z-index:3;filter:drop-shadow(3px 4px 0 rgba(15,23,42,.16))}
 .klickie-say.show{opacity:1;transform:none}
-@media(max-width:1023px){.klickie-say{display:none}}
+@media(max-width:1023px){.klickie-hero{flex-direction:column;gap:var(--space-2)}.klickie-hero .klickie{max-width:180px}.klickie-say{position:static;opacity:1;transform:none;width:auto;max-width:250px;margin:0 auto}}
 .klickie-say svg{display:block;width:100%;height:auto;overflow:visible}
 .klickie-say .klickie-say-text{font-family:'Comic Neue','Plus Jakarta Sans',cursive;font-weight:700;font-size:18.5px;line-height:1.28;-webkit-text-stroke:0.6px var(--color-ink-900);color:var(--color-ink-900);text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0 6px}
 .klickie-hero .klickie{max-width:240px}
