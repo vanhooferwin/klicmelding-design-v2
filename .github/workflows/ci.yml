@@ -1,0 +1,62 @@
+name: CI
+
+# Draait op elke pull request naar main: kwaliteit, end-to-end tests en image-build.
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality:
+    name: Lint, types & unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test --if-present
+
+  e2e:
+    name: End-to-end (formulieren & knoppen)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: klic
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: klicmelding_test
+        ports: [ "5432:5432" ]
+        options: >-
+          --health-cmd "pg_isready -U klic" --health-interval 5s
+          --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://klic:test@localhost:5432/klicmelding_test
+      AUTH_SECRET: test-secret-please-override
+      AUTH_URL: http://localhost:3000
+      MAILJET_API_KEY: test
+      MAILJET_API_SECRET: test
+      MAIL_FROM: "Test <info@klicmelding.nl>"
+      OMNIKASSA_BASE_URL: https://sandbox.example/omnikassa
+      PDOK_BASE_URL: https://api.pdok.nl/bzk/locatieserver/search/v3_1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npm run db:migrate
+      - run: npm run build
+      - run: npm run test:e2e        # Playwright start de app zelf (webServer-config)
+      - uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with: { name: playwright-report, path: playwright-report/ }
+
+  docker-build:
+    name: Docker image bouwt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t klicmelding:ci .

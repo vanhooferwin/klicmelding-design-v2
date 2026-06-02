@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Klicmelding.nl — Links (redesign mockup)</title>
+<title>Klicmelding.nl — Klickie (AI-assistent, mockup)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    GEDEELDE TOKENS + COMPONENTEN (uit klicmelding.css ingebed)
@@ -527,19 +528,79 @@ body.menu-open { overflow: hidden; }
 .aside-contact .row .sub{display:block;font-size:12px;font-weight:500;color:var(--color-ink-500)}
 
 
-/* ---- links page ---- */
-.link-section{padding:var(--space-8) 0 var(--space-9)}
-.link-card{max-width:760px;margin:0 auto;background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:var(--space-4) var(--space-7)}
-@media(max-width:640px){.link-card{padding:var(--space-3) var(--space-5)}}
-.link-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.link-list li{border-bottom:1px solid var(--color-ink-100)}
-.link-list li:last-child{border-bottom:0}
-.link-list a{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-4) 0;text-decoration:none;color:var(--color-ink-900);font-weight:600;font-size:15px;transition:color var(--duration-fast)}
-.link-list a:hover{color:var(--color-primary-700)}
-.link-list .ico{width:38px;height:38px;flex-shrink:0;border-radius:var(--radius-md);background:var(--color-primary-50);color:var(--color-primary-600);display:inline-flex;align-items:center;justify-content:center}
-.link-list .ico svg{width:18px;height:18px}
-.link-list .ext{margin-left:auto;color:var(--color-ink-300);flex-shrink:0}
-.link-list a:hover .ext{color:var(--color-primary-600)}
+/* ===== Klickie mascotte + chat-widget ===== */
+.klickie{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 2px 4px rgba(15,23,42,.40))}
+.klickie .k-shadow{fill:rgba(15,23,42,.12);animation:k-shadow 3s ease-in-out infinite}
+.klickie .k-cheek{fill:#60A5FA;opacity:.7}
+.klickie .k-eyew{fill:#fff}.klickie .k-pupil{fill:var(--color-ink-900)}
+.klickie .k-smile{stroke:#fff;stroke-width:4;fill:none;stroke-linecap:round}
+.klickie .k-bob{animation:k-bob 3s ease-in-out infinite;transform-origin:60px 70px}
+.klickie .k-eyes{animation:k-blink 4.2s infinite;transform-origin:60px 64px}
+@keyframes k-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes k-shadow{0%,100%{transform:scaleX(1);opacity:.12}50%{transform:scaleX(.86);opacity:.08}}
+@keyframes k-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+@media (prefers-reduced-motion:reduce){.klickie *{animation:none!important}}
+
+/* hero */
+.klickie-hero{display:flex;align-items:center;justify-content:center;position:relative}
+.klickie-say{position:absolute;top:-22px;left:-34px;width:250px;opacity:0;transform:translateY(10px) scale(.9);transform-origin:bottom right;transition:opacity .3s var(--ease-standard),transform .3s var(--ease-standard);pointer-events:none;z-index:3;filter:drop-shadow(3px 4px 0 rgba(15,23,42,.16))}
+.klickie-say.show{opacity:1;transform:none}
+.klickie-say svg{display:block;width:100%;height:auto;overflow:visible}
+.klickie-say .klickie-say-text{font-family:'Comic Neue','Plus Jakarta Sans',cursive;font-weight:700;font-size:18.5px;line-height:1.28;-webkit-text-stroke:0.6px var(--color-ink-900);color:var(--color-ink-900);text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0 6px}
+.klickie-hero .klickie{max-width:240px}
+.klickie-features{display:grid;grid-template-columns:1fr;gap:var(--space-4);margin-top:var(--space-2)}
+@media(min-width:768px){.klickie-features{grid-template-columns:repeat(3,1fr)}}
+.kf-card{background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:var(--space-5)}
+.kf-card h3{font-size:16px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-2)}
+.kf-card p{font-size:14px;color:var(--color-ink-700);line-height:1.55}
+#klickie-open-cta{margin-top:var(--space-5)}
+.klickie-note{font-size:13px;color:var(--color-ink-500);margin-top:var(--space-5)}
+
+/* launcher */
+.klickie-launcher{position:fixed;right:24px;bottom:24px;width:72px;height:72px;border-radius:50%;border:0;cursor:pointer;background:radial-gradient(circle at 50% 34%,var(--color-primary-600),var(--color-primary-900));box-shadow:var(--shadow-lg);z-index:80;display:flex;align-items:center;justify-content:center;padding:6px;transition:transform var(--duration-fast)}
+.klickie-launcher:hover{transform:translateY(-3px) scale(1.03)}
+.klickie-launcher:focus-visible{outline:none;box-shadow:var(--shadow-lg),var(--shadow-focus)}
+.klickie-launcher .klickie{width:60px;filter:drop-shadow(0 3px 7px rgba(0,0,0,.55))}
+.klickie-launcher .kl-ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--color-primary-500);opacity:.6;animation:k-pulse 2.4s ease-out infinite}
+@keyframes k-pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.6);opacity:0}}
+.kl-badge{position:absolute;top:2px;right:2px;background:var(--color-error-500);color:#fff;font-size:12px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.klickie-tip{position:fixed;right:104px;bottom:46px;background:var(--color-ink-900);color:#fff;font-size:13px;font-weight:600;padding:8px 12px;border-radius:var(--radius-md);box-shadow:var(--shadow-md);z-index:80;white-space:nowrap}
+.klickie-tip::after{content:"";position:absolute;right:-6px;bottom:14px;border:6px solid transparent;border-left-color:var(--color-ink-900)}
+.klickie-tip[hidden],.klickie-launcher[hidden]{display:none}
+
+/* chat-paneel */
+.klickie-panel{position:fixed;right:24px;bottom:24px;width:370px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100vh - 48px);background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);z-index:81;display:flex;flex-direction:column;overflow:hidden;animation:k-in var(--duration-base) var(--ease-standard)}
+@keyframes k-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.klickie-panel[hidden]{display:none}
+.kp-head{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-4) var(--space-5);background:linear-gradient(160deg,var(--color-primary-700),var(--color-primary-600));color:#fff}
+.kp-head .kp-av{width:40px;height:40px;background:rgba(255,255,255,.18);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:3px}
+.kp-head .kp-av .klickie{width:34px}
+.kp-head h3{font-size:16px;font-weight:700;line-height:1.1}
+.kp-head .kp-status{font-size:12px;opacity:.85;font-weight:500}
+.kp-head .kp-status::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#34D399;margin-right:5px;vertical-align:middle}
+.kp-close{margin-left:auto;background:rgba(255,255,255,.15);border:0;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1}
+.kp-body{flex:1;overflow-y:auto;padding:var(--space-5);background:var(--color-ink-50);display:flex;flex-direction:column;gap:var(--space-3)}
+.kp-msg{display:flex;gap:var(--space-2);align-items:flex-end;max-width:85%}
+.kp-msg .kp-av{width:28px;height:28px;background:var(--color-primary-50);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:2px}
+.kp-msg .kp-av .klickie{width:24px}
+.kp-bubble{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5}
+.kp-msg.bot .kp-bubble{background:var(--color-white);border:1px solid var(--color-ink-200);color:var(--color-ink-900);border-bottom-left-radius:4px}
+.kp-msg.user{align-self:flex-end}
+.kp-msg.user .kp-bubble{background:var(--color-primary-600);color:#fff;border-bottom-right-radius:4px}
+.kp-typing{display:flex;gap:4px;padding:12px 14px;background:#fff;border:1px solid var(--color-ink-200);border-radius:14px;border-bottom-left-radius:4px;width:max-content}
+.kp-typing span{width:7px;height:7px;background:var(--color-ink-300);border-radius:50%;animation:k-dot 1.2s infinite}
+.kp-typing span:nth-child(2){animation-delay:.2s}.kp-typing span:nth-child(3){animation-delay:.4s}
+@keyframes k-dot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.kp-quick{display:flex;flex-wrap:wrap;gap:6px;padding:var(--space-3) var(--space-5) 0}
+.kp-chip{font-size:13px;font-weight:600;color:var(--color-primary-700);background:var(--color-primary-50);border:1px solid var(--color-primary-100);padding:7px 12px;border-radius:var(--radius-pill);cursor:pointer}
+.kp-chip:hover{background:var(--color-primary-100)}
+.kp-input{display:flex;gap:var(--space-2);padding:var(--space-3) var(--space-4) var(--space-2)}
+.kp-input input{flex:1;height:42px;padding:0 var(--space-3);border:1px solid var(--color-ink-300);border-radius:var(--radius-pill);font-family:inherit;font-size:14px}
+.kp-input input:focus-visible{outline:none;border-color:var(--color-primary-600);box-shadow:var(--shadow-focus)}
+.kp-send{flex-shrink:0;width:42px;height:42px;border-radius:50%;border:0;background:var(--color-primary-600);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.kp-send:hover{background:var(--color-primary-700)}
+.kp-disclaimer{font-size:11px;color:var(--color-ink-500);text-align:center;padding:0 var(--space-4) var(--space-3)}
+@media(max-width:560px){.klickie-panel{inset:0;right:0;bottom:0;width:100%;max-width:100%;height:100%;max-height:100%;border-radius:0;animation:none}}
 
 /* ---- disclaimer band ---- */
 .disclaimer-band{background:var(--color-ink-50);border-top:1px solid var(--color-ink-200);padding:var(--space-6) 0}
@@ -563,6 +624,11 @@ body.menu-open { overflow: hidden; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+<radialGradient id="kg-body" cx="38%" cy="30%" r="85%"><stop offset="0" stop-color="#5A9BFF"/><stop offset="55%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1A43C0"/></radialGradient>
+<linearGradient id="kg-helmet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD23F"/><stop offset="55%" stop-color="#F7A50A"/><stop offset="100%" stop-color="#E08C00"/></linearGradient>
+<linearGradient id="kg-brim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8920A"/><stop offset="100%" stop-color="#C2740B"/></linearGradient>
+</defs></svg>
 <!-- HEADER -->
 <header class="site-header">
   <div class="container header-row">
@@ -610,32 +676,56 @@ body.menu-open { overflow: hidden; }
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="container">
     <nav class="breadcrumb" aria-label="Kruimelpad">
-      <a href="index.html">Home</a><span class="sep">/</span><span>Links</span>
+      <a href="index.html">Home</a><span class="sep">/</span><span>Klickie</span>
     </nav>
-    <div class="inner">
-      <div class="eyebrow">Handige links</div>
-      <h1>Links</h1>
-      <p>Hieronder vindt u een aantal handige links over de WION, zorgvuldig graven en de klic-melding.</p>
+    <div class="page-head-grid">
+      <div class="inner">
+        <div class="eyebrow">AI-assistent</div>
+        <h1>Hoi, ik ben Klickie!</h1>
+        <p>Ik beantwoord je vragen over klicmeldingen en onze werkwijze — direct, dag en nacht. Klik rechtsonder op mij om een gesprek te starten.</p>
+        <button class="btn btn-primary btn-md" id="klickie-open-cta">Praat met Klickie <span class="arrow">&rarr;</span></button>
+      </div>
+      <div class="page-head-visual klickie-hero"><div class="klickie-say" id="klickie-say" hidden aria-hidden="true"><svg viewBox="0 0 280 195" xmlns="http://www.w3.org/2000/svg"><path d="M60 8 H220 Q272 8 272 60 V100 Q272 152 220 152 H198 L232 190 L168 152 H60 Q8 152 8 100 V60 Q8 8 60 8 Z" fill="#fff" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"/><foreignObject x="22" y="16" width="236" height="122"><div xmlns="http://www.w3.org/1999/xhtml" class="klickie-say-text" id="klickie-say-text"></div></foreignObject></svg></div><svg class="klickie" viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse class="k-shadow" cx="60" cy="124" rx="28" ry="6"/>
+  <g class="k-bob">
+    <path class="k-body" d="M60 21 C90 21 103 43 103 67 C103 91 88 106 62 106 L44 106 L32 119 L34 102 C22 95 17 82 17 67 C17 43 30 21 60 21 Z" fill="url(#kg-body)"/>
+    <ellipse cx="43" cy="56" rx="15" ry="9" fill="#fff" opacity=".12"/>
+    <circle class="k-cheek" cx="39" cy="80" r="7"/><circle class="k-cheek" cx="81" cy="80" r="7"/>
+    <g class="k-eyes">
+      <circle class="k-eyew" cx="48" cy="70" r="10.5"/><circle class="k-eyew" cx="72" cy="70" r="10.5"/>
+      <circle class="k-pupil" cx="50" cy="72" r="4.8"/><circle class="k-pupil" cx="74" cy="72" r="4.8"/>
+      <circle cx="53" cy="69" r="1.7" fill="#fff"/><circle cx="77" cy="69" r="1.7" fill="#fff"/>
+    </g>
+    <path class="k-smile" d="M49 90 Q60 99 71 90"/>
+    <g class="k-hat">
+      <path d="M15 53 C15 16 38 6 60 6 C82 6 105 16 105 53 Z" fill="url(#kg-helmet)" stroke="#C2740B" stroke-width="1.4"/>
+      <path d="M46 9 C41 24 40 39 43 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M74 9 C79 24 80 39 77 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="46" cy="24" rx="9" ry="15" fill="#fff" opacity=".42" transform="rotate(-20 46 24)"/>
+      <circle cx="60" cy="8" r="3.6" fill="#E8920A" stroke="#C2740B" stroke-width="1"/>
+      <path d="M11 52 Q60 49 109 52 Q111 56 101 57 Q60 60 18 57 Q9 56 11 52 Z" fill="url(#kg-brim)" stroke="#C2740B" stroke-width="1"/>
+    </g>
+  </g>
+</svg></div>
     </div>
   </div>
 </section>
 
-<!-- LINKS -->
-<section class="link-section">
+<!-- WAT KAN KLICKIE -->
+<section class="dl-section">
   <div class="container">
-    <div class="link-card">
-      <ul class="link-list">
-        <li><a href="https://www.rdi.nl/" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>Agentschap Telecom / RDI — handhaver WION-wet<span class="ext" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></a></li>
-        <li><a href="http://www.kabelenleidingoverleg.nl/download/type/document/id/1" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>CROW — instructiekaart ‘zorgvuldig graven’<span class="ext" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></a></li>
-        <li><a href="http://www.kabelenleidingoverleg.nl/" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span>Kabels en Leidingen Overleg<span class="ext" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></a></li>
-        <li><a href="https://www.rijksoverheid.nl/" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>Rijksoverheid — wet WION<span class="ext" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></a></li>
-        <li><a href="https://www.kadaster.nl/" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Kadaster — WION / KLIC online<span class="ext" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></a></li>
-        <li><a href="http://bouwmachineweb.com/" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21v-6h4v6"/><path d="M9 15 6 9h12l-3 6"/></svg></span>Bouwmachineweb.com<span class="ext" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></a></li>
-      </ul>
+    <div class="dl-group-head">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <h2>Waar Klickie mee helpt</h2>
     </div>
+    <div class="klickie-features">
+      <div class="kf-card"><h3>Vraag &amp; antwoord</h3><p>Kosten, levertijd, geldigheid, maximaal gebied — Klickie geeft direct antwoord op basis van onze FAQ.</p></div>
+      <div class="kf-card"><h3>Werkwijze uitleggen</h3><p>Hoe vraag je aan, wat ontvang je, en wat is de WION? Klickie legt het in gewone taal uit.</p></div>
+      <div class="kf-card"><h3>Doorverwijzen</h3><p>Komt Klickie er niet uit? Dan verwijst hij netjes door naar <a href="klicmelding-mockup-contact.html">contact</a> of de aanvraag.</p></div>
+    </div>
+    <p class="klickie-note">Dit is een mockup. De antwoorden hieronder zijn voorbeelden; in de echte versie haalt Klickie ze op uit onze content (RAG) en een AI-model.</p>
   </div>
 </section>
-
 
 <!-- FOOTER -->
 <footer class="site-footer">
@@ -705,36 +795,212 @@ body.menu-open { overflow: hidden; }
   });
 })();
 </script>
-<style id="cookie-css">
-.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--color-white);border-top:1px solid var(--color-ink-200);box-shadow:0 -4px 16px -6px rgba(15,23,42,.15)}
-.cookie-banner[hidden]{display:none}
-.cookie-inner{max-width:1100px;margin:0 auto;padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-4);align-items:center;justify-content:space-between;flex-wrap:wrap}
-.cookie-inner p{font-size:13px;color:var(--color-ink-700);line-height:1.5;flex:1;min-width:240px;margin:0}
-.cookie-actions{display:flex;gap:var(--space-2);flex-shrink:0}
-@media(max-width:560px){.cookie-inner{flex-direction:column;align-items:stretch}.cookie-actions .btn{flex:1}}
-</style>
-<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Cookiemelding" hidden>
-  <div class="cookie-inner">
-    <p>Wij gebruiken functionele cookies en — met uw toestemming — analytische cookies (Google Analytics) om de site te verbeteren. Zie ons <a href="klicmelding-mockup-privacy.html">privacy- &amp; cookiebeleid</a>.</p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-secondary btn-sm" data-cookie="essential">Alleen noodzakelijk</button>
-      <button type="button" class="btn btn-primary btn-sm" data-cookie="all">Accepteren</button>
-    </div>
+<!-- KLICKIE WIDGET -->
+<div class="klickie-tip" id="klickie-tip">Hoi! Ik ben Klickie 👋</div>
+<button class="klickie-launcher" id="klickie-launcher" aria-label="Open Klickie chat">
+  <span class="kl-ring" aria-hidden="true"></span>
+  <svg class="klickie" viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse class="k-shadow" cx="60" cy="124" rx="28" ry="6"/>
+  <g class="k-bob">
+    <path class="k-body" d="M60 21 C90 21 103 43 103 67 C103 91 88 106 62 106 L44 106 L32 119 L34 102 C22 95 17 82 17 67 C17 43 30 21 60 21 Z" fill="url(#kg-body)"/>
+    <ellipse cx="43" cy="56" rx="15" ry="9" fill="#fff" opacity=".12"/>
+    <circle class="k-cheek" cx="39" cy="80" r="7"/><circle class="k-cheek" cx="81" cy="80" r="7"/>
+    <g class="k-eyes">
+      <circle class="k-eyew" cx="48" cy="70" r="10.5"/><circle class="k-eyew" cx="72" cy="70" r="10.5"/>
+      <circle class="k-pupil" cx="50" cy="72" r="4.8"/><circle class="k-pupil" cx="74" cy="72" r="4.8"/>
+      <circle cx="53" cy="69" r="1.7" fill="#fff"/><circle cx="77" cy="69" r="1.7" fill="#fff"/>
+    </g>
+    <path class="k-smile" d="M49 90 Q60 99 71 90"/>
+    <g class="k-hat">
+      <path d="M15 53 C15 16 38 6 60 6 C82 6 105 16 105 53 Z" fill="url(#kg-helmet)" stroke="#C2740B" stroke-width="1.4"/>
+      <path d="M46 9 C41 24 40 39 43 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M74 9 C79 24 80 39 77 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="46" cy="24" rx="9" ry="15" fill="#fff" opacity=".42" transform="rotate(-20 46 24)"/>
+      <circle cx="60" cy="8" r="3.6" fill="#E8920A" stroke="#C2740B" stroke-width="1"/>
+      <path d="M11 52 Q60 49 109 52 Q111 56 101 57 Q60 60 18 57 Q9 56 11 52 Z" fill="url(#kg-brim)" stroke="#C2740B" stroke-width="1"/>
+    </g>
+  </g>
+</svg>
+  <span class="kl-badge" aria-hidden="true">1</span>
+</button>
+<section class="klickie-panel" id="klickie-panel" hidden aria-label="Klickie chat">
+  <header class="kp-head">
+    <span class="kp-av"><svg class="klickie" viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse class="k-shadow" cx="60" cy="124" rx="28" ry="6"/>
+  <g class="k-bob">
+    <path class="k-body" d="M60 21 C90 21 103 43 103 67 C103 91 88 106 62 106 L44 106 L32 119 L34 102 C22 95 17 82 17 67 C17 43 30 21 60 21 Z" fill="url(#kg-body)"/>
+    <ellipse cx="43" cy="56" rx="15" ry="9" fill="#fff" opacity=".12"/>
+    <circle class="k-cheek" cx="39" cy="80" r="7"/><circle class="k-cheek" cx="81" cy="80" r="7"/>
+    <g class="k-eyes">
+      <circle class="k-eyew" cx="48" cy="70" r="10.5"/><circle class="k-eyew" cx="72" cy="70" r="10.5"/>
+      <circle class="k-pupil" cx="50" cy="72" r="4.8"/><circle class="k-pupil" cx="74" cy="72" r="4.8"/>
+      <circle cx="53" cy="69" r="1.7" fill="#fff"/><circle cx="77" cy="69" r="1.7" fill="#fff"/>
+    </g>
+    <path class="k-smile" d="M49 90 Q60 99 71 90"/>
+    <g class="k-hat">
+      <path d="M15 53 C15 16 38 6 60 6 C82 6 105 16 105 53 Z" fill="url(#kg-helmet)" stroke="#C2740B" stroke-width="1.4"/>
+      <path d="M46 9 C41 24 40 39 43 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M74 9 C79 24 80 39 77 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="46" cy="24" rx="9" ry="15" fill="#fff" opacity=".42" transform="rotate(-20 46 24)"/>
+      <circle cx="60" cy="8" r="3.6" fill="#E8920A" stroke="#C2740B" stroke-width="1"/>
+      <path d="M11 52 Q60 49 109 52 Q111 56 101 57 Q60 60 18 57 Q9 56 11 52 Z" fill="url(#kg-brim)" stroke="#C2740B" stroke-width="1"/>
+    </g>
+  </g>
+</svg></span>
+    <div><h3>Klickie</h3><div class="kp-status">Online &middot; AI-assistent</div></div>
+    <button class="kp-close" id="klickie-close" aria-label="Sluiten">&times;</button>
+  </header>
+  <div class="kp-body" id="kp-body">
+    <div class="kp-msg bot"><span class="kp-av"><svg class="klickie" viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse class="k-shadow" cx="60" cy="124" rx="28" ry="6"/>
+  <g class="k-bob">
+    <path class="k-body" d="M60 21 C90 21 103 43 103 67 C103 91 88 106 62 106 L44 106 L32 119 L34 102 C22 95 17 82 17 67 C17 43 30 21 60 21 Z" fill="url(#kg-body)"/>
+    <ellipse cx="43" cy="56" rx="15" ry="9" fill="#fff" opacity=".12"/>
+    <circle class="k-cheek" cx="39" cy="80" r="7"/><circle class="k-cheek" cx="81" cy="80" r="7"/>
+    <g class="k-eyes">
+      <circle class="k-eyew" cx="48" cy="70" r="10.5"/><circle class="k-eyew" cx="72" cy="70" r="10.5"/>
+      <circle class="k-pupil" cx="50" cy="72" r="4.8"/><circle class="k-pupil" cx="74" cy="72" r="4.8"/>
+      <circle cx="53" cy="69" r="1.7" fill="#fff"/><circle cx="77" cy="69" r="1.7" fill="#fff"/>
+    </g>
+    <path class="k-smile" d="M49 90 Q60 99 71 90"/>
+    <g class="k-hat">
+      <path d="M15 53 C15 16 38 6 60 6 C82 6 105 16 105 53 Z" fill="url(#kg-helmet)" stroke="#C2740B" stroke-width="1.4"/>
+      <path d="M46 9 C41 24 40 39 43 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M74 9 C79 24 80 39 77 53" fill="none" stroke="#C2740B" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="46" cy="24" rx="9" ry="15" fill="#fff" opacity=".42" transform="rotate(-20 46 24)"/>
+      <circle cx="60" cy="8" r="3.6" fill="#E8920A" stroke="#C2740B" stroke-width="1"/>
+      <path d="M11 52 Q60 49 109 52 Q111 56 101 57 Q60 60 18 57 Q9 56 11 52 Z" fill="url(#kg-brim)" stroke="#C2740B" stroke-width="1"/>
+    </g>
+  </g>
+</svg></span><div class="kp-bubble">Hoi! Ik ben Klickie. Vraag me gerust iets over klicmeldingen of onze werkwijze.</div></div>
   </div>
-</div>
+  <div class="kp-quick" id="kp-quick">
+    <button class="kp-chip">Wat kost een klicmelding?</button>
+    <button class="kp-chip">Hoe snel heb ik het rapport?</button>
+    <button class="kp-chip">Wanneer is het verplicht?</button>
+    <button class="kp-chip">Wat ontvang ik?</button>
+  </div>
+  <form class="kp-input" id="kp-form">
+    <input id="kp-text" type="text" placeholder="Typ je vraag…" autocomplete="off" aria-label="Je vraag">
+    <button class="kp-send" type="submit" aria-label="Versturen"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+  </form>
+  <div class="kp-disclaimer">Klickie is een AI-assistent (demo). Controleer belangrijke info of mail info@klicmelding.nl.</div>
+</section>
 <script>
 (function(){
-  var KEY="km-cookie-consent";
-  var b=document.getElementById("cookie-banner"); if(!b) return;
-  var stored=null; try{ stored=localStorage.getItem(KEY); }catch(e){}
-  if(!stored) b.hidden=false;
-  b.querySelectorAll("[data-cookie]").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      try{ localStorage.setItem(KEY, btn.getAttribute("data-cookie")); }catch(e){}
-      b.hidden=true;
-      // bij "all": hier analytics (Google Analytics) initialiseren
-    });
-  });
+  var launcher=document.getElementById('klickie-launcher'),
+      tip=document.getElementById('klickie-tip'),
+      panel=document.getElementById('klickie-panel'),
+      close=document.getElementById('klickie-close'),
+      body=document.getElementById('kp-body'),
+      form=document.getElementById('kp-form'),
+      text=document.getElementById('kp-text'),
+      cta=document.getElementById('klickie-open-cta'),
+      quick=document.getElementById('kp-quick');
+  var mascot=launcher.querySelector('.klickie').outerHTML;
+
+  var answers=[
+    {k:['kost','prijs','tarief','euro','betal'],a:'Een klicmelding kost in totaal <strong>€ 58,80 incl. btw</strong>: € 39,50 voor verwerking + rapportage en € 11,00 Kadasterkosten. Je betaalt vooraf via iDEAL (zakelijk ook op factuur).'},
+    {k:['snel','levertijd','duurt','wanneer krijg','rapport'],a:'Bij 95% van de aanvragen lever ik de digitale rapportage <strong>binnen 1 werkdag</strong> per e-mail.'},
+    {k:['verplicht','moet','wanneer'],a:'Een klicmelding is verplicht zodra je <strong>mechanisch graaft</strong> (met een machine). Handmatig met een schop hoeft niet.'},
+    {k:['ontvang','krijg','pdf','rapport','tekening'],a:'Je ontvangt een <strong>digitale rapportage (pdf)</strong> per e-mail met de tekeningen van alle netbeheerders — te bekijken op telefoon, tablet of pc.'},
+    {k:['gebied','polygoon','groot','500'],a:'Het maximale gebied per klicmelding is <strong>500 × 500 m</strong>. Voor een oriëntatieverzoek is dat 2500 × 2500 m.'},
+    {k:['wion','wet'],a:'De WION (Wet Informatie-uitwisseling Ondergrondse Netten) verplicht je om vóór mechanisch graven een melding te doen, om graafschade te voorkomen.'}
+  ];
+  function reply(q){
+    q=q.toLowerCase();
+    var groet={hoi:1,hoihoi:1,hallo:1,halloo:1,hallootje:1,hai:1,hey:1,'h\u00e9':1,he:1,yo:1,hi:1,goedendag:1,goeiendag:1,goedemorgen:1,goeiemorgen:1,goedemiddag:1,goedenavond:1,gegroet:1};
+    var woorden=q.split(/[^a-z\u00e0-\u00ff]+/);
+    if(woorden.indexOf('houdoe')>-1||woorden.indexOf('houdou')>-1||woorden.indexOf('hadoe')>-1){
+      var br=[
+        'Houdoe hè! Bedaankt en tot de volgende keer, makker. En denkt’er aon: írst mèlle, dan graven!',
+        'Houdoe! Gè zé nen goeie. Tot kijk — en pas op die kabels, hè!',
+        'Houdoe mar! Gè wit me te vinde a’g’is wa wilt graoven. 👷'
+      ];
+      return br[Math.floor(Math.random()*br.length)];
+    }
+    var limburg={alaaf:1,hae:1,hej:1,haije:1,haaj:1,haai:1,haaie:1,haje:1,houzee:1,goojendaag:1,goojemorge:1,goojemoarge:1,gojemiddig:1,goojemiddig:1,goojenaovend:1,daag:0};
+    if(woorden.some(function(w){return limburg[w]===1;})||q.indexOf('wie geit')>-1||q.indexOf('wie is t')>-1){
+      var li=[
+        'Haaj! Wie geit’t? Ich bin Klickie, dien hölp veur de klicmelding. Wat kèn ich veur dich doon?',
+        'Hallo daor! Ich help dich gere — stèl dien vraog mer euver de klicmelding.',
+        'Hej! Good daste d’r bis. Wat wils se weite euver ’t graoven?'
+      ];
+      return li[Math.floor(Math.random()*li.length)];
+    }
+    if(woorden.some(function(w){return groet[w];}) || q.indexOf('hoe gaat het')>-1 || q.indexOf('alles goed')>-1){
+      var g=[
+        'Hoi! \ud83d\udc4b Mijn helm zit recht en ik sta paraat. Waar kan ik je mee helpen?',
+        'Hallo daar! Even snel de grond in\u2026 grapje \u2014 eerst melden! Wat wil je weten over je klicmelding?',
+        'Goedendag! Klickie hier, jouw digitale grondwerker. Stel je vraag maar \u2014 ik bijt niet, ik graaf alleen.',
+        'H\u00e9! Fijn dat je er bent. Graaf gerust in mijn kennis \u2014 beschadigen kun je hier niks. \ud83d\ude04',
+        'Hoihoi! Voordat je de schop pakt: stel eerst hier je vraag. Scheelt graafschade \u00e9n kopzorgen.'
+      ];
+      return g[Math.floor(Math.random()*g.length)];
+    }
+    var afscheid={doeg:1,doei:1,doe:1,houdoe:1,houdoe:1,dag:1,daag:1,daah:1,ciao:1,tabee:1,tabe:1,bedankt:1,dank:1,dankje:1,dankjewel:1,dankuwel:1,bedankt:1,thanks:1,thx:1,merci:1};
+    if(woorden.some(function(w){return afscheid[w];}) || q.indexOf('tot ziens')>-1 || q.indexOf('dank je')>-1 || q.indexOf('dank u')>-1){
+      var a=[
+        'Graag gedaan! \ud83d\udc77 Veel succes \u2014 en denk eraan: eerst melden, dan graven. Doeg!',
+        'Houdoe! Tot de volgende klicmelding.',
+        'Dag! Pas goed op de kabels en leidingen daarbeneden. \ud83d\udc4b',
+        'Fijn dat ik kon helpen! Tot ziens \u2014 en hou je helm op. \ud83d\ude04',
+        'Tabee! Mocht je nog iets willen weten, je weet me te vinden (hier rechtsonder).'
+      ];
+      return a[Math.floor(Math.random()*a.length)];
+    }
+    for(var i=0;i<answers.length;i++){ if(answers[i].k.some(function(w){return q.indexOf(w)>-1;})) return answers[i].a; }
+    return 'Goede vraag! Daar weet ik in deze demo nog geen antwoord op. Kijk in de <a href="klicmelding-mockup-faq.html">FAQ</a> of mail <a href="mailto:info@klicmelding.nl">info@klicmelding.nl</a>.';
+  }
+  function add(role,html){
+    var m=document.createElement('div'); m.className='kp-msg '+role;
+    m.innerHTML=(role==='bot'?('<span class="kp-av">'+mascot+'</span>'):'')+'<div class="kp-bubble">'+html+'</div>';
+    body.appendChild(m); body.scrollTop=body.scrollHeight; return m;
+  }
+  function botReply(q){
+    var t=document.createElement('div'); t.className='kp-msg bot';
+    t.innerHTML='<span class="kp-av">'+mascot+'</span><div class="kp-typing"><span></span><span></span><span></span></div>';
+    body.appendChild(t); body.scrollTop=body.scrollHeight;
+    setTimeout(function(){ t.remove(); add('bot', reply(q)); }, 900);
+  }
+  function open(){ panel.hidden=false; launcher.hidden=true; tip.hidden=true; var bd=launcher.querySelector('.kl-badge'); if(bd) bd.style.display='none'; setTimeout(function(){text.focus();},50); }
+  function shut(){ panel.hidden=true; launcher.hidden=false; }
+  launcher.addEventListener('click',open);
+  if(cta) cta.addEventListener('click',open);
+  close.addEventListener('click',shut);
+  quick.addEventListener('click',function(e){ if(e.target.classList.contains('kp-chip')){ var q=e.target.textContent; add('user',q); botReply(q); } });
+  form.addEventListener('submit',function(e){ e.preventDefault(); var q=text.value.trim(); if(!q)return; add('user',q); text.value=''; botReply(q); });
+  setTimeout(function(){ if(!panel.hidden) return; tip.hidden=false; }, 1200);
+})();
+</script>
+<script>
+(function(){
+  var say=document.getElementById('klickie-say'); if(!say) return;
+  var lines=[
+    'Eerst melden, dan graven — zo voorkom je een dure ‘oeps’.',
+    'Wist je dat 1 op de 10 graafklussen schade geeft? Niet met een klicmelding!',
+    'Schep al klaar? Ho even — eerst een klicmelding.',
+    'Hoi! Vragen over je klicmelding? Ik graaf het antwoord zo voor je op.',
+    'Voor je de grond in duikt: ken je de kabels al?',
+    'Klic eerst, graaf daarna. Scheelt kopzorgen én kabels.',
+    'Graven zonder melden? Dat is vragen om een kortsluiting in je dag.',
+    'Even melden en je graaft zorgeloos. Daar zorg ik voor!',
+    'Een zandkasteel bouw je zonder melding. Een sleuf? Dáár hoort een klicmelding bij!',
+    'Wie een gat graaft voor een ander… doet er eerst een klicmelding voor.',
+    'Wie een kuil graaft voor een ander, raakt liever geen gasleiding — dus eerst melden!',
+    'Op het strand graaf je vrij; daarbuiten geldt: eerst melden, dan scheppen.',
+    'Emmertje en schepje? Veilig. Graafmachine? Eerst een klicmelding!',
+    'Zand erover kan altijd nog — maar weet eerst wat er ónder ligt.'
+  ];
+  var last=-1;
+  function show(){
+    var i; do{ i=Math.floor(Math.random()*lines.length); }while(i===last && lines.length>1); last=i;
+    var st=document.getElementById("klickie-say-text"); if(st) st.textContent=lines[i]; say.hidden=false;
+    requestAnimationFrame(function(){ say.classList.add('show'); });
+    setTimeout(function(){ say.classList.remove('show'); }, 11000);
+  }
+  function loop(){ show(); setTimeout(loop, 30000 + Math.random()*10000); }
+  setTimeout(loop, 3000);
 })();
 </script>
 </body>

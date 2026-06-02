@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl V2 — Mockup-overzicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p50:#EEF4FF;--p100:#DBE7FE;--p600:#2563EB;--p700:#1D4ED8;--p900:#1E3A8A;
+  --ink900:#0F172A;--ink700:#334155;--ink500:#64748B;--ink200:#E2E8F0;--ink100:#F1F5F9;--ink50:#F8FAFC;--white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--ink900);background:var(--ink50);line-height:1.6}
+.head{background:linear-gradient(160deg,var(--p700),var(--p900));color:#fff;padding:48px 24px 40px}
+.head .in{max-width:1100px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);color:#fff;font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#34D399}
+.head h1{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:0 0 8px}
+.head p{margin:0;color:rgba(255,255,255,.85);font-size:15px;max-width:640px}
+.wrap{max-width:1100px;margin:0 auto;padding:32px 24px 64px}
+.cat{margin-bottom:40px}
+.cat h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink500);margin:0 0 14px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{display:block;background:var(--white);border:1px solid var(--ink200);border-radius:12px;padding:16px 18px;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(15,23,42,.05);transition:border-color .12s,box-shadow .12s,transform .12s}
+.card:hover{border-color:var(--p600);box-shadow:0 8px 18px -8px rgba(15,23,42,.18);transform:translateY(-2px)}
+.card .t{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.card .d{font-size:13px;color:var(--ink500);margin-top:3px}
+.card .t .num{font-size:12px;font-weight:700;color:var(--p600);background:var(--p50);border-radius:6px;padding:1px 7px}
+.note{font-size:13px;color:var(--ink500);background:var(--p50);border:1px solid var(--p100);border-radius:10px;padding:14px 16px;margin-bottom:28px}
+.foot{max-width:1100px;margin:0 auto;padding:0 24px 48px;font-size:13px;color:var(--ink500)}
+</style>
+</head>
+<body>
+<header class="head">
+  <div class="in">
+    <span class="badge">Mockup-preview</span>
+    <h1>Klicmelding.nl V2 — pagina-overzicht</h1>
+    <p>Alle pagina's van het redesign, gegroepeerd per categorie. Klik om een pagina te openen.</p>
+  </div>
+</header>
+<div class="wrap">
+  <div class="note">Dit is een navigatiepagina voor de preview. De echte homepage is <a href="index.html">index.html</a>.</div>
+
+  <section class="cat">
+    <h2>Hoofdpagina's</h2>
+    <div class="grid">
+      <a class="card" href="index.html"><div class="t">Home</div><div class="d">Startpagina met hero en uitleg</div></a>
+      <a class="card" href="klicmelding-mockup-over.html"><div class="t">Over klicmelding</div><div class="d">WION / grondroerdersregeling</div></a>
+      <a class="card" href="klicmelding-mockup-onze-dienst.html"><div class="t">Onze dienst</div><div class="d">Product + tarieven (€ 58,80)</div></a>
+      <a class="card" href="klicmelding-mockup-faq.html"><div class="t">Vraag &amp; antwoord</div><div class="d">FAQ met categorieën</div></a>
+      <a class="card" href="klicmelding-mockup-downloads.html"><div class="t">Downloads</div><div class="d">Documenten (pdf)</div></a>
+      <a class="card" href="klicmelding-mockup-links.html"><div class="t">Links</div><div class="d">Handige externe links</div></a>
+      <a class="card" href="klicmelding-mockup-contact.html"><div class="t">Contact</div><div class="d">Contactformulier + gegevens</div></a>
+      <a class="card" href="klicmelding-mockup-zoeken.html"><div class="t">Zoeken</div><div class="d">Zoekpagina</div></a>
+    </div>
+  </section>
+
+  <section class="cat">
+    <h2>Aanvraagflow</h2>
+    <div class="grid">
+      <a class="card" href="klicmelding-mockup-form-stap1.html"><div class="t"><span class="num">1</span> Klantgegevens</div><div class="d">Adres-autofill (PDOK)</div></a>
+      <a class="card" href="klicmelding-mockup-form-stap2.html"><div class="t"><span class="num">2</span> Graafmelding</div><div class="d">Datums + graaflocatie</div></a>
+      <a class="card" href="klicmelding-mockup-form-stap3.html"><div class="t"><span class="num">3</span> Werkzaamheden</div><div class="d">Type werkzaamheden kiezen</div></a>
+      <a class="card" href="klicmelding-mockup-form-stap4.html"><div class="t"><span class="num">4</span> Extra info</div><div class="d">Toelichting + voorwaarden</div></a>
+      <a class="card" href="klicmelding-mockup-form-stap5.html"><div class="t"><span class="num">5</span> Overzicht &amp; betalen</div><div class="d">iDEAL / factuur</div></a>
+      <a class="card" href="klicmelding-mockup-bevestigd.html"><div class="t">Bevestiging</div><div class="d">Bedankt-/succespagina</div></a>
+    </div>
+  </section>
+
+  <section class="cat">
+    <h2>Account &amp; inloggen</h2>
+    <div class="grid">
+      <a class="card" href="klicmelding-mockup-login.html"><div class="t">Inloggen</div><div class="d">Zakelijk account</div></a>
+      <a class="card" href="klicmelding-mockup-wachtwoord-vergeten.html"><div class="t">Wachtwoord vergeten</div><div class="d">Herstellink aanvragen</div></a>
+      <a class="card" href="klicmelding-mockup-account.html"><div class="t">Mijn account</div><div class="d">Dashboard + aanvragen</div></a>
+    </div>
+  </section>
+
+  <section class="cat">
+    <h2>Juridisch &amp; overzicht</h2>
+    <div class="grid">
+      <a class="card" href="klicmelding-mockup-disclaimer.html"><div class="t">Disclaimer</div><div class="d">Aansprakelijkheid</div></a>
+      <a class="card" href="klicmelding-mockup-voorwaarden.html"><div class="t">Algemene voorwaarden</div><div class="d">14 artikelen</div></a>
+      <a class="card" href="klicmelding-mockup-privacy.html"><div class="t">Privacy- &amp; cookiebeleid</div><div class="d">AVG</div></a>
+      <a class="card" href="klicmelding-mockup-sitemap.html"><div class="t">Sitemap</div><div class="d">Alle pagina's</div></a>
+    </div>
+  </section>
+
+  <section class="cat">
+    <h2>Extra &amp; intern</h2>
+    <div class="grid">
+      <a class="card" href="klicmelding-mockup-klickie.html"><div class="t">Klickie (AI-assistent)</div><div class="d">Chat-demo met mascotte</div></a>
+      <a class="card" href="klicmelding-styleguide.html"><div class="t">Styleguide</div><div class="d">Designsysteem (intern)</div></a>
+      <a class="card" href="klicmelding-ux-options.html"><div class="t">UX-opties</div><div class="d">Verkenningen (intern)</div></a>
+    </div>
+  </section>
+</div>
+<div class="foot">Klicmelding.nl V2 — mockup-preview · gegenereerd overzicht</div>
+</body>
+</html>

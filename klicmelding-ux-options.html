@@ -178,6 +178,9 @@ code{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:13px;
 .foot{margin-top:var(--s-8);padding:var(--s-5) 0;text-align:center;color:var(--ink-500);font-size:13px;border-top:1px solid var(--ink-200)}
 </style>
 <style id="mobile-fixes">
+.mobile-menu nav{align-items:stretch}
+.mobile-menu nav a{text-align:center}
+.mobile-menu .menu-inner{text-align:center}
 @media (max-width:1023px){ .header-actions .btn-ghost-lg{display:none} }
 @media (max-width:767px){
   .mobile-menu{padding:var(--space-5) var(--space-5) var(--space-6);overflow-y:auto}
@@ -470,5 +473,37 @@ code{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:13px;
 
 </div>
 
+<style id="cookie-css">
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--color-white);border-top:1px solid var(--color-ink-200);box-shadow:0 -4px 16px -6px rgba(15,23,42,.15)}
+.cookie-banner[hidden]{display:none}
+.cookie-inner{max-width:1100px;margin:0 auto;padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-4);align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cookie-inner p{font-size:13px;color:var(--color-ink-700);line-height:1.5;flex:1;min-width:240px;margin:0}
+.cookie-actions{display:flex;gap:var(--space-2);flex-shrink:0}
+@media(max-width:560px){.cookie-inner{flex-direction:column;align-items:stretch}.cookie-actions .btn{flex:1}}
+</style>
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Cookiemelding" hidden>
+  <div class="cookie-inner">
+    <p>Wij gebruiken functionele cookies en — met uw toestemming — analytische cookies (Google Analytics) om de site te verbeteren. Zie ons <a href="klicmelding-mockup-privacy.html">privacy- &amp; cookiebeleid</a>.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-secondary btn-sm" data-cookie="essential">Alleen noodzakelijk</button>
+      <button type="button" class="btn btn-primary btn-sm" data-cookie="all">Accepteren</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY="km-cookie-consent";
+  var b=document.getElementById("cookie-banner"); if(!b) return;
+  var stored=null; try{ stored=localStorage.getItem(KEY); }catch(e){}
+  if(!stored) b.hidden=false;
+  b.querySelectorAll("[data-cookie]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      try{ localStorage.setItem(KEY, btn.getAttribute("data-cookie")); }catch(e){}
+      b.hidden=true;
+      // bij "all": hier analytics (Google Analytics) initialiseren
+    });
+  });
+})();
+</script>
 </body>
 </html>
