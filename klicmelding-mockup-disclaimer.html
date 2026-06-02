@@ -733,7 +733,7 @@ body.menu-open { overflow: hidden; }
   var KEY="km-cookie-consent";
   var b=document.getElementById("cookie-banner"); if(!b) return;
   var stored=null; try{ stored=localStorage.getItem(KEY); }catch(e){}
-  if(!stored) b.hidden=false;
+  if(!stored){ b.hidden=false; try{ localStorage.setItem(KEY,"seen"); }catch(e){} }
   b.querySelectorAll("[data-cookie]").forEach(function(btn){
     btn.addEventListener("click", function(){
       try{ localStorage.setItem(KEY, btn.getAttribute("data-cookie")); }catch(e){}
