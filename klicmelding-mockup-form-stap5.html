@@ -84,7 +84,7 @@ a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius:
 /* LOGO */
 .logo { display: inline-flex; align-items: center; gap: 4px; text-decoration: none; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; color: var(--color-ink-900); }
 .logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
-@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+@media (min-width: 768px) and (max-width: 1023px){ .site-header .logo > span { display: none; } }
 .logo .logo-mark { width: 40px; height: 40px; flex-shrink: 0; display: block; }
 .logo .logo-mark .bubble { fill: var(--color-brand); }
 .logo .logo-mark .check  { stroke: var(--color-white); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }

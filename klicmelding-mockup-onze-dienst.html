@@ -170,7 +170,7 @@ code, kbd {
   color: var(--color-ink-900);
 }
 .logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
-@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+@media (min-width: 768px) and (max-width: 1023px){ .site-header .logo > span { display: none; } }
 .logo .logo-mark {
   width: 40px;
   height: 40px;
@@ -596,6 +596,7 @@ body.menu-open { overflow: hidden; }
         <a href="klicmelding-mockup-zoeken.html">Zoeken</a>
       </nav>
       <div class="menu-actions">
+        <a class="btn btn-primary" href="klicmelding-mockup-form-stap1.html">Klicmelding aanvragen <span class="arrow">→</span></a>
         <a class="btn btn-secondary" href="klicmelding-mockup-login.html">Inloggen</a>
       </div>
     </div>
