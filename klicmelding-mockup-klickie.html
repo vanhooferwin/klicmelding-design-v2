@@ -545,6 +545,7 @@ body.menu-open { overflow: hidden; }
 .klickie-hero{display:flex;align-items:center;justify-content:center;position:relative}
 .klickie-say{position:absolute;top:-22px;left:-34px;width:250px;opacity:0;transform:translateY(10px) scale(.9);transform-origin:bottom right;transition:opacity .3s var(--ease-standard),transform .3s var(--ease-standard);pointer-events:none;z-index:3;filter:drop-shadow(3px 4px 0 rgba(15,23,42,.16))}
 .klickie-say.show{opacity:1;transform:none}
+@media(max-width:1023px){.klickie-say{display:none}}
 .klickie-say svg{display:block;width:100%;height:auto;overflow:visible}
 .klickie-say .klickie-say-text{font-family:'Comic Neue','Plus Jakarta Sans',cursive;font-weight:700;font-size:18.5px;line-height:1.28;-webkit-text-stroke:0.6px var(--color-ink-900);color:var(--color-ink-900);text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0 6px}
 .klickie-hero .klickie{max-width:240px}
@@ -595,7 +596,7 @@ body.menu-open { overflow: hidden; }
 .kp-chip{font-size:13px;font-weight:600;color:var(--color-primary-700);background:var(--color-primary-50);border:1px solid var(--color-primary-100);padding:7px 12px;border-radius:var(--radius-pill);cursor:pointer}
 .kp-chip:hover{background:var(--color-primary-100)}
 .kp-input{display:flex;gap:var(--space-2);padding:var(--space-3) var(--space-4) var(--space-2)}
-.kp-input input{flex:1;height:42px;padding:0 var(--space-3);border:1px solid var(--color-ink-300);border-radius:var(--radius-pill);font-family:inherit;font-size:14px}
+.kp-input input{flex:1;height:42px;padding:0 var(--space-3);border:1px solid var(--color-ink-300);border-radius:var(--radius-pill);font-family:inherit;font-size:16px}
 .kp-input input:focus-visible{outline:none;border-color:var(--color-primary-600);box-shadow:var(--shadow-focus)}
 .kp-send{flex-shrink:0;width:42px;height:42px;border-radius:50%;border:0;background:var(--color-primary-600);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .kp-send:hover{background:var(--color-primary-700)}
@@ -615,6 +616,7 @@ body.menu-open { overflow: hidden; }
 .mobile-menu .menu-inner{text-align:center}
 @media (max-width:1023px){ .header-actions .btn-ghost-lg{display:none} }
 @media (max-width:767px){
+  input,select,textarea{font-size:16px}
   .mobile-menu{padding:var(--space-5) var(--space-5) var(--space-6);overflow-y:auto}
   .mobile-menu .menu-inner{gap:var(--space-5)}
   .mobile-menu nav a{font-size:19px;padding:var(--space-3) 0}
