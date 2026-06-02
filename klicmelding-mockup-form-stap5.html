@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl — Aanvraag (stap 5: Overzicht & betalen)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-primary-50:  #EEF4FF;
+  --color-primary-100: #DBE7FE;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-900: #1E3A8A;
+  --color-primary-rgb: 37, 99, 235;
+  --color-brand:       var(--color-primary-600);
+  --color-ink-900:     #0F172A;
+  --color-ink-700:     #334155;
+  --color-ink-500:     #64748B;
+  --color-ink-300:     #CBD5E1;
+  --color-ink-200:     #E2E8F0;
+  --color-ink-100:     #F1F5F9;
+  --color-ink-50:      #F8FAFC;
+  --color-white:       #FFFFFF;
+  --color-success-500: #10B981;
+  --color-success-50:  #ECFDF5;
+  --color-warning-500: #F59E0B;
+  --color-warning-50:  #FFFBEB;
+  --color-error-500:   #EF4444;
+  --color-error-50:    #FEF2F2;
+  --color-info-500:    #0EA5E9;
+  --color-info-50:     #EFF9FD;
+
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  --shadow-sm:    0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
+  --shadow-md:    0 4px 6px -1px rgba(15,23,42,.08), 0 2px 4px -2px rgba(15,23,42,.06);
+  --shadow-lg:    0 12px 24px -8px rgba(15,23,42,.12), 0 4px 8px -4px rgba(15,23,42,.08);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), .35);
+
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-900);
+  background: var(--color-ink-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.site-footer { margin-top: auto; }
+h1, h2, h3, h4, h5, h6 { margin: 0; line-height: 1.15; letter-spacing: -0.015em; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--color-primary-600); }
+a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
+@media (min-width: 1024px) { .container { padding: 0 var(--space-7); } }
+
+/* LOGO */
+.logo { display: inline-flex; align-items: center; gap: 4px; text-decoration: none; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; color: var(--color-ink-900); }
+.logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
+@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+.logo .logo-mark { width: 40px; height: 40px; flex-shrink: 0; display: block; }
+.logo .logo-mark .bubble { fill: var(--color-brand); }
+.logo .logo-mark .check  { stroke: var(--color-white); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.logo .k { color: var(--color-ink-700); }
+.logo .m { color: var(--color-brand); }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: inherit; font-weight: 600; border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); white-space: nowrap; }
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.btn-sm { height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.btn-md { height: 44px; padding: 0 var(--space-5); font-size: 14px; }
+.btn-lg { height: 52px; padding: 0 var(--space-6); font-size: 16px; }
+.btn-primary { background: var(--color-primary-600); color: var(--color-white); }
+.btn-primary:hover { background: var(--color-primary-700); }
+.btn-primary:active { transform: translateY(1px); background: var(--color-primary-900); }
+.btn-secondary { background: var(--color-white); color: var(--color-primary-700); border-color: var(--color-primary-600); }
+.btn-secondary:hover { background: var(--color-primary-50); }
+.btn-ghost { background: transparent; color: var(--color-ink-700); }
+.btn-ghost:hover { background: var(--color-ink-100); color: var(--color-ink-900); }
+.btn[disabled], .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn .arrow { font-size: 18px; line-height: 1; position: relative; top: -1px; }
+
+/* HEADER */
+.site-header { background: var(--color-white); border-bottom: 1px solid var(--color-ink-200); position: sticky; top: 0; z-index: 50; }
+.header-row { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+.nav { display: none; gap: var(--space-7); align-items: center; }
+.nav a { text-decoration: none; color: var(--color-ink-700); font-weight: 600; font-size: 14px; padding: 4px 0; }
+.nav a:hover { color: var(--color-ink-900); }
+.nav-search{display:inline-flex;align-items:center}
+.nav-search svg{width:20px;height:20px;display:block}
+.header-actions { display: flex; gap: var(--space-4); align-items: center; }
+.hamburger { display: flex; flex-direction: column; gap: 5px; background: none; border: 0; cursor: pointer; padding: var(--space-2); width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: var(--radius-md); }
+.hamburger:hover { background: var(--color-ink-100); }
+.hamburger span { width: 22px; height: 2px; background: var(--color-ink-700); border-radius: 2px; }
+@media (min-width: 1024px) { .nav { display: flex; } .hamburger { display: none; } }
+
+/* STEPPER — 5 stappen */
+.stepper-wrap{background:white;border-bottom:1px solid var(--color-ink-200);padding:var(--space-6) 0}
+.stepper{display:flex;align-items:flex-start;gap:0;max-width:720px;margin:0 auto;padding:0 var(--space-5)}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;position:relative;gap:var(--space-2);min-width:0}
+.step .circle{width:36px;height:36px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;background:white;border:1px solid var(--color-ink-300);color:var(--color-ink-500);z-index:1;transition:background var(--duration-base);flex-shrink:0}
+.step.done .circle{background:var(--color-primary-600);border-color:var(--color-primary-600);color:white}
+.step.current .circle{background:var(--color-primary-600);border-color:var(--color-primary-600);color:white;box-shadow:0 0 0 3px var(--color-primary-100)}
+.step .label{font-size:12px;color:var(--color-ink-700);line-height:1.3}
+.step.current .label{font-weight:600;color:var(--color-ink-900)}
+.step::before,.step::after{content:"";position:absolute;top:17px;height:2px;width:calc(50% - 20px);background:var(--color-ink-200)}
+.step::before{left:0}.step::after{right:0}
+.step:first-child::before,.step:last-child::after{display:none}
+.step.done::before,.step.done::after,.step.current::before{background:var(--color-primary-600)}
+.stepper-mobile{display:none;padding:0 var(--space-5)}
+.stepper-mobile .pm-meta{font-size:13px;color:var(--color-ink-500);font-weight:600;margin-bottom:var(--space-2)}
+.stepper-mobile .pm-title{font-size:16px;font-weight:600;color:var(--color-ink-900);margin-bottom:var(--space-3)}
+.stepper-mobile .pm-bar{height:6px;background:var(--color-ink-200);border-radius:var(--radius-pill);overflow:hidden}
+.stepper-mobile .pm-bar .pm-fill{height:100%;background:var(--color-primary-600);border-radius:var(--radius-pill);width:100%}
+@media (max-width:767px){.stepper{display:none}.stepper-mobile{display:block}}
+
+/* PAGE HEAD */
+.form-section{padding:var(--space-7) 0 var(--space-9)}
+.page-head{margin-bottom:var(--space-6)}
+.page-head .kicker{font-size:13px;font-weight:600;color:var(--color-primary-600);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-2)}
+.page-head h1{font-size:32px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-3);letter-spacing:-0.01em}
+.page-head p{color:var(--color-ink-700);font-size:16px}
+
+/* CARDS */
+.card{background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm);margin-bottom:var(--space-5)}
+@media (max-width:640px){.card{padding:var(--space-5);border-radius:var(--radius-md)}}
+
+/* REVIEW SECTION */
+.review-head{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-bottom:var(--space-5);padding-bottom:var(--space-4);border-bottom:1px solid var(--color-ink-100)}
+.review-head h2{font-size:18px;font-weight:700;color:var(--color-ink-900);display:flex;align-items:center;gap:var(--space-3)}
+.review-head .step-badge{display:inline-flex;width:28px;height:28px;border-radius:var(--radius-pill);background:var(--color-primary-50);color:var(--color-primary-700);font-size:13px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0}
+.review-head .edit-btn{display:inline-flex;align-items:center;gap:6px;color:var(--color-primary-700);background:none;border:0;padding:6px 10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border-radius:var(--radius-sm);transition:background var(--duration-fast)}
+.review-head .edit-btn:hover{background:var(--color-primary-50)}
+.review-head .edit-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.review-head .edit-btn svg{width:14px;height:14px}
+
+.review-dl{margin:0;display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+@media (min-width:640px){.review-dl{grid-template-columns:200px 1fr;gap:var(--space-3) var(--space-5);align-items:baseline}}
+.review-dl dt{font-size:13px;color:var(--color-ink-500);font-weight:500;margin:0}
+.review-dl dd{margin:0;font-size:15px;color:var(--color-ink-900);font-weight:500}
+.review-dl dd .muted{color:var(--color-ink-500);font-style:italic;font-weight:400}
+
+.tag-list{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;background:var(--color-primary-50);color:var(--color-primary-900);border:1px solid rgba(var(--color-primary-rgb),.20);padding:4px 10px;border-radius:var(--radius-pill);font-size:13px;font-weight:500}
+
+/* PRICE CARD */
+.price-card{background:linear-gradient(135deg, var(--color-primary-50) 0%, white 70%);border:1px solid rgba(var(--color-primary-rgb),.20)}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;padding:var(--space-3) 0;border-bottom:1px dashed var(--color-ink-200);font-size:15px}
+.price-row:last-of-type{border-bottom:0}
+.price-row .lbl{color:var(--color-ink-700)}
+.price-row .val{color:var(--color-ink-900);font-weight:600;font-variant-numeric:tabular-nums}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:var(--space-4);margin-top:var(--space-3);border-top:2px solid var(--color-ink-200)}
+.price-total .lbl{font-size:16px;font-weight:700;color:var(--color-ink-900)}
+.price-total .val{font-size:28px;font-weight:800;color:var(--color-primary-700);font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+.price-total .vat{font-size:13px;color:var(--color-ink-500);font-weight:500;margin-left:6px}
+
+/* PAY METHOD — iDEAL only */
+.pay-card{}
+.pay-card h2{font-size:18px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-4)}
+.ideal-row{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-4);border:1px solid var(--color-ink-200);border-radius:var(--radius-md);background:var(--color-ink-50);margin-bottom:var(--space-5)}
+.ideal-row .ideal-logo{flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ideal-row .ideal-logo svg{width:150px;height:50px;display:block;border-radius:8px;box-shadow:0 1px 2px rgba(15,23,42,.08)}
+.ideal-row .ideal-text{font-size:14px;color:var(--color-ink-700);line-height:1.5}
+.ideal-row .ideal-text strong{display:block;color:var(--color-ink-900);font-weight:600;margin-bottom:2px;font-size:15px}
+
+/* TERMS REMINDER */
+.terms-reminder{display:flex;gap:var(--space-3);align-items:flex-start;font-size:13px;color:var(--color-ink-700);background:var(--color-ink-50);border:1px solid var(--color-ink-200);padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);margin-bottom:var(--space-5)}
+.terms-reminder svg{width:16px;height:16px;color:var(--color-success-500);flex-shrink:0;margin-top:2px}
+
+/* PAY BUTTON */
+.pay-action{display:flex;flex-direction:column;gap:var(--space-3)}
+.pay-button{height:56px;font-size:16px;font-weight:700}
+.pay-button .lock{width:16px;height:16px}
+.pay-meta{font-size:13px;color:var(--color-ink-500);text-align:center}
+
+/* ACTIONS */
+.actions-bar{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-top:var(--space-5)}
+.actions-bar .save-later{background:none;border:0;color:var(--color-ink-500);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.actions-bar .save-later:hover{color:var(--color-ink-900)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:1fr;gap:var(--space-6);max-width:880px;margin:0 auto}
+@media (min-width:1024px){.layout{max-width:1080px}}
+
+/* FOOTER */
+.site-footer{background:var(--color-ink-900);color:var(--color-ink-500);padding:var(--space-6) 0;font-size:13px;text-align:center}
+.site-footer a{color:var(--color-ink-300);text-decoration:none;margin:0 var(--space-3)}
+.site-footer a:hover{color:white}
+.footer-sitemap{display:flex;flex-wrap:wrap;justify-content:center;gap:4px var(--space-2);margin-bottom:var(--space-4);padding-bottom:var(--space-4);border-bottom:1px solid rgba(255,255,255,.08)}
+.site-footer .footer-sitemap a{margin:0}
+.footer-copy{color:var(--color-ink-500)}
+.footer-links{margin-top:var(--space-3)}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(8px);background:var(--color-ink-900);color:white;padding:10px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:opacity 180ms,transform 180ms,visibility 0s linear 180ms;z-index:200;max-width:90vw;text-align:center}
+.toast.is-show{opacity:1;transform:translateX(-50%) translateY(0);visibility:visible;transition:opacity 180ms,transform 180ms,visibility 0s}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="logo" aria-label="Klicmelding.nl home">
+      <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+      <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+    </a>
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Home</a>
+      <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+      <a href="klicmelding-mockup-faq.html">FAQ</a>
+      <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+      <a href="klicmelding-mockup-downloads.html">Downloads</a>
+      <a href="klicmelding-mockup-zoeken.html" class="nav-search" aria-label="Zoeken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-secondary btn-md" href="klicmelding-mockup-login.html">Inloggen</a>
+      <button class="hamburger" aria-label="Menu openen" aria-controls="mobile-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- STEPPER -->
+<div class="stepper-wrap">
+  <ol class="stepper" aria-label="Voortgang van de aanvraag">
+    <li class="step done"><div class="circle" aria-hidden="true">✓</div><div class="label">Klantgegevens</div></li>
+    <li class="step done"><div class="circle" aria-hidden="true">✓</div><div class="label">Graafmelding</div></li>
+    <li class="step done"><div class="circle" aria-hidden="true">✓</div><div class="label">Werkzaamheden</div></li>
+    <li class="step done"><div class="circle" aria-hidden="true">✓</div><div class="label">Extra info</div></li>
+    <li class="step current" aria-current="step"><div class="circle" aria-hidden="true">5</div><div class="label">Overzicht &amp; betalen</div></li>
+  </ol>
+  <div class="stepper-mobile" aria-hidden="true">
+    <div class="pm-meta">Stap 5 van 5</div>
+    <div class="pm-title">Overzicht &amp; betalen</div>
+    <div class="pm-bar"><div class="pm-fill"></div></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<section class="form-section">
+  <div class="container">
+    <div class="layout">
+
+      <div class="page-head">
+        <div class="kicker">Stap 5 van 5</div>
+        <h1>Overzicht &amp; betalen</h1>
+        <p>Controleer uw aanvraag, rond af met een betaling, en u ontvangt direct daarna een bevestiging per e-mail.</p>
+      </div>
+
+      <!-- BLOCK 1: KLANTGEGEVENS -->
+      <div class="card">
+        <div class="review-head">
+          <h2><span class="step-badge">1</span> Klantgegevens</h2>
+          <button type="button" class="edit-btn" data-edit="1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Wijzigen
+          </button>
+        </div>
+        <dl class="review-dl">
+          <dt>Soort klant</dt>     <dd>Particulier</dd>
+          <dt>Naam</dt>            <dd>J. de Vries</dd>
+          <dt>Adres</dt>           <dd>Dorpsstraat 12, 1234 AB Amsterdam</dd>
+          <dt>Telefoon</dt>        <dd>06 12 34 56 78</dd>
+          <dt>E-mail</dt>          <dd>j.devries@voorbeeld.nl</dd>
+        </dl>
+      </div>
+
+      <!-- BLOCK 2: GRAAFMELDING -->
+      <div class="card">
+        <div class="review-head">
+          <h2><span class="step-badge">2</span> Graafmelding</h2>
+          <button type="button" class="edit-btn" data-edit="2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Wijzigen
+          </button>
+        </div>
+        <dl class="review-dl">
+          <dt>Periode</dt>           <dd>01 mei 2026 – 07 mei 2026</dd>
+          <dt>Locatie</dt>           <dd>Dorpsstraat 12, 1234 AB Amsterdam</dd>
+          <dt>Huisaansluiting</dt>   <dd>Ja</dd>
+        </dl>
+      </div>
+
+      <!-- BLOCK 3: WERKZAAMHEDEN -->
+      <div class="card">
+        <div class="review-head">
+          <h2><span class="step-badge">3</span> Werkzaamheden</h2>
+          <button type="button" class="edit-btn" data-edit="3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Wijzigen
+          </button>
+        </div>
+        <dl class="review-dl">
+          <dt>Aard van werk</dt>
+          <dd>
+            <div class="tag-list">
+              <span class="tag">Drainage</span>
+              <span class="tag">Bouwwerkzaamheden</span>
+            </div>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- BLOCK 4: EXTRA INFORMATIE -->
+      <div class="card">
+        <div class="review-head">
+          <h2><span class="step-badge">4</span> Extra informatie</h2>
+          <button type="button" class="edit-btn" data-edit="4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Wijzigen
+          </button>
+        </div>
+        <dl class="review-dl">
+          <dt>Toelichting</dt>
+          <dd><span class="muted">Niet ingevuld</span></dd>
+        </dl>
+      </div>
+
+      <!-- BLOCK 5: KOSTEN -->
+      <div class="card price-card">
+        <div class="review-head" style="border-bottom-color:rgba(var(--color-primary-rgb),.15)">
+          <h2>Kosten</h2>
+        </div>
+        <div class="price-row">
+          <span class="lbl">Klicmelding (graafmelding, max. 500×500 m)</span>
+          <span class="val">€ 27,50</span>
+        </div>
+        <div class="price-row">
+          <span class="lbl">Administratiekosten</span>
+          <span class="val">€ 2,50</span>
+        </div>
+        <div class="price-total">
+          <span class="lbl">Totaal te betalen</span>
+          <span class="val">€ 30,00<span class="vat"> incl. btw</span></span>
+        </div>
+      </div>
+
+      <!-- BLOCK 6: BETALEN -->
+      <form class="card pay-card" id="form-stap5" novalidate>
+        <h2>Betalen</h2>
+
+        <div class="ideal-row">
+          <!--
+            TODO: vervang onderstaande SVG met het officiële horizontale lock-up logo
+            uit https://ideal.nl/ideal-wero-branding (iDEAL_Wero_Lockup_Yellow_Horizontal_RGB.svg).
+            Onderstaande is een approximatie met de juiste merkkleuren.
+          -->
+          <div class="ideal-logo" aria-label="iDEAL | Wero">
+            <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+              <!-- Geel achtergrond, afgeronde hoeken -->
+              <rect width="240" height="80" rx="10" fill="#FFF48D"/>
+
+              <!-- iDEAL D-mark -->
+              <g transform="translate(18, 12)">
+                <!-- Buitenste D-vorm (wit met zwarte rand) -->
+                <path d="M2,2 L36,2 C55,2 64,15 64,28 C64,41 55,54 36,54 L2,54 Z"
+                      fill="white" stroke="#1D1C1C" stroke-width="2.4"/>
+                <!-- Roze D-blok binnenin -->
+                <rect x="14" y="14" width="38" height="30" rx="3" fill="#CC0066"/>
+                <!-- "DEAL" tekst -->
+                <text x="33" y="34" text-anchor="middle"
+                      font-family="'Arial Black', Arial, sans-serif" font-weight="900"
+                      font-size="11" fill="white" letter-spacing="0.6">DEAL</text>
+                <!-- Kleine "i" links van de D -->
+                <circle cx="6" cy="20" r="2.6" fill="#CC0066"/>
+                <rect x="3.7" y="25" width="4.6" height="16" rx="0.5" fill="#CC0066"/>
+              </g>
+
+              <!-- Verticale scheidingslijn -->
+              <line x1="106" y1="22" x2="106" y2="58" stroke="#1D1C1C" stroke-width="1.6" stroke-linecap="round"/>
+
+              <!-- Wero-wordmark -->
+              <text x="122" y="52"
+                    font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif"
+                    font-weight="900" font-size="30" fill="#1D1C1C" letter-spacing="-1.4">wero</text>
+            </svg>
+          </div>
+          <div class="ideal-text">
+            <strong>Betalen met iDEAL | Wero</strong>
+            iDEAL wordt Wero. U betaalt zoals u gewend bent — kies uw bank op de volgende pagina en rond de betaling daar veilig af.
+          </div>
+        </div>
+
+        <div class="terms-reminder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <div>U bent akkoord met de <a href="#" target="_blank" rel="noopener">algemene voorwaarden</a>. U ontvangt direct na betaling een bevestiging op <strong>j.devries@voorbeeld.nl</strong>.</div>
+        </div>
+
+        <div class="pay-action">
+          <button type="submit" class="btn btn-primary btn-lg pay-button" id="pay-btn">
+            <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Betaal € 30,00 met iDEAL | Wero
+          </button>
+          <div class="pay-meta">Beveiligde betaling — u wordt doorgestuurd naar uw bank.</div>
+        </div>
+
+        <div class="actions-bar">
+          <button type="button" class="btn btn-secondary btn-md" onclick="window.location.href=\'klicmelding-mockup-form-stap4.html\'">← Terug naar Extra info</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-copy">© 2026 Klicmelding.nl · Graafmelding.nl BV · KvK Brabant 53.11.20.16</div>
+    <nav class="footer-links" aria-label="Footer"><a href="klicmelding-mockup-links.html">Links</a><a href="klicmelding-mockup-sitemap.html">Sitemap</a><a href="klicmelding-mockup-disclaimer.html">Disclaimer</a><a href="klicmelding-mockup-voorwaarden.html">Algemene voorwaarden</a><a href="klicmelding-mockup-privacy.html">Privacy</a></nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  /* Toast */
+  var toastEl = document.getElementById('toast');
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('is-show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function(){ toastEl.classList.remove('is-show'); }, 2400);
+  }
+
+  /* Edit buttons */
+  document.querySelectorAll('.edit-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      showToast('Demo: zou navigeren naar stap ' + btn.dataset.edit + '.');
+    });
+  });
+
+  /* Submit — direct door naar iDEAL */
+  document.getElementById('form-stap5').addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = document.getElementById('pay-btn');
+    var original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Doorsturen naar iDEAL | Wero…';
+    setTimeout(function(){
+      window.location.href='klicmelding-mockup-bevestigd.html';
+      btn.disabled = false;
+      btn.innerHTML = original;
+    }, 700);
+  });
+})();
+</script>
+
+</body>
+</html>

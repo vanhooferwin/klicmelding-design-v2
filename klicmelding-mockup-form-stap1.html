@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl — Aanvraag (stap 1: Klantgegevens)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   GEDEELDE TOKENS + COMPONENTEN (uit klicmelding.css ingebed)
+   ============================================================ */
+:root {
+  /* === KLEUREN — PALET (Cobalt) ============================ */
+  --color-primary-50:  #EEF4FF;
+  --color-primary-100: #DBE7FE;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-900: #1E3A8A;
+  --color-primary-rgb: 37, 99, 235;
+
+  --color-brand:       var(--color-primary-600);
+
+  --color-ink-900:     #0F172A;
+  --color-ink-700:     #334155;
+  --color-ink-500:     #64748B;
+  --color-ink-300:     #CBD5E1;
+  --color-ink-200:     #E2E8F0;
+  --color-ink-100:     #F1F5F9;
+  --color-ink-50:      #F8FAFC;
+  --color-white:       #FFFFFF;
+
+  --color-success-500: #10B981;
+  --color-success-50:  #ECFDF5;
+  --color-warning-500: #F59E0B;
+  --color-warning-50:  #FFFBEB;
+  --color-error-500:   #EF4444;
+  --color-error-50:    #FEF2F2;
+  --color-info-500:    #0EA5E9;
+  --color-info-50:     #EFF9FD;
+
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  --shadow-sm:    0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
+  --shadow-md:    0 4px 6px -1px rgba(15,23,42,.08), 0 2px 4px -2px rgba(15,23,42,.06);
+  --shadow-lg:    0 12px 24px -8px rgba(15,23,42,.12), 0 4px 8px -4px rgba(15,23,42,.08);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), .35);
+
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-900);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.site-footer { margin-top: auto; }
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+p { margin: 0; }
+a { color: var(--color-primary-600); }
+a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: 2px; }
+small { color: var(--color-ink-500); }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
+@media (min-width: 1024px) { .container { padding: 0 var(--space-7); } }
+
+/* LOGO */
+.logo { display: inline-flex; align-items: center; gap: 4px; text-decoration: none; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; color: var(--color-ink-900); }
+.logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
+@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+.logo .logo-mark { width: 40px; height: 40px; flex-shrink: 0; display: block; }
+.logo .logo-mark .bubble { fill: var(--color-brand); }
+.logo .logo-mark .check  { stroke: var(--color-white); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.logo .k { color: var(--color-ink-700); }
+.logo .m { color: var(--color-brand); }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: inherit; font-weight: 600; border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); white-space: nowrap; }
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.btn-sm { height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.btn-md { height: 44px; padding: 0 var(--space-5); font-size: 14px; }
+.btn-lg { height: 52px; padding: 0 var(--space-6); font-size: 16px; }
+.btn-primary { background: var(--color-primary-600); color: var(--color-white); }
+.btn-primary:hover { background: var(--color-primary-700); }
+.btn-primary:active { transform: translateY(1px); background: var(--color-primary-900); }
+.btn-secondary { background: var(--color-white); color: var(--color-primary-700); border-color: var(--color-primary-600); }
+.btn-secondary:hover { background: var(--color-primary-50); }
+.btn-ghost { background: transparent; color: var(--color-ink-700); }
+.btn-ghost:hover { background: var(--color-ink-100); color: var(--color-ink-900); }
+.btn[disabled], .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn .arrow { font-size: 18px; line-height: 1; position: relative; top: -1px; }
+
+/* HEADER */
+.site-header { background: var(--color-white); border-bottom: 1px solid var(--color-ink-200); position: sticky; top: 0; z-index: 50; }
+.header-row { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+.nav { display: none; gap: var(--space-7); align-items: center; }
+.nav a { text-decoration: none; color: var(--color-ink-700); font-weight: 600; font-size: 14px; padding: 4px 0; position: relative; transition: color var(--duration-fast); }
+.nav a:hover { color: var(--color-ink-900); }
+.nav a.active { color: var(--color-primary-600); }
+.nav a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--color-primary-600); border-radius: 2px; }
+.nav-search svg{width:20px;height:20px;display:block}
+.nav-search{display:inline-flex;align-items:center}
+.header-actions { display: flex; gap: var(--space-4); align-items: center; }
+.hamburger { display: flex; flex-direction: column; gap: 5px; background: none; border: 0; cursor: pointer; padding: var(--space-2); width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: var(--radius-md); transition: background var(--duration-fast); }
+.hamburger:hover { background: var(--color-ink-100); }
+.hamburger:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.hamburger span { width: 22px; height: 2px; background: var(--color-ink-700); border-radius: 2px; transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-fast) var(--ease-standard); transform-origin: center; }
+body.menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.menu-open .hamburger span:nth-child(2) { opacity: 0; }
+body.menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { position: fixed; top: 80px; left: 0; right: 0; bottom: 0; background: var(--color-white); z-index: 49; padding: var(--space-7) var(--space-5) var(--space-8); overflow-y: auto; transform: translateY(-12px); opacity: 0; visibility: hidden; transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-base) var(--ease-standard), visibility 0s linear var(--duration-base); }
+body.menu-open .mobile-menu { transform: translateY(0); opacity: 1; visibility: visible; transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-base) var(--ease-standard), visibility 0s; }
+body.menu-open { overflow: hidden; }
+.mobile-menu .menu-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-7); }
+.mobile-menu nav { display: flex; flex-direction: column; }
+.mobile-menu nav a { font-size: 24px; font-weight: 600; color: var(--color-ink-900); text-decoration: none; padding: var(--space-4) 0; border-bottom: 1px solid var(--color-ink-100); letter-spacing: -0.015em; transition: color var(--duration-fast); }
+.mobile-menu nav a:hover { color: var(--color-primary-600); }
+.mobile-menu .menu-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+.mobile-menu .menu-actions .btn { width: 100%; height: 56px; font-size: 16px; }
+@media (min-width: 1024px) {
+  .nav { display: flex; }
+  .hamburger { display: none; }
+  .mobile-menu { display: none !important; }
+}
+@media (max-width: 1023px) { .header-actions .btn-ghost-lg { display: none; } }
+
+/* PAGE-SPECIFIC */
+body{background:var(--color-ink-50)}
+
+/* STEPPER */
+.stepper-wrap{background:white;border-bottom:1px solid var(--color-ink-200);padding:var(--space-6) 0}
+.stepper{display:flex;align-items:flex-start;gap:0;max-width:720px;margin:0 auto;padding:0 var(--space-5)}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;position:relative;gap:var(--space-2);min-width:0}
+.step .circle{width:36px;height:36px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;background:white;border:1px solid var(--color-ink-300);color:var(--color-ink-500);z-index:1;transition:background var(--duration-base);flex-shrink:0}
+.step.done .circle{background:var(--color-primary-600);border-color:var(--color-primary-600);color:white}
+.step.current .circle{background:var(--color-primary-600);border-color:var(--color-primary-600);color:white;box-shadow:0 0 0 3px var(--color-primary-100)}
+.step .label{font-size:12px;color:var(--color-ink-700);line-height:1.3}
+.step.current .label{font-weight:600;color:var(--color-ink-900)}
+.step::before,.step::after{content:"";position:absolute;top:17px;height:2px;width:calc(50% - 20px);background:var(--color-ink-200)}
+.step::before{left:0}.step::after{right:0}
+.step:first-child::before,.step:last-child::after{display:none}
+.step.done::before,.step.done::after,.step.current::before{background:var(--color-primary-600)}
+.stepper-mobile{display:none;padding:0 var(--space-5)}
+.stepper-mobile .pm-meta{font-size:13px;color:var(--color-ink-500);font-weight:600;margin-bottom:var(--space-2)}
+.stepper-mobile .pm-title{font-size:16px;font-weight:600;color:var(--color-ink-900);margin-bottom:var(--space-3)}
+.stepper-mobile .pm-bar{height:6px;background:var(--color-ink-200);border-radius:var(--radius-pill);overflow:hidden}
+.stepper-mobile .pm-bar .pm-fill{height:100%;background:var(--color-primary-600);border-radius:var(--radius-pill);width:20%}
+@media (max-width:767px){.stepper{display:none}.stepper-mobile{display:block}}
+
+/* PAGE HEADER */
+.form-section{padding:var(--space-7) 0 var(--space-9)}
+.page-head{margin-bottom:var(--space-6)}
+.page-head .kicker{font-size:13px;font-weight:600;color:var(--color-primary-600);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-2)}
+.page-head h1{font-size:32px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-3);letter-spacing:-0.01em}
+.page-head p{color:var(--color-ink-700);font-size:16px}
+
+/* ALERTS */
+.alert{display:flex;gap:var(--space-3);padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);border:0;border-left:4px solid;margin-bottom:var(--space-6)}
+.alert .icon{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:var(--radius-pill);color:white;font-size:14px}
+.alert .body{font-size:15px;line-height:1.5;color:var(--color-ink-900)}
+.alert .body strong{font-weight:600;display:block;margin-bottom:2px}
+.alert-info{background:var(--color-primary-50);border-color:var(--color-primary-600)}
+.alert-info .icon{background:var(--color-primary-600)}
+.alert-warning{background:var(--color-warning-50);border-color:var(--color-warning-500)}
+.alert-warning .icon{background:var(--color-warning-500)}
+
+/* FORM */
+.form-card{background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-7);box-shadow:var(--shadow-sm)}
+@media (max-width:640px){.form-card{padding:var(--space-5);border-radius:0;border-left:0;border-right:0;margin-left:calc(var(--space-5)*-1);margin-right:calc(var(--space-5)*-1)}}
+.field-group{display:flex;flex-direction:column;gap:var(--space-5)}
+.field-group + .field-group{margin-top:var(--space-6);padding-top:var(--space-6);border-top:1px solid var(--color-ink-200)}
+.group-title{font-size:14px;font-weight:600;color:var(--color-ink-500);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-2)}
+
+.field{display:flex;flex-direction:column;gap:var(--space-2)}
+.field[hidden]{display:none !important}
+.field-label{font-size:14px;font-weight:600;color:var(--color-ink-700)}
+.field-label .req{color:var(--color-error-500);margin-left:2px}
+.field-label .opt{color:var(--color-ink-500);font-weight:500;margin-left:var(--space-2);font-size:13px}
+.field-row{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+@media (min-width:640px){
+  .field-row.two{grid-template-columns:1fr 1fr}
+  .field-row.pchnr{grid-template-columns:160px 1fr 1fr}
+}
+.input,.select{height:44px;padding:0 var(--space-3);font-family:inherit;font-size:16px;color:var(--color-ink-900);background:white;border:1px solid var(--color-ink-300);border-radius:var(--radius-sm);transition:border-color var(--duration-fast),box-shadow var(--duration-fast),background var(--duration-fast);width:100%}
+.input::placeholder{color:var(--color-ink-500)}
+.input:hover,.select:hover{border-color:var(--color-ink-500)}
+.input:focus-visible,.select:focus-visible{outline:none;border-color:var(--color-primary-600);border-width:2px;padding:0 calc(var(--space-3) - 1px);box-shadow:var(--shadow-focus)}
+.input.error,.select.error{border-color:var(--color-error-500);border-width:2px;padding:0 calc(var(--space-3) - 1px);background:var(--color-error-50)}
+.input[readonly]{background:var(--color-ink-50);color:var(--color-ink-700);cursor:default}
+.input[readonly]:hover{border-color:var(--color-ink-300)}
+.select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.field-help{font-size:13px;color:var(--color-ink-500)}
+.field-help.is-loading{color:var(--color-primary-700)}
+.field-help.is-success{color:var(--color-success-500)}
+.field-error{font-size:13px;color:var(--color-error-500);display:flex;align-items:center;gap:var(--space-1)}
+
+/* lookup status badge naast huisnummer */
+.lookup-status{display:inline-flex;align-items:center;gap:6px;font-size:13px;margin-top:6px;color:var(--color-ink-500);min-height:18px}
+.lookup-status.is-loading{color:var(--color-primary-700)}
+.lookup-status.is-success{color:var(--color-success-500)}
+.lookup-status.is-error{color:var(--color-error-500)}
+.lookup-status .spinner{width:14px;height:14px;border:2px solid var(--color-primary-100);border-top-color:var(--color-primary-600);border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.required-note{font-size:13px;color:var(--color-ink-500);margin-top:var(--space-3)}
+
+/* BOTTOM ACTION BAR */
+.actions-bar{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-top:var(--space-7);padding-top:var(--space-6);border-top:1px solid var(--color-ink-200)}
+.actions-bar .left{display:flex;gap:var(--space-3)}
+.save-later{background:none;border:0;color:var(--color-ink-500);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.save-later:hover{color:var(--color-ink-900)}
+@media (max-width:640px){
+  .actions-bar{position:sticky;bottom:0;background:white;margin:var(--space-7) calc(var(--space-5)*-1) 0;padding:var(--space-4) var(--space-5);border-top:1px solid var(--color-ink-200);box-shadow:0 -4px 12px -4px rgba(15,23,42,0.08)}
+  .actions-bar .left .save-later{display:none}
+  .actions-bar .btn{flex:1}
+}
+
+/* sidebar */
+.layout{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
+@media (min-width:1024px){.layout{grid-template-columns:minmax(0,1fr) 300px;gap:var(--space-7);max-width:1080px;margin:0 auto}}
+.sidebar{position:sticky;top:calc(72px + var(--space-5));align-self:start}
+.summary-card{background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-5)}
+.summary-card h4{font-size:14px;font-weight:600;color:var(--color-ink-500);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-4)}
+.summary-card .help-block{display:flex;gap:var(--space-3);align-items:flex-start;font-size:13px;color:var(--color-ink-700);background:var(--color-primary-50);padding:var(--space-4);border-radius:var(--radius-md)}
+.summary-card .help-block svg{width:18px;height:18px;color:var(--color-primary-600);flex-shrink:0;margin-top:1px}
+.summary-card p.intro{font-size:14px;color:var(--color-ink-700);margin-bottom:var(--space-4);line-height:1.55}
+.summary-card .divider{height:1px;background:var(--color-ink-200);margin:var(--space-4) 0}
+@media (max-width:1023px){.sidebar{display:none}}
+
+/* FOOTER */
+.site-footer{background:var(--color-ink-900);color:var(--color-ink-500);padding:var(--space-6) 0;font-size:13px;text-align:center}
+.site-footer a{color:var(--color-ink-300);text-decoration:none;margin:0 var(--space-3)}
+.site-footer a:hover{color:white}
+.footer-sitemap{display:flex;flex-wrap:wrap;justify-content:center;gap:4px var(--space-2);margin-bottom:var(--space-4);padding-bottom:var(--space-4);border-bottom:1px solid rgba(255,255,255,.08)}
+.site-footer .footer-sitemap a{margin:0}
+.footer-copy{color:var(--color-ink-500)}
+.footer-links{margin-top:var(--space-3)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="logo" aria-label="Klicmelding.nl home">
+      <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+      <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+    </a>
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Home</a>
+      <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+      <a href="klicmelding-mockup-faq.html">FAQ</a>
+      <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+      <a href="klicmelding-mockup-downloads.html">Downloads</a>
+      <a href="klicmelding-mockup-zoeken.html" class="nav-search" aria-label="Zoeken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-secondary btn-md" href="klicmelding-mockup-login.html">Inloggen</a>
+      <button class="hamburger" aria-label="Menu openen" aria-controls="mobile-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie">
+  <div class="menu-inner">
+    <nav aria-label="Hoofdnavigatie mobiel">
+      <a href="index.html">Home</a>
+      <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+      <a href="klicmelding-mockup-faq.html">FAQ</a>
+      <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+      <a href="klicmelding-mockup-downloads.html">Downloads</a>
+        <a href="klicmelding-mockup-zoeken.html">Zoeken</a>
+    </nav>
+    <div class="menu-actions">
+      <a class="btn btn-secondary" href="klicmelding-mockup-login.html">Inloggen</a>
+    </div>
+  </div>
+</div>
+
+<!-- STEPPER -->
+<div class="stepper-wrap">
+  <ol class="stepper" aria-label="Voortgang van de aanvraag">
+    <li class="step current" aria-current="step">
+      <div class="circle" aria-hidden="true">1</div>
+      <div class="label">Klantgegevens</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">2</div>
+      <div class="label">Graafmelding</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">3</div>
+      <div class="label">Werkzaamheden</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">4</div>
+      <div class="label">Extra info</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">5</div>
+      <div class="label">Overzicht &amp; betalen</div>
+    </li>
+  </ol>
+  <div class="stepper-mobile" aria-hidden="true">
+    <div class="pm-meta">Stap 1 van 5</div>
+    <div class="pm-title">Klantgegevens</div>
+    <div class="pm-bar"><div class="pm-fill"></div></div>
+  </div>
+</div>
+
+<!-- FORM -->
+<section class="form-section">
+  <div class="container">
+    <div class="layout">
+      <div>
+        <div class="page-head">
+          <div class="kicker">Stap 1 van 5</div>
+          <h1>Klantgegevens</h1>
+          <p>Vul uw contactgegevens in. Op basis van postcode en huisnummer vullen we straat en plaats automatisch aan.</p>
+        </div>
+
+        <div class="alert alert-info" role="note">
+          <div class="icon" aria-hidden="true">i</div>
+          <div class="body">
+            <strong>Uw aanvraag wordt pas verstuurd nadat alle stappen zijn voltooid</strong>
+            Onderbreek u tussentijds? Dan wordt de aanvraag niet in behandeling genomen. U kunt later wel verdergaan met een opgeslagen concept.
+          </div>
+        </div>
+
+        <form class="form-card" novalidate id="form-stap1">
+
+          <div class="field-group">
+            <div class="group-title">Wie bent u?</div>
+
+            <div class="field">
+              <label class="field-label" for="f-soort">Soort klant <span class="req" aria-hidden="true">*</span></label>
+              <select class="select" id="f-soort" required>
+                <option value="" disabled selected>Maak een keuze…</option>
+                <option value="particulier">Particulier</option>
+                <option value="zakelijk">Zakelijk</option>
+              </select>
+            </div>
+
+            <div class="field" id="f-bedrijf-wrap" hidden>
+              <label class="field-label" for="f-bedrijf">Bedrijfsnaam <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="f-bedrijf" type="text" placeholder="" autocomplete="organization">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="f-naam">Naam <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="f-naam" type="text" placeholder="" autocomplete="name" required>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="group-title">Adres</div>
+
+            <div class="field-row pchnr">
+              <div class="field">
+                <label class="field-label" for="f-postcode">Postcode <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-postcode" type="text" placeholder="1234 AB" autocomplete="postal-code" inputmode="text" maxlength="7" required>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-huisnr">Huisnummer <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-huisnr" type="text" placeholder="12" inputmode="numeric" pattern="[0-9]+" required>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-toev">Toevoeging <span class="opt">(optioneel)</span></label>
+                <input class="input" id="f-toev" type="text" placeholder="A, bis, 2hg…">
+              </div>
+            </div>
+
+            <div class="lookup-status" id="lookup-status" aria-live="polite"></div>
+
+            <div class="field-row two">
+              <div class="field">
+                <label class="field-label" for="f-straat">Straat <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-straat" type="text" placeholder="Wordt automatisch ingevuld" autocomplete="street-address" required>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-plaats">Plaats <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-plaats" type="text" placeholder="Wordt automatisch ingevuld" autocomplete="address-level2" required>
+              </div>
+            </div>
+            <span class="field-help">Klopt straat of plaats niet? Pas het handmatig aan.</span>
+          </div>
+
+          <div class="field-group">
+            <div class="group-title">Bereikbaarheid</div>
+
+            <div class="field-row two">
+              <div class="field">
+                <label class="field-label" for="f-tel">Telefoon <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-tel" type="tel" placeholder="06 12345678" autocomplete="tel" required>
+                <span class="field-help">We bellen alleen bij vragen over uw aanvraag.</span>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-fax">Fax <span class="opt">(optioneel)</span></label>
+                <input class="input" id="f-fax" type="tel" placeholder="—" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="f-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="f-email" type="email" placeholder="naam@voorbeeld.nl" autocomplete="email" required>
+              <span class="field-help">Hierop ontvangt u de bevestiging en de tekeningen van de netbeheerders.</span>
+            </div>
+          </div>
+
+          <p class="required-note"><span style="color:var(--color-error-500)">*</span> = verplichte velden</p>
+
+          <div class="actions-bar">
+            <div class="left">
+              <button type="button" class="save-later">Tussentijds opslaan</button>
+            </div>
+            <button type="submit" class="btn btn-primary btn-md">Verder <span class="arrow">→</span></button>
+          </div>
+
+        </form>
+      </div>
+
+      <aside class="sidebar" aria-label="Toelichting">
+        <div class="summary-card">
+          <h4>Over uw aanvraag</h4>
+          <p class="intro">Een klicmelding bestaat uit vijf stappen. Hier vult u eerst uw eigen gegevens in — dat duurt nog geen minuut.</p>
+          <div class="divider"></div>
+          <div class="help-block">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <div>
+              <strong style="display:block;color:var(--color-ink-900);margin-bottom:2px">Hulp nodig?</strong>
+              Veelgestelde vragen vindt u op de <a href="klicmelding-mockup-faq.html">FAQ-pagina</a> of <a href="mailto:info@klicmelding.nl">mail ons</a>.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-copy">© 2026 Klicmelding.nl · Graafmelding.nl BV · KvK Brabant 53.11.20.16</div>
+    <nav class="footer-links" aria-label="Footer"><a href="klicmelding-mockup-links.html">Links</a><a href="klicmelding-mockup-sitemap.html">Sitemap</a><a href="klicmelding-mockup-disclaimer.html">Disclaimer</a><a href="klicmelding-mockup-voorwaarden.html">Algemene voorwaarden</a><a href="klicmelding-mockup-privacy.html">Privacy</a></nav>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Soort klant → toon/verberg Bedrijfsnaam-veld bij "Zakelijk"
+   ============================================================ */
+(function(){
+  var sel  = document.getElementById('f-soort');
+  var wrap = document.getElementById('f-bedrijf-wrap');
+  var inp  = document.getElementById('f-bedrijf');
+  if (!sel || !wrap || !inp) return;
+  function sync(){
+    var zakelijk = sel.value === 'zakelijk';
+    wrap.hidden = !zakelijk;
+    if (zakelijk) {
+      inp.setAttribute('required','');
+    } else {
+      inp.removeAttribute('required');
+      inp.value = '';
+      inp.classList.remove('error');
+    }
+  }
+  sel.addEventListener('change', sync);
+  sync();
+})();
+
+/* ============================================================
+   Hamburger toggle (mobiel menu)
+   ============================================================ */
+(function(){
+  var btn = document.querySelector('.hamburger');
+  if (!btn) return;
+  btn.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+  });
+})();
+
+/* ============================================================
+   Postcode + huisnummer → straat + plaats (PDOK Locatieserver)
+   Gratis Nederlandse adres-API, CORS toegestaan, geen key.
+   Docs: https://api.pdok.nl/bzk/locatieserver/search/v3_1
+   ============================================================ */
+(function(){
+  var pcEl   = document.getElementById('f-postcode');
+  var nrEl   = document.getElementById('f-huisnr');
+  var tvEl   = document.getElementById('f-toev');
+  var strEl  = document.getElementById('f-straat');
+  var plEl   = document.getElementById('f-plaats');
+  var status = document.getElementById('lookup-status');
+
+  if (!pcEl || !nrEl || !strEl || !plEl) return;
+
+  var debounceTimer = null;
+  var lastQueryKey  = '';
+  var inflight      = null;
+
+  // Postcode mooi formatteren bij blur: "1234ab" → "1234 AB"
+  pcEl.addEventListener('blur', function(){
+    var v = (pcEl.value || '').replace(/\s+/g,'').toUpperCase();
+    var m = v.match(/^(\d{4})([A-Z]{2})$/);
+    if (m) pcEl.value = m[1] + ' ' + m[2];
+  });
+
+  function setStatus(state, msg){
+    status.className = 'lookup-status' + (state ? ' is-' + state : '');
+    if (state === 'loading') {
+      status.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>' + msg + '</span>';
+    } else {
+      status.textContent = msg || '';
+    }
+  }
+
+  // Normaliseer de toevoeging: "A", "bis", "2hg"… → zonder spaties, uppercase
+  function normToev(v){
+    return (v || '').replace(/\s+/g,'').toUpperCase();
+  }
+
+  function tryLookup(){
+    var pcRaw = (pcEl.value || '').replace(/\s+/g,'').toUpperCase();
+    var nr    = (nrEl.value || '').trim();
+    var toev  = normToev(tvEl ? tvEl.value : '');
+    var pcOk  = /^\d{4}[A-Z]{2}$/.test(pcRaw);
+    var nrOk  = /^\d+$/.test(nr);
+
+    if (!pcOk || !nrOk) {
+      setStatus('', '');
+      return;
+    }
+
+    var key = pcRaw + '-' + nr + '-' + toev;
+    if (key === lastQueryKey) return;
+    lastQueryKey = key;
+
+    setStatus('loading', 'Adres opzoeken…');
+
+    if (inflight && inflight.abort) inflight.abort();
+
+    var ctrl = new AbortController();
+    inflight = ctrl;
+
+    // Haal alle varianten op het postcode+huisnummer op; de juiste variant
+    // (op basis van huisletter / toevoeging) kiezen we daarna client-side.
+    var url = 'https://api.pdok.nl/bzk/locatieserver/search/v3_1/free'
+            + '?q=' + encodeURIComponent('postcode:' + pcRaw + ' AND huisnummer:' + nr)
+            + '&fq=type:adres'
+            + '&fl=straatnaam,woonplaatsnaam,postcode,huisnummer,huisletter,huisnummertoevoeging'
+            + '&rows=25';
+
+    fetch(url, { signal: ctrl.signal })
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(data){
+        var docs = (data && data.response && data.response.docs) || [];
+        if (!docs.length) {
+          setStatus('error', 'Geen adres gevonden — controleer postcode en huisnummer, of vul handmatig in.');
+          return;
+        }
+
+        // Kies de beste match. Toevoeging kan in PDOK zowel een huisletter
+        // (één letter) als een huisnummertoevoeging zijn — we vergelijken beide.
+        var d = docs[0];
+        if (toev) {
+          var match = docs.find(function(x){
+            var hl = normToev(x.huisletter);
+            var ht = normToev(x.huisnummertoevoeging);
+            return hl === toev || ht === toev || (hl + ht) === toev;
+          });
+          if (match) {
+            d = match;
+          } else {
+            // Toevoeging onbekend bij dit adres: straat/plaats kloppen nog wel,
+            // maar laat het de gebruiker weten.
+            if (d.straatnaam) strEl.value = d.straatnaam;
+            if (d.woonplaatsnaam) plEl.value = d.woonplaatsnaam;
+            setStatus('error', 'Toevoeging niet herkend — controleer de toevoeging. Straat en plaats zijn alvast ingevuld.');
+            return;
+          }
+        } else if (docs.length > 1) {
+          // Meerdere varianten, geen toevoeging opgegeven: neem het kale
+          // huisnummer zonder letter/toevoeging als dat bestaat.
+          var bare = docs.find(function(x){
+            return !normToev(x.huisletter) && !normToev(x.huisnummertoevoeging);
+          });
+          if (bare) d = bare;
+        }
+
+        if (d.straatnaam) strEl.value = d.straatnaam;
+        if (d.woonplaatsnaam) plEl.value = d.woonplaatsnaam;
+        setStatus('success', '✓ Adres gevonden');
+      })
+      .catch(function(err){
+        if (err.name === 'AbortError') return;
+        setStatus('error', 'Kon adres niet ophalen. Vul straat en plaats handmatig in.');
+      });
+  }
+
+  function schedule(){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(tryLookup, 350);
+  }
+
+  pcEl.addEventListener('input', schedule);
+  nrEl.addEventListener('input', schedule);
+  if (tvEl) tvEl.addEventListener('input', schedule);
+})();
+
+/* ============================================================
+   Simpele client-side validatie bij submit
+   ============================================================ */
+(function(){
+  var form = document.getElementById('form-stap1');
+  if (!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var invalid = false;
+    form.querySelectorAll('[required]').forEach(function(el){
+      if (!el.value || (el.tagName === 'SELECT' && !el.value)) {
+        el.classList.add('error');
+        invalid = true;
+      } else {
+        el.classList.remove('error');
+      }
+    });
+    if (invalid) {
+      var first = form.querySelector('.error');
+      if (first) first.focus();
+      return;
+    }
+    window.location.href='klicmelding-mockup-form-stap2.html';
+  });
+  // verwijder error bij typen
+  form.addEventListener('input', function(e){
+    if (e.target.classList) e.target.classList.remove('error');
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl — Aanvraag (stap 2, redesign mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   GEDEELDE TOKENS + COMPONENTEN (uit klicmelding.css ingebed)
+   ============================================================
+   PALET WISSELEN — pas alleen het blok ":root → KLEUREN — PALET"
+   hieronder aan. Voor consistentie in alle vier de bestanden:
+   bewerk klicmelding.css en kopieer dit blok over.
+   ============================================================ */
+/* ==============================================================
+   klicmelding.nl — gedeeld stylesheet
+   --------------------------------------------------------------
+   Versie:     0.2 (concept)
+   Lettertype: Plus Jakarta Sans (laad in HTML <head>)
+   Palet:      Cobalt
+   --------------------------------------------------------------
+   PALET WISSELEN
+   Pas alleen onderstaand blok ":root → KLEUREN — PALET" aan.
+   Vier kant-en-klare presets — kopieer/plak het juiste setje:
+
+   Sky (vriendelijk)
+     50:#EFF9FD 100:#D6F0FA 500:#0EA5E9 600:#0284C7 700:#0369A1 900:#0C4A6E
+     primary-rgb: 2,132,199
+
+   Ocean (gezaghebbend)
+     50:#EEF7FB 100:#D2EAF4 500:#0284C7 600:#0369A1 700:#075985 900:#0C2945
+     primary-rgb: 3,105,161
+
+   Cobalt (zakelijk) ← HUIDIG
+     50:#EEF4FF 100:#DBE7FE 500:#3B82F6 600:#2563EB 700:#1D4ED8 900:#1E3A8A
+     primary-rgb: 37,99,235
+
+   Lagune (modern)
+     50:#ECFDFC 100:#CFFAF6 500:#06B6D4 600:#0891B2 700:#0E7490 900:#164E63
+     primary-rgb: 8,145,178
+
+   Het logo-blauw (--color-brand) volgt --color-primary-600
+   en wisselt dus automatisch mee met het palet.
+   ============================================================== */
+
+:root {
+  /* === KLEUREN — PALET (Cobalt) ============================ */
+  --color-primary-50:  #EEF4FF;
+  --color-primary-100: #DBE7FE;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-900: #1E3A8A;
+  --color-primary-rgb: 37, 99, 235;        /* primary-600 als R,G,B */
+
+  /* === MERKTEKEN ========================================== */
+  --color-brand:       var(--color-primary-600); /* logo-kleur — volgt het primary-600 palet */
+
+  /* === NEUTRALEN ========================================== */
+  --color-ink-900:     #0F172A;
+  --color-ink-700:     #334155;
+  --color-ink-500:     #64748B;
+  --color-ink-300:     #CBD5E1;
+  --color-ink-200:     #E2E8F0;
+  --color-ink-100:     #F1F5F9;
+  --color-ink-50:      #F8FAFC;
+  --color-white:       #FFFFFF;
+
+  /* === STATUSKLEUREN ====================================== */
+  --color-success-500: #10B981;
+  --color-success-50:  #ECFDF5;
+  --color-warning-500: #F59E0B;
+  --color-warning-50:  #FFFBEB;
+  --color-error-500:   #EF4444;
+  --color-error-50:    #FEF2F2;
+  --color-info-500:    #0EA5E9;
+  --color-info-50:     #EFF9FD;
+
+  /* === SPACING (8-point) ================================== */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  /* === RADIUS ============================================ */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  /* === SHADOWS =========================================== */
+  --shadow-sm:    0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
+  --shadow-md:    0 4px 6px -1px rgba(15,23,42,.08), 0 2px 4px -2px rgba(15,23,42,.06);
+  --shadow-lg:    0 12px 24px -8px rgba(15,23,42,.12), 0 4px 8px -4px rgba(15,23,42,.08);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), .35);
+
+  /* === MOTION ============================================ */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* === TYPOGRAFIE ======================================== */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* ============================================================
+   RESET & BASIS
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-900);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.site-footer { margin-top: auto; }
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+p { margin: 0; }
+a { color: var(--color-primary-600); }
+a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: 2px; }
+small { color: var(--color-ink-500); }
+code, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-ink-100);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-700);
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
+@media (min-width: 1024px) { .container { padding: 0 var(--space-7); } }
+.narrow { max-width: 720px; margin: 0 auto; padding: 0 var(--space-5); }
+
+/* ============================================================
+   LOGO LOCKUP — Variant B. Compact (gap 4)
+   ============================================================ */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-900);
+}
+.logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
+@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+.logo .logo-mark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: block;
+}
+.logo .logo-mark .bubble { fill: var(--color-brand); }
+.logo .logo-mark .check  {
+  stroke: var(--color-white);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.logo .k { color: var(--color-ink-700); }
+.logo .m { color: var(--color-brand); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+  white-space: nowrap;
+}
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.btn-sm { height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.btn-md { height: 44px; padding: 0 var(--space-5); font-size: 14px; }
+.btn-lg { height: 52px; padding: 0 var(--space-6); font-size: 16px; }
+.btn-primary {
+  background: var(--color-primary-600); color: var(--color-white);
+}
+.btn-primary:hover { background: var(--color-primary-700); }
+.btn-primary:active { transform: translateY(1px); background: var(--color-primary-900); }
+.btn-secondary {
+  background: var(--color-white); color: var(--color-primary-700);
+  border-color: var(--color-primary-600);
+}
+.btn-secondary:hover { background: var(--color-primary-50); }
+.btn-ghost {
+  background: transparent; color: var(--color-ink-700);
+}
+.btn-ghost:hover { background: var(--color-ink-100); color: var(--color-ink-900); }
+.btn-on-dark {
+  background: var(--color-white); color: var(--color-primary-700);
+}
+.btn-on-dark:hover { background: var(--color-primary-50); }
+.btn[disabled], .btn:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none;
+}
+.btn .arrow { font-size: 18px; line-height: 1; position: relative; top: -1px; }
+
+/* ============================================================
+   HEADER + NAV
+   ============================================================ */
+.site-header {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-ink-200);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px;
+}
+.nav { display: none; gap: var(--space-7); align-items: center; }
+.nav a {
+  text-decoration: none;
+  color: var(--color-ink-700);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 0;
+  position: relative;
+  transition: color var(--duration-fast);
+}
+.nav a:hover { color: var(--color-ink-900); }
+.nav a.active { color: var(--color-primary-600); }
+.nav a.active::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px; background: var(--color-primary-600); border-radius: 2px;
+}
+.nav-search svg{width:20px;height:20px;display:block}
+.nav-search{display:inline-flex;align-items:center}
+.header-actions { display: flex; gap: var(--space-4); align-items: center; }
+.hamburger {
+  display: flex; flex-direction: column; gap: 5px;
+  background: none; border: 0; cursor: pointer; padding: var(--space-2);
+  width: 44px; height: 44px; align-items: center; justify-content: center;
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast);
+}
+.hamburger:hover { background: var(--color-ink-100); }
+.hamburger:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.hamburger span {
+  width: 22px; height: 2px;
+  background: var(--color-ink-700); border-radius: 2px;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-fast) var(--ease-standard);
+  transform-origin: center;
+}
+/* Hamburger → X animatie wanneer menu open is */
+body.menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.menu-open .hamburger span:nth-child(2) { opacity: 0; }
+body.menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu {
+  position: fixed;
+  top: 80px; left: 0; right: 0; bottom: 0;
+  background: var(--color-white);
+  z-index: 49;
+  padding: var(--space-7) var(--space-5) var(--space-8);
+  overflow-y: auto;
+  transform: translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard),
+              visibility 0s linear var(--duration-base);
+}
+body.menu-open .mobile-menu {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard),
+              visibility 0s;
+}
+body.menu-open { overflow: hidden; }
+.mobile-menu .menu-inner {
+  max-width: 720px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--space-7);
+}
+.mobile-menu nav {
+  display: flex; flex-direction: column;
+}
+.mobile-menu nav a {
+  font-size: 24px; font-weight: 600;
+  color: var(--color-ink-900);
+  text-decoration: none;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-ink-100);
+  letter-spacing: -0.015em;
+  transition: color var(--duration-fast);
+}
+.mobile-menu nav a:hover { color: var(--color-primary-600); }
+.mobile-menu nav a.active { color: var(--color-primary-600); }
+.mobile-menu .menu-actions {
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.mobile-menu .menu-actions .btn {
+  width: 100%; height: 56px; font-size: 16px;
+}
+@media (min-width: 1024px) {
+  .nav { display: flex; }
+  .hamburger { display: none; }
+  .mobile-menu { display: none !important; }
+}
+/* Verberg ghost-knop in header op mobiel (gebruikt door .btn-ghost-lg helper) */
+@media (max-width: 1023px) {
+  .header-actions .btn-ghost-lg { display: none; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  background: var(--color-ink-900);
+  color: var(--color-ink-300);
+  padding: var(--space-8) 0 var(--space-6);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: var(--space-7); margin-bottom: var(--space-7);
+}
+@media (min-width: 768px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+}
+.footer-brand .logo { color: var(--color-white); margin-bottom: var(--space-3); }
+.footer-brand .logo .k { color: var(--color-white); }
+.footer-brand .logo .m { color: var(--color-brand); }
+.footer-brand p {
+  color: var(--color-ink-500);
+  font-size: 14px; max-width: 320px; line-height: 1.6;
+}
+.footer-col h4 {
+  font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--color-white); margin-bottom: var(--space-4);
+}
+.footer-col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.footer-col a {
+  color: var(--color-ink-300); text-decoration: none;
+  font-size: 14px; transition: color var(--duration-fast);
+}
+.footer-col a:hover { color: var(--color-white); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: var(--space-5);
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  gap: var(--space-4); font-size: 13px; color: var(--color-ink-500);
+}
+
+/* ============================================================
+   EYEBROW + KICKER
+   ============================================================ */
+.eyebrow {
+  display: inline-flex; align-items: center;
+  gap: var(--space-2);
+  background: var(--color-white);
+  border: 1px solid var(--color-primary-100);
+  color: var(--color-primary-700);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: 13px; font-weight: 600;
+}
+.eyebrow::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--color-primary-500);
+  border-radius: 50%;
+}
+.kicker {
+  font-size: 14px; font-weight: 600;
+  color: var(--color-primary-600);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+.alert {
+  display: flex; gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-ink-200);
+  background: var(--color-ink-50);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.alert .icon {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+  background: var(--color-ink-200); color: var(--color-ink-700);
+}
+.alert-info    { background: var(--color-info-50);    border-color: rgba(var(--color-primary-rgb),.20); }
+.alert-info    .icon { background: var(--color-primary-500); color: var(--color-white); }
+.alert-success { background: var(--color-success-50); border-color: #A7F3D0; }
+.alert-success .icon { background: var(--color-success-500); color: var(--color-white); }
+.alert-warning { background: var(--color-warning-50); border-color: #FCD34D; }
+.alert-warning .icon { background: var(--color-warning-500); color: var(--color-white); }
+.alert-error   { background: var(--color-error-50);   border-color: #FCA5A5; }
+.alert-error   .icon { background: var(--color-error-500); color: var(--color-white); }
+
+</style>
+<style>
+/* ============================================================
+   Page-specific styles (formulier — stap 2)
+   Tokens, reset, container, knoppen, header, footer, logo,
+   eyebrow, kicker → klicmelding.css
+   ============================================================ */
+
+/* Form-pagina heeft een lichte achtergrond i.p.v. wit */
+body{background:var(--color-ink-50)}
+
+/* STEPPER */
+.stepper-wrap{background:white;border-bottom:1px solid var(--color-ink-200);padding:var(--space-6) 0}
+.stepper{display:flex;align-items:flex-start;gap:0;max-width:720px;margin:0 auto;padding:0 var(--space-5)}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;position:relative;gap:var(--space-2);min-width:0}
+.step .circle{width:36px;height:36px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;background:white;border:1px solid var(--color-ink-300);color:var(--color-ink-500);z-index:1;transition:background var(--duration-base);flex-shrink:0}
+.step.done .circle{background:var(--color-primary-600);border-color:var(--color-primary-600);color:white}
+.step.current .circle{background:var(--color-primary-600);border-color:var(--color-primary-600);color:white;box-shadow:0 0 0 3px var(--color-primary-100)}
+.step .label{font-size:12px;color:var(--color-ink-700);line-height:1.3}
+.step.current .label{font-weight:600;color:var(--color-ink-900)}
+.step::before,.step::after{content:"";position:absolute;top:17px;height:2px;width:calc(50% - 20px);background:var(--color-ink-200)}
+.step::before{left:0}.step::after{right:0}
+.step:first-child::before,.step:last-child::after{display:none}
+.step.done::before,.step.done::after,.step.current::before{background:var(--color-primary-600)}
+/* mobile stepper */
+.stepper-mobile{display:none;padding:0 var(--space-5)}
+.stepper-mobile .pm-meta{font-size:13px;color:var(--color-ink-500);font-weight:600;margin-bottom:var(--space-2)}
+.stepper-mobile .pm-title{font-size:16px;font-weight:600;color:var(--color-ink-900);margin-bottom:var(--space-3)}
+.stepper-mobile .pm-bar{height:6px;background:var(--color-ink-200);border-radius:var(--radius-pill);overflow:hidden}
+.stepper-mobile .pm-bar .pm-fill{height:100%;background:var(--color-primary-600);border-radius:var(--radius-pill);width:40%}
+@media (max-width:767px){.stepper{display:none}.stepper-mobile{display:block}}
+
+/* PAGE HEADER */
+.form-section{padding:var(--space-7) 0 var(--space-9)}
+.page-head{margin-bottom:var(--space-6)}
+.page-head .kicker{font-size:13px;font-weight:600;color:var(--color-primary-600);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-2)}
+.page-head h1{font-size:32px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-3);letter-spacing:-0.01em}
+.page-head p{color:var(--color-ink-700);font-size:16px}
+
+/* ALERTS — override van shared (form wil border-left bar, geen full border) */
+.alert{display:flex;gap:var(--space-3);padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);border:0;border-left:4px solid;margin-bottom:var(--space-6)}
+.alert .icon{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:var(--radius-pill);color:white;font-size:14px}
+.alert .body{font-size:15px;line-height:1.5;color:var(--color-ink-900)}
+.alert .body strong{font-weight:600;display:block;margin-bottom:2px}
+.alert-info{background:var(--color-primary-50);border-color:var(--color-primary-600)}
+.alert-info .icon{background:var(--color-primary-600)}
+.alert-warning{background:var(--color-warning-50);border-color:var(--color-warning-500)}
+.alert-warning .icon{background:var(--color-warning-500)}
+
+/* FORM */
+.form-card{background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-7);box-shadow:var(--shadow-sm)}
+@media (max-width:640px){.form-card{padding:var(--space-5);border-radius:0;border-left:0;border-right:0;margin-left:calc(var(--space-5)*-1);margin-right:calc(var(--space-5)*-1)}}
+.field-group{display:flex;flex-direction:column;gap:var(--space-5)}
+.field-group + .field-group{margin-top:var(--space-6);padding-top:var(--space-6);border-top:1px solid var(--color-ink-200)}
+.group-title{font-size:14px;font-weight:600;color:var(--color-ink-500);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-2)}
+
+.field{display:flex;flex-direction:column;gap:var(--space-2)}
+.field-label{font-size:14px;font-weight:600;color:var(--color-ink-700)}
+.field-label .req{color:var(--color-error-500);margin-left:2px}
+.field-row{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+@media (min-width:640px){.field-row.two{grid-template-columns:1fr 1fr}}
+.input{height:44px;padding:0 var(--space-3);font-family:inherit;font-size:16px;color:var(--color-ink-900);background:white;border:1px solid var(--color-ink-300);border-radius:var(--radius-sm);transition:border-color var(--duration-fast),box-shadow var(--duration-fast),background var(--duration-fast);width:100%}
+.input::placeholder{color:var(--color-ink-500)}
+.input:hover{border-color:var(--color-ink-500)}
+.input:focus-visible{outline:none;border-color:var(--color-primary-600);border-width:2px;padding:0 calc(var(--space-3) - 1px);box-shadow:var(--shadow-focus)}
+.input.error{border-color:var(--color-error-500);border-width:2px;padding:0 calc(var(--space-3) - 1px);background:var(--color-error-50)}
+.field-help{font-size:13px;color:var(--color-ink-500)}
+.field-error{font-size:13px;color:var(--color-error-500);display:flex;align-items:center;gap:var(--space-1)}
+
+.date-input{position:relative}
+.date-input input{padding-right:46px}
+.dp-trigger{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;border-radius:var(--radius-sm);cursor:pointer;color:var(--color-ink-500);transition:background 100ms,color 100ms;padding:0}
+.dp-trigger:hover{background:var(--color-ink-100);color:var(--color-primary-600)}
+.dp-trigger:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.dp-trigger svg{width:18px;height:18px}
+
+.radio-group{display:flex;flex-direction:column;gap:var(--space-3)}
+@media (min-width:640px){.radio-group.row{flex-direction:row;gap:var(--space-4)}}
+.radio{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-4);border:1px solid var(--color-ink-300);border-radius:var(--radius-md);cursor:pointer;transition:border-color var(--duration-fast),background var(--duration-fast);flex:1}
+.radio:hover{border-color:var(--color-ink-500);background:var(--color-ink-50)}
+.radio input{position:absolute;opacity:0;pointer-events:none}
+.radio .dot{width:20px;height:20px;border:1px solid var(--color-ink-300);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:white;transition:border-color var(--duration-fast)}
+.radio input:checked + .dot{border-color:var(--color-primary-600);border-width:2px}
+.radio input:checked + .dot::after{content:"";width:10px;height:10px;background:var(--color-primary-600);border-radius:50%}
+.radio input:checked ~ .radio-content{color:var(--color-ink-900)}
+.radio.selected{border-color:var(--color-primary-600);background:var(--color-primary-50)}
+.radio .radio-content{display:flex;flex-direction:column;gap:2px}
+.radio .radio-title{font-weight:600;color:var(--color-ink-900);font-size:15px}
+.radio .radio-desc{font-size:13px;color:var(--color-ink-500)}
+.radio input:focus-visible + .dot{box-shadow:var(--shadow-focus)}
+
+.required-note{font-size:13px;color:var(--color-ink-500);margin-top:var(--space-3)}
+
+/* BOTTOM ACTION BAR */
+.actions-bar{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-top:var(--space-7);padding-top:var(--space-6);border-top:1px solid var(--color-ink-200)}
+.actions-bar .left{display:flex;gap:var(--space-3)}
+.save-later{background:none;border:0;color:var(--color-ink-500);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.save-later:hover{color:var(--color-ink-900)}
+@media (max-width:640px){
+  .actions-bar{position:sticky;bottom:0;background:white;margin:var(--space-7) calc(var(--space-5)*-1) 0;padding:var(--space-4) var(--space-5);border-top:1px solid var(--color-ink-200);box-shadow:0 -4px 12px -4px rgba(15,23,42,0.08)}
+  .actions-bar .left .save-later{display:none}
+  .actions-bar .btn{flex:1}
+}
+
+/* sidebar summary (desktop) */
+.layout{display:grid;grid-template-columns:1fr;gap:var(--space-6)}
+@media (min-width:1024px){.layout{grid-template-columns:minmax(0,1fr) 300px;gap:var(--space-7);max-width:1080px;margin:0 auto}}
+.sidebar{position:sticky;top:calc(72px + var(--space-5));align-self:start}
+.summary-card{background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-5)}
+.summary-card h4{font-size:14px;font-weight:600;color:var(--color-ink-500);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-4)}
+.summary-card dl{margin:0;display:flex;flex-direction:column;gap:var(--space-3)}
+.summary-card dt{font-size:12px;color:var(--color-ink-500);margin-bottom:2px}
+.summary-card dd{margin:0;font-size:14px;color:var(--color-ink-900);font-weight:500}
+.summary-card .divider{height:1px;background:var(--color-ink-200);margin:var(--space-4) 0}
+.summary-card .help-block{display:flex;gap:var(--space-3);align-items:flex-start;font-size:13px;color:var(--color-ink-700);background:var(--color-primary-50);padding:var(--space-4);border-radius:var(--radius-md)}
+.summary-card .help-block svg{width:18px;height:18px;color:var(--color-primary-600);flex-shrink:0;margin-top:1px}
+@media (max-width:1023px){.sidebar{display:none}}
+
+/* FOOTER (simplified) */
+.site-footer{background:var(--color-ink-900);color:var(--color-ink-500);padding:var(--space-6) 0;font-size:13px;text-align:center}
+.site-footer a{color:var(--color-ink-300);text-decoration:none;margin:0 var(--space-3)}
+.site-footer a:hover{color:white}
+.footer-sitemap{display:flex;flex-wrap:wrap;justify-content:center;gap:4px var(--space-2);margin-bottom:var(--space-4);padding-bottom:var(--space-4);border-bottom:1px solid rgba(255,255,255,.08)}
+.site-footer .footer-sitemap a{margin:0}
+.footer-copy{color:var(--color-ink-500)}
+.footer-links{margin-top:var(--space-3)}
+
+/* ============ DATEPICKER (popover desktop / modal mobile) ============ */
+.dp-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.4);z-index:90;opacity:0;visibility:hidden;transition:opacity 200ms,visibility 0s linear 200ms}
+body.dp-open .dp-backdrop{opacity:1;visibility:visible;transition:opacity 200ms,visibility 0s}
+.datepicker{position:absolute;z-index:100;background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:var(--space-4);width:340px;max-width:calc(100vw - 32px);font-family:inherit;display:none}
+.datepicker.is-open{display:block;animation:dp-fade-in 180ms var(--ease-standard)}
+@keyframes dp-fade-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3);gap:var(--space-2)}
+.dp-title{flex:1;text-align:center;font-weight:700;font-size:15px;color:var(--color-ink-900)}
+.dp-nav{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;background:white;border:1px solid var(--color-ink-200);border-radius:var(--radius-md);cursor:pointer;color:var(--color-ink-700);transition:background 120ms,border-color 120ms;padding:0;font-family:inherit}
+.dp-nav:hover{background:var(--color-ink-50);border-color:var(--color-ink-300)}
+.dp-nav:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.dp-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px;text-align:center;font-size:11px;font-weight:600;color:var(--color-ink-500);text-transform:uppercase;letter-spacing:.04em;padding:6px 0}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:none;border:0;border-radius:var(--radius-sm);font-family:inherit;font-size:14px;font-weight:500;color:var(--color-ink-900);cursor:pointer;transition:background 100ms,color 100ms;font-variant-numeric:tabular-nums;padding:0}
+.dp-day:hover:not(:disabled){background:var(--color-primary-50);color:var(--color-primary-700)}
+.dp-day:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.dp-day.muted{color:var(--color-ink-300)}
+.dp-day:disabled{color:var(--color-ink-300);cursor:not-allowed;background:none}
+.dp-day.today{font-weight:700;color:var(--color-primary-700);box-shadow:inset 0 0 0 1px var(--color-primary-100)}
+/* Range visualisatie */
+.dp-day.in-window{background:rgba(var(--color-primary-rgb),.06);color:var(--color-primary-700)}
+.dp-day.in-window:hover:not(:disabled){background:var(--color-primary-100);color:var(--color-primary-700)}
+.dp-day.in-range{background:var(--color-primary-100);color:var(--color-primary-900);border-radius:0}
+.dp-day.in-range:hover{background:var(--color-primary-100)}
+.dp-day.range-start,.dp-day.range-end{background:var(--color-primary-600);color:white;box-shadow:none;font-weight:700}
+.dp-day.range-start:hover,.dp-day.range-end:hover{background:var(--color-primary-700);color:white}
+.dp-day.range-start.range-end{border-radius:var(--radius-sm)}
+/* Caption / instructie boven de grid */
+.dp-caption{display:flex;align-items:flex-start;gap:var(--space-2);background:var(--color-ink-50);border:1px solid var(--color-ink-200);border-radius:var(--radius-md);padding:10px 12px;margin-bottom:var(--space-3);font-size:13px;color:var(--color-ink-700);line-height:1.4;transition:background 220ms,border-color 220ms}
+.dp-caption.is-step2{background:var(--color-primary-50);border-color:var(--color-primary-200,var(--color-primary-100));color:var(--color-primary-900);animation:dp-pulse 600ms var(--ease-standard)}
+@keyframes dp-pulse{0%{box-shadow:0 0 0 0 rgba(var(--color-primary-rgb),.4)}70%{box-shadow:0 0 0 8px rgba(var(--color-primary-rgb),0)}100%{box-shadow:0 0 0 0 rgba(var(--color-primary-rgb),0)}}
+.dp-caption .dot{flex-shrink:0;width:8px;height:8px;background:var(--color-primary-600);border-radius:50%;margin-top:5px}
+.dp-caption.is-step2 .dot{background:var(--color-primary-700)}
+.dp-caption strong{color:var(--color-ink-900);font-weight:600}
+.dp-caption.is-step2 strong{color:var(--color-primary-900)}
+/* Mini-legenda onderaan */
+.dp-legend{display:flex;gap:var(--space-4);margin-top:var(--space-3);font-size:11px;color:var(--color-ink-500);flex-wrap:wrap}
+.dp-legend .li{display:inline-flex;align-items:center;gap:6px}
+.dp-legend .sq{width:14px;height:14px;border-radius:3px}
+.dp-actions{display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--color-ink-100)}
+@media (max-width:639px){
+  .datepicker{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100vw - 32px);max-width:380px;padding:var(--space-5);border-radius:var(--radius-lg)}
+  .datepicker.is-open{animation:dp-mobile-in 220ms var(--ease-standard)}
+  @keyframes dp-mobile-in{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
+  .dp-day{font-size:16px}
+}
+
+/* ============ ALERT MODAL ============ */
+.alert-modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;z-index:120;align-items:center;justify-content:center;padding:16px}
+.alert-modal.is-open{display:flex;animation:am-fade-in 180ms var(--ease-standard)}
+@keyframes am-fade-in{from{opacity:0}to{opacity:1}}
+.alert-modal .am-card{background:white;border-radius:var(--radius-lg);padding:var(--space-6);max-width:440px;width:100%;box-shadow:var(--shadow-lg);text-align:center;animation:am-slide-in 220ms var(--ease-standard)}
+@keyframes am-slide-in{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.am-icon{width:56px;height:56px;border-radius:50%;background:var(--color-warning-50);color:var(--color-warning-500);display:inline-flex;align-items:center;justify-content:center;margin:0 auto var(--space-4)}
+.am-icon svg{width:32px;height:32px}
+.am-card h3{font-size:20px;font-weight:700;margin-bottom:var(--space-3);color:var(--color-ink-900)}
+.am-card p{color:var(--color-ink-700);margin-bottom:var(--space-5);line-height:1.55;font-size:15px}
+.am-card .btn{min-width:140px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="logo" aria-label="Klicmelding.nl home">
+      <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+      <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+    </a>
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Home</a>
+      <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+      <a href="klicmelding-mockup-faq.html">FAQ</a>
+      <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+      <a href="klicmelding-mockup-downloads.html">Downloads</a>
+      <a href="klicmelding-mockup-zoeken.html" class="nav-search" aria-label="Zoeken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-secondary btn-md" href="klicmelding-mockup-login.html">Inloggen</a>
+      <button class="hamburger" aria-label="Menu openen" aria-controls="mobile-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie">
+    <div class="menu-inner">
+      <nav aria-label="Hoofdnavigatie mobiel">
+        <a href="index.html">Home</a>
+        <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+        <a href="klicmelding-mockup-faq.html">FAQ</a>
+        <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+        <a href="klicmelding-mockup-downloads.html">Downloads</a>
+        <a href="klicmelding-mockup-zoeken.html">Zoeken</a>
+      </nav>
+      <div class="menu-actions">
+        <a class="btn btn-secondary" href="klicmelding-mockup-login.html">Inloggen</a>
+      </div>
+    </div>
+  </div>
+
+<!-- STEPPER -->
+<div class="stepper-wrap">
+  <ol class="stepper" aria-label="Voortgang van de aanvraag">
+    <li class="step done">
+      <div class="circle" aria-hidden="true">✓</div>
+      <div class="label">Klantgegevens</div>
+      <span class="sr-only" style="position:absolute;clip:rect(0,0,0,0)">Stap 1, voltooid</span>
+    </li>
+    <li class="step current" aria-current="step">
+      <div class="circle" aria-hidden="true">2</div>
+      <div class="label">Graafmelding</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">3</div>
+      <div class="label">Werkzaamheden</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">4</div>
+      <div class="label">Extra info</div>
+    </li>
+    <li class="step">
+      <div class="circle" aria-hidden="true">5</div>
+      <div class="label">Overzicht &amp; betalen</div>
+    </li>
+  </ol>
+  <div class="stepper-mobile" aria-hidden="true">
+    <div class="pm-meta">Stap 2 van 5</div>
+    <div class="pm-title">Graafmelding gegevens</div>
+    <div class="pm-bar"><div class="pm-fill"></div></div>
+  </div>
+</div>
+
+<!-- FORM -->
+<section class="form-section">
+  <div class="container">
+    <div class="layout">
+      <div>
+        <div class="page-head">
+          <div class="kicker">Stap 2 van 5</div>
+          <h1>Graafmelding gegevens</h1>
+          <p>Geef aan waar en wanneer de werkzaamheden plaatsvinden.</p>
+        </div>
+
+        <div class="alert alert-info" role="note">
+          <div class="icon" aria-hidden="true">i</div>
+          <div class="body">
+            <strong>Maximaal 500×500 meter per aanvraag</strong>
+            Is uw werkgebied groter, vraagt u meerdere klicmeldingen aan. Voor een oriëntatieverzoek mag het gebied tot 2500×2500 meter zijn.
+          </div>
+        </div>
+
+        <form class="form-card" novalidate>
+
+          <div class="field-group">
+            <div class="group-title">Wanneer</div>
+
+            <div class="field-row two">
+              <div class="field">
+                <label class="field-label" for="f-start">Aanvangsdatum <span class="req" aria-hidden="true">*</span></label>
+                <div class="date-input">
+                  <input class="input" id="f-start" type="text" placeholder="dd-mm-jjjj" value="01-05-2026" autocomplete="off" inputmode="numeric">
+                  <button type="button" class="dp-trigger" data-dp-open="f-start" aria-label="Open kalender voor aanvangsdatum">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </button>
+                </div>
+                <span class="field-help">Niet in het verleden — vandaag of later.</span>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-end">Geschatte einddatum <span class="req" aria-hidden="true">*</span></label>
+                <div class="date-input">
+                  <input class="input" id="f-end" type="text" placeholder="dd-mm-jjjj" value="07-05-2026" autocomplete="off" inputmode="numeric">
+                  <button type="button" class="dp-trigger" data-dp-open="f-end" aria-label="Open kalender voor einddatum">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </button>
+                </div>
+                <span class="field-help">Max. 20 dagen na de aanvangsdatum (wettelijk geldig).</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="group-title">Waar</div>
+
+            <div class="field">
+              <label class="field-label" for="f-adres">Straat + huisnummer <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="f-adres" type="text" placeholder="Bijvoorbeeld Dorpsstraat 12" value="Test 12" autocomplete="street-address">
+            </div>
+
+            <div class="field-row two">
+              <div class="field">
+                <label class="field-label" for="f-postcode">Postcode <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-postcode" type="text" value="1234 AB" autocomplete="postal-code" pattern="[0-9]{4}\s?[A-Za-z]{2}">
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-plaats">Plaats <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-plaats" type="text" value="Amsterdam" autocomplete="address-level2">
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="group-title">Aansluiting</div>
+
+            <fieldset style="border:0;padding:0;margin:0">
+              <legend class="field-label" style="padding:0;margin-bottom:var(--space-3)">Betreft dit een huisaansluiting? <span class="req" aria-hidden="true">*</span></legend>
+
+              <div class="radio-group">
+                <label class="radio selected">
+                  <input type="radio" name="huis" value="ja" checked>
+                  <span class="dot" aria-hidden="true"></span>
+                  <span class="radio-content">
+                    <span class="radio-title">Ja, een huisaansluiting</span>
+                    <span class="radio-desc">Aansluiting op uw woning of bedrijfspand — bijvoorbeeld gas, water of elektra.</span>
+                  </span>
+                </label>
+                <label class="radio">
+                  <input type="radio" name="huis" value="nee">
+                  <span class="dot" aria-hidden="true"></span>
+                  <span class="radio-content">
+                    <span class="radio-title">Nee, geen huisaansluiting</span>
+                    <span class="radio-desc">De werkzaamheden vinden plaats in de openbare grond of tuin.</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="alert alert-warning" role="note" style="margin-top:var(--space-4);margin-bottom:0">
+              <div class="icon" aria-hidden="true">!</div>
+              <div class="body">
+                <strong>Let op: huisaansluitschetsen zijn niet gegarandeerd</strong>
+                Op basis van de wet WION/RION kan de netbeheerder huisaansluitschetsen leveren — dit is echter niet verplicht.
+              </div>
+            </div>
+          </div>
+
+          <p class="required-note"><span style="color:var(--color-error-500)">*</span> = verplichte velden</p>
+
+          <div class="actions-bar">
+            <div class="left">
+              <button type="button" class="btn btn-secondary btn-md" onclick="window.location.href=\'klicmelding-mockup-form-stap1.html\'">← Terug</button>
+              <button type="button" class="save-later">Tussentijds opslaan</button>
+            </div>
+            <button type="button" class="btn btn-primary btn-md" onclick="window.location.href='klicmelding-mockup-form-stap3.html'">Verder <span class="arrow">→</span></button>
+          </div>
+
+        </form>
+      </div>
+
+      <aside class="sidebar" aria-label="Uw aanvraag tot nu toe">
+        <div class="summary-card">
+          <h4>Uw aanvraag</h4>
+          <dl>
+            <div>
+              <dt>Soort klant</dt>
+              <dd>Particulier</dd>
+            </div>
+            <div>
+              <dt>Contactpersoon</dt>
+              <dd>J. de Vries</dd>
+            </div>
+            <div>
+              <dt>E-mail</dt>
+              <dd>j.devries@voorbeeld.nl</dd>
+            </div>
+          </dl>
+
+          <div class="divider"></div>
+
+          <div class="help-block">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <div>
+              <strong style="display:block;color:var(--color-ink-900);margin-bottom:2px">Hulp nodig?</strong>
+              Veelgestelde vragen vindt u op de <a href="klicmelding-mockup-faq.html">FAQ-pagina</a> of <a href="mailto:info@klicmelding.nl">mail ons</a>.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-copy">© 2026 Klicmelding.nl · Graafmelding.nl BV · KvK Brabant 53.11.20.16</div>
+    <nav class="footer-links" aria-label="Footer"><a href="klicmelding-mockup-links.html">Links</a><a href="klicmelding-mockup-sitemap.html">Sitemap</a><a href="klicmelding-mockup-disclaimer.html">Disclaimer</a><a href="klicmelding-mockup-voorwaarden.html">Algemene voorwaarden</a><a href="klicmelding-mockup-privacy.html">Privacy</a></nav>
+  </div>
+</footer>
+
+<!-- DATEPICKER (één instance, gedeeld door alle .date-input velden) -->
+<div class="dp-backdrop" aria-hidden="true"></div>
+<div class="datepicker" id="datepicker" role="dialog" aria-modal="true" aria-labelledby="dp-title">
+  <div class="dp-header">
+    <button type="button" class="dp-nav" data-nav="prev" aria-label="Vorige maand">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="dp-title" id="dp-title">—</div>
+    <button type="button" class="dp-nav" data-nav="next" aria-label="Volgende maand">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="dp-caption" id="dp-caption">
+    <span class="dot" aria-hidden="true"></span>
+    <span><strong>Kies een aanvangsdatum.</strong> Daarna mag je een einddatum kiezen binnen 20 dagen.</span>
+  </div>
+  <div class="dp-weekdays" aria-hidden="true">
+    <span>ma</span><span>di</span><span>wo</span><span>do</span><span>vr</span><span>za</span><span>zo</span>
+  </div>
+  <div class="dp-grid" role="grid"></div>
+  <div class="dp-legend" aria-hidden="true">
+    <span class="li"><span class="sq" style="background:var(--color-primary-600)"></span>Geselecteerd</span>
+    <span class="li"><span class="sq" style="background:var(--color-primary-100)"></span>Tussen</span>
+    <span class="li"><span class="sq" style="background:rgba(var(--color-primary-rgb),.06);box-shadow:inset 0 0 0 1px var(--color-ink-200)"></span>Binnen 20-dagen-venster</span>
+  </div>
+  <div class="dp-actions">
+    <button type="button" class="btn btn-ghost btn-sm" data-dp-reset>Wissen</button>
+    <button type="button" class="btn btn-primary btn-sm" data-dp-close>Klaar</button>
+  </div>
+</div>
+
+<!-- ALERT MODAL (voor ongeldige handmatige datum-invoer) -->
+<div class="alert-modal" id="alert-modal" role="alertdialog" aria-modal="true" aria-labelledby="am-title" aria-describedby="am-body">
+  <div class="am-card">
+    <div class="am-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <h3 id="am-title">Ongeldige datum</h3>
+    <p id="am-body">—</p>
+    <button type="button" class="btn btn-primary btn-md" data-am-close>Begrepen</button>
+  </div>
+</div>
+
+<script>
+// tiny UX polish so the demo feels alive: radio card selected state
+document.querySelectorAll('.radio input[type="radio"]').forEach(input => {
+  input.addEventListener('change', () => {
+    document.querySelectorAll('.radio').forEach(r => r.classList.remove('selected'));
+    input.closest('.radio').classList.add('selected');
+  });
+});
+
+/* Mobile menu toggle */
+(function(){
+  var hamburger = document.querySelector('.hamburger');
+  var body = document.body;
+  if (!hamburger) return;
+  function setOpen(open){
+    body.classList.toggle('menu-open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    hamburger.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+  }
+  hamburger.addEventListener('click', function(){
+    setOpen(!body.classList.contains('menu-open'));
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && body.classList.contains('menu-open')) setOpen(false);
+  });
+  /* Sluit menu als nav-link aangeklikt wordt */
+  document.querySelectorAll('.mobile-menu nav a, .mobile-menu .menu-actions .btn').forEach(function(el){
+    el.addEventListener('click', function(){ setOpen(false); });
+  });
+})();
+
+/* ============ DATEPICKER (range) ============
+   - Inputs zijn vrij typbaar (dd-mm-jjjj)
+   - Klik op het kalender-icoontje opent de modal
+   - Eén modal selecteert zowel aanvangs- als einddatum
+   - Constraints:
+     * geen datum in het verleden
+     * einddatum max. 20 dagen na aanvangsdatum (incl. aanvangsdatum)
+   - Visualisatie: 20-dagen-venster gemarkeerd met lichte achtergrond
+*/
+(function(){
+  var picker   = document.getElementById('datepicker');
+  var backdrop = document.querySelector('.dp-backdrop');
+  if (!picker || !backdrop) return;
+
+  var titleEl   = picker.querySelector('.dp-title');
+  var gridEl    = picker.querySelector('.dp-grid');
+  var captionEl = picker.querySelector('#dp-caption span:last-child');
+  var startInput = document.getElementById('f-start');
+  var endInput   = document.getElementById('f-end');
+  if (!startInput || !endInput) return;
+
+  var monthsNL = ['januari','februari','maart','april','mei','juni',
+                  'juli','augustus','september','oktober','november','december'];
+
+  var MAX_DAYS = 20;  /* totaal aantal geldige dagen incl. start */
+
+  var state = {
+    rangeStart: null,
+    rangeEnd:   null,
+    phase:      'start',   /* 'start' | 'end' | 'done' */
+    viewYear:   0,
+    viewMonth:  0,
+    triggerEl:  null
+  };
+
+  function pad(n){ return n<10 ? '0'+n : ''+n; }
+  function parseDate(str){
+    var m = /^(\d{2})-(\d{2})-(\d{4})$/.exec((str || '').trim());
+    if (!m) return null;
+    var d = new Date(parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
+    if (isNaN(d.getTime())) return null;
+    return startOfDay(d);
+  }
+  function formatDate(d){ return pad(d.getDate())+'-'+pad(d.getMonth()+1)+'-'+d.getFullYear(); }
+  function sameDay(a,b){
+    return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+  function startOfDay(d){ var x = new Date(d); x.setHours(0,0,0,0); return x; }
+  function addDays(d,n){ var x = new Date(d); x.setDate(x.getDate()+n); return x; }
+  function diffDays(a,b){ return Math.round((startOfDay(b)-startOfDay(a))/86400000); }
+
+  function maxEndFor(start){ return addDays(startOfDay(start), MAX_DAYS - 1); }
+
+  function setCaption(){
+    var captionWrap = picker.querySelector('.dp-caption');
+    if (!state.rangeStart){
+      captionEl.innerHTML = '<strong>Stap 1 van 2 — kies een aanvangsdatum.</strong> Niet in het verleden.';
+      if (captionWrap) captionWrap.classList.remove('is-step2');
+    } else if (state.phase === 'end' && !state.rangeEnd){
+      captionEl.innerHTML = '<strong>Stap 2 van 2 — kies een einddatum.</strong> Maximaal 20 dagen na ' + formatDate(state.rangeStart) + ' (uiterlijk ' + formatDate(maxEndFor(state.rangeStart)) + ').';
+      if (captionWrap) {
+        /* re-trigger animatie */
+        captionWrap.classList.remove('is-step2');
+        void captionWrap.offsetWidth;
+        captionWrap.classList.add('is-step2');
+      }
+    } else if (state.phase === 'end' && state.rangeEnd){
+      captionEl.innerHTML = '<strong>Periode: ' + formatDate(state.rangeStart) + ' t/m ' + formatDate(state.rangeEnd) + '.</strong> Klik een andere dag in het venster om aan te passen.';
+      if (captionWrap) captionWrap.classList.add('is-step2');
+    } else {
+      captionEl.innerHTML = '<strong>Periode bevestigd:</strong> ' + formatDate(state.rangeStart) + ' t/m ' + formatDate(state.rangeEnd) + '.';
+      if (captionWrap) captionWrap.classList.add('is-step2');
+    }
+  }
+
+  function render(){
+    titleEl.textContent = monthsNL[state.viewMonth] + ' ' + state.viewYear;
+    setCaption();
+
+    var firstOfMonth = new Date(state.viewYear, state.viewMonth, 1);
+    var firstWeekday = (firstOfMonth.getDay() + 6) % 7;  /* 0=ma .. 6=zo */
+    var gridStart = new Date(state.viewYear, state.viewMonth, 1 - firstWeekday);
+    var today = startOfDay(new Date());
+    var maxEnd = state.rangeStart ? maxEndFor(state.rangeStart) : null;
+
+    var html = '';
+    for (var i=0; i<42; i++){
+      var d = new Date(gridStart);
+      d.setDate(gridStart.getDate() + i);
+      var inMonth = d.getMonth() === state.viewMonth;
+      var classes = ['dp-day'];
+      if (!inMonth) classes.push('muted');
+      if (sameDay(d, today)) classes.push('today');
+
+      var disabled = false;
+
+      /* Geen datum in het verleden */
+      if (d < today) disabled = true;
+
+      /* Phase 'end': beperk tot 20-dagen-venster vanaf rangeStart */
+      if (state.phase === 'end' && state.rangeStart){
+        if (d < state.rangeStart) disabled = true;
+        if (d > maxEnd) disabled = true;
+      }
+
+      /* Range markering */
+      if (sameDay(d, state.rangeStart)) classes.push('range-start');
+      if (sameDay(d, state.rangeEnd))   classes.push('range-end');
+
+      if (state.rangeStart && state.rangeEnd){
+        if (d > state.rangeStart && d < state.rangeEnd) classes.push('in-range');
+      } else if (state.rangeStart && state.phase === 'end' && !disabled){
+        /* highlight het 20-dagen-venster (excl. start) */
+        if (d > state.rangeStart && d <= maxEnd) classes.push('in-window');
+      }
+
+      var iso = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+      html += '<button type="button" class="'+classes.join(' ')+'" data-date="'+iso+'"'
+            + (disabled ? ' disabled' : '')
+            + ' aria-label="'+pad(d.getDate())+' '+monthsNL[d.getMonth()]+' '+d.getFullYear()+'">'
+            + d.getDate() + '</button>';
+    }
+    gridEl.innerHTML = html;
+  }
+
+  function positionPicker(anchor){
+    var isMobile = window.matchMedia('(max-width: 639px)').matches;
+    if (isMobile){ picker.style.top=''; picker.style.left=''; return; }
+    var rect = anchor.getBoundingClientRect();
+    var top  = rect.bottom + window.scrollY + 8;
+    var left = rect.left   + window.scrollX;
+    var pickerWidth = 340;
+    if (left + pickerWidth > window.innerWidth - 16) {
+      left = window.innerWidth - pickerWidth - 16;
+    }
+    var spaceBelow = window.innerHeight - rect.bottom;
+    if (spaceBelow < 460 && rect.top > 460) {
+      top = rect.top + window.scrollY - 460;
+    }
+    picker.style.top  = top + 'px';
+    picker.style.left = left + 'px';
+  }
+
+  function syncFromInputs(){
+    state.rangeStart = parseDate(startInput.value);
+    state.rangeEnd   = parseDate(endInput.value);
+    /* valideer: geen verleden / einddatum binnen 20 dagen */
+    var today = startOfDay(new Date());
+    if (state.rangeStart && state.rangeStart < today) state.rangeStart = null;
+    if (state.rangeStart && state.rangeEnd){
+      if (state.rangeEnd < state.rangeStart || diffDays(state.rangeStart, state.rangeEnd) > MAX_DAYS - 1){
+        state.rangeEnd = null;
+      }
+    }
+    if (!state.rangeStart) state.rangeEnd = null;
+  }
+
+  function setPhaseFromTrigger(triggerForId){
+    syncFromInputs();
+    if (triggerForId === 'f-start'){
+      state.phase = 'start';
+    } else {
+      /* einddatum-icoontje */
+      state.phase = state.rangeStart ? 'end' : 'start';
+    }
+  }
+
+  function open(triggerEl, focusInputId){
+    state.triggerEl = triggerEl;
+    setPhaseFromTrigger(focusInputId);
+    /* zet zicht op een logische maand */
+    var anchorDate = state.rangeStart || startOfDay(new Date());
+    state.viewYear  = anchorDate.getFullYear();
+    state.viewMonth = anchorDate.getMonth();
+    positionPicker(triggerEl);
+    render();
+    picker.classList.add('is-open');
+    document.body.classList.add('dp-open');
+  }
+
+  function close(){
+    picker.classList.remove('is-open');
+    document.body.classList.remove('dp-open');
+    if (state.triggerEl) state.triggerEl.focus();
+    state.triggerEl = null;
+  }
+
+  function commitInputs(){
+    startInput.value = state.rangeStart ? formatDate(state.rangeStart) : '';
+    endInput.value   = state.rangeEnd   ? formatDate(state.rangeEnd)   : '';
+    startInput.dispatchEvent(new Event('change', {bubbles:true}));
+    endInput.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+
+  function pickDay(d){
+    var today = startOfDay(new Date());
+    if (d < today) return;
+
+    /* Stap 1 — nog geen start, of klik buiten venster, of klik vóór bestaande start → (nieuwe) aanvangsdatum */
+    if (state.phase === 'start' || !state.rangeStart || d < state.rangeStart || d > maxEndFor(state.rangeStart)){
+      state.rangeStart = d;
+      state.rangeEnd   = null;        /* gebruiker kiest zelf einddatum */
+      state.phase      = 'end';
+      commitInputs();
+      render();
+      return;
+    }
+
+    /* Stap 2 — einddatum binnen het 20-dagen-venster */
+    state.rangeEnd = d;
+    state.phase    = 'done';
+    commitInputs();
+    render();
+    /* Sluit automatisch na korte vertraging zodat gebruiker selectie ziet */
+    setTimeout(close, 350);
+  }
+
+  function reset(){
+    state.rangeStart = null;
+    state.rangeEnd   = null;
+    state.phase      = 'start';
+    commitInputs();
+    render();
+  }
+
+  /* Open uitsluitend via het kalender-icoontje */
+  document.querySelectorAll('.dp-trigger[data-dp-open]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      open(btn, btn.dataset.dpOpen);
+    });
+  });
+
+  /* ---- Alert modal helper ---- */
+  var alertModal = document.getElementById('alert-modal');
+  var amTitle = alertModal && alertModal.querySelector('#am-title');
+  var amBody  = alertModal && alertModal.querySelector('#am-body');
+  var lastFocusedBeforeAlert = null;
+
+  function showAlert(title, body){
+    if (!alertModal) return;
+    lastFocusedBeforeAlert = document.activeElement;
+    amTitle.textContent = title;
+    amBody.textContent  = body;
+    alertModal.classList.add('is-open');
+    /* focus op OK-knop */
+    setTimeout(function(){ alertModal.querySelector('[data-am-close]').focus(); }, 30);
+  }
+  function closeAlert(){
+    if (!alertModal) return;
+    alertModal.classList.remove('is-open');
+    if (lastFocusedBeforeAlert && lastFocusedBeforeAlert.focus) {
+      lastFocusedBeforeAlert.focus();
+    }
+  }
+  if (alertModal){
+    alertModal.querySelector('[data-am-close]').addEventListener('click', closeAlert);
+    alertModal.addEventListener('click', function(e){
+      if (e.target === alertModal) closeAlert();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && alertModal.classList.contains('is-open')) closeAlert();
+    });
+  }
+
+  /* ---- Inputs typbaar + validatie met alert ---- */
+  [startInput, endInput].forEach(function(inp){
+    inp.setAttribute('aria-haspopup', 'dialog');
+    inp.addEventListener('blur', function(){
+      var raw = inp.value.trim();
+      if (!raw) return;
+
+      var d = parseDate(raw);
+      if (!d){
+        showAlert(
+          'Ongeldige datum',
+          'Voer de datum in als dd-mm-jjjj, bijvoorbeeld 15-05-2026.'
+        );
+        inp.value = '';
+        return;
+      }
+
+      var today = startOfDay(new Date());
+
+      if (inp === startInput){
+        if (d < today){
+          showAlert(
+            'Aanvangsdatum in het verleden',
+            'Een klicmelding mag niet in het verleden beginnen. Kies vandaag (' + formatDate(today) + ') of een datum daarna.'
+          );
+          inp.value = '';
+          return;
+        }
+        /* Als einddatum nu buiten window valt, maak die leeg */
+        var endD = parseDate(endInput.value);
+        if (endD && (endD < d || diffDays(d, endD) > MAX_DAYS - 1)){
+          endInput.value = '';
+        }
+        return;
+      }
+
+      /* einddatum */
+      if (d < today){
+        showAlert(
+          'Einddatum in het verleden',
+          'De einddatum mag niet in het verleden liggen.'
+        );
+        inp.value = '';
+        return;
+      }
+      var s = parseDate(startInput.value);
+      if (s){
+        if (d < s){
+          showAlert(
+            'Einddatum vóór aanvangsdatum',
+            'De einddatum kan niet vóór de aanvangsdatum (' + formatDate(s) + ') liggen.'
+          );
+          inp.value = '';
+          return;
+        }
+        if (diffDays(s, d) > MAX_DAYS - 1){
+          var maxEnd = addDays(s, MAX_DAYS - 1);
+          showAlert(
+            'Periode te lang',
+            'Een klicmelding is wettelijk maximaal 20 dagen geldig. De einddatum mag uiterlijk ' + formatDate(maxEnd) + ' zijn.'
+          );
+          inp.value = '';
+          return;
+        }
+      }
+    });
+  });
+
+  /* Picker-interactie */
+  picker.addEventListener('click', function(e){
+    /* Voorkom dat de document-niveau "outside click" handler de modal sluit
+       wanneer render() de geklikte knop uit de DOM verwijdert. */
+    e.stopPropagation();
+    var nav = e.target.closest('.dp-nav');
+    if (nav){
+      if (nav.dataset.nav === 'prev'){
+        state.viewMonth--; if (state.viewMonth < 0){ state.viewMonth = 11; state.viewYear--; }
+      } else {
+        state.viewMonth++; if (state.viewMonth > 11){ state.viewMonth = 0; state.viewYear++; }
+      }
+      render();
+      return;
+    }
+    var day = e.target.closest('.dp-day');
+    if (day && !day.disabled){
+      var p = day.dataset.date.split('-');
+      pickDay(startOfDay(new Date(+p[0], +p[1]-1, +p[2])));
+      return;
+    }
+    if (e.target.closest('[data-dp-reset]')){ reset(); return; }
+    if (e.target.closest('[data-dp-close]')){ close(); return; }
+  });
+
+  backdrop.addEventListener('click', close);
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && picker.classList.contains('is-open')) close();
+  });
+
+  /* Klik buiten picker op desktop sluit hem ook */
+  document.addEventListener('click', function(e){
+    if (!picker.classList.contains('is-open')) return;
+    if (picker.contains(e.target)) return;
+    if (e.target.closest('.dp-trigger')) return;
+    close();
+  });
+
+  window.addEventListener('resize', function(){
+    if (state.triggerEl && picker.classList.contains('is-open')){
+      positionPicker(state.triggerEl);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

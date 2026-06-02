@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl — Algemene voorwaarden (redesign mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   GEDEELDE TOKENS + COMPONENTEN (uit klicmelding.css ingebed)
+   ============================================================
+   PALET WISSELEN — pas alleen het blok ":root → KLEUREN — PALET"
+   hieronder aan. Voor consistentie in alle vier de bestanden:
+   bewerk klicmelding.css en kopieer dit blok over.
+   ============================================================ */
+/* ==============================================================
+   klicmelding.nl — gedeeld stylesheet
+   --------------------------------------------------------------
+   Versie:     0.2 (concept)
+   Lettertype: Plus Jakarta Sans (laad in HTML <head>)
+   Palet:      Cobalt
+   --------------------------------------------------------------
+   PALET WISSELEN
+   Pas alleen onderstaand blok ":root → KLEUREN — PALET" aan.
+   Vier kant-en-klare presets — kopieer/plak het juiste setje:
+
+   Sky (vriendelijk)
+     50:#EFF9FD 100:#D6F0FA 500:#0EA5E9 600:#0284C7 700:#0369A1 900:#0C4A6E
+     primary-rgb: 2,132,199
+
+   Ocean (gezaghebbend)
+     50:#EEF7FB 100:#D2EAF4 500:#0284C7 600:#0369A1 700:#075985 900:#0C2945
+     primary-rgb: 3,105,161
+
+   Cobalt (zakelijk) ← HUIDIG
+     50:#EEF4FF 100:#DBE7FE 500:#3B82F6 600:#2563EB 700:#1D4ED8 900:#1E3A8A
+     primary-rgb: 37,99,235
+
+   Lagune (modern)
+     50:#ECFDFC 100:#CFFAF6 500:#06B6D4 600:#0891B2 700:#0E7490 900:#164E63
+     primary-rgb: 8,145,178
+
+   Het logo-blauw (--color-brand) volgt --color-primary-600
+   en wisselt dus automatisch mee met het palet.
+   ============================================================== */
+
+:root {
+  /* === KLEUREN — PALET (Cobalt) ============================ */
+  --color-primary-50:  #EEF4FF;
+  --color-primary-100: #DBE7FE;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-900: #1E3A8A;
+  --color-primary-rgb: 37, 99, 235;        /* primary-600 als R,G,B */
+
+  /* === MERKTEKEN ========================================== */
+  --color-brand:       var(--color-primary-600); /* logo-kleur — volgt het primary-600 palet */
+
+  /* === NEUTRALEN ========================================== */
+  --color-ink-900:     #0F172A;
+  --color-ink-700:     #334155;
+  --color-ink-500:     #64748B;
+  --color-ink-300:     #CBD5E1;
+  --color-ink-200:     #E2E8F0;
+  --color-ink-100:     #F1F5F9;
+  --color-ink-50:      #F8FAFC;
+  --color-white:       #FFFFFF;
+
+  /* === STATUSKLEUREN ====================================== */
+  --color-success-500: #10B981;
+  --color-success-50:  #ECFDF5;
+  --color-warning-500: #F59E0B;
+  --color-warning-50:  #FFFBEB;
+  --color-error-500:   #EF4444;
+  --color-error-50:    #FEF2F2;
+  --color-info-500:    #0EA5E9;
+  --color-info-50:     #EFF9FD;
+
+  /* === SPACING (8-point) ================================== */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  /* === RADIUS ============================================ */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  /* === SHADOWS =========================================== */
+  --shadow-sm:    0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
+  --shadow-md:    0 4px 6px -1px rgba(15,23,42,.08), 0 2px 4px -2px rgba(15,23,42,.06);
+  --shadow-lg:    0 12px 24px -8px rgba(15,23,42,.12), 0 4px 8px -4px rgba(15,23,42,.08);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), .35);
+
+  /* === MOTION ============================================ */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* === TYPOGRAFIE ======================================== */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* ============================================================
+   RESET & BASIS
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-900);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.site-footer { margin-top: auto; }
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+p { margin: 0; }
+a { color: var(--color-primary-600); }
+a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: 2px; }
+small { color: var(--color-ink-500); }
+code, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-ink-100);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-700);
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
+@media (min-width: 1024px) { .container { padding: 0 var(--space-7); } }
+.narrow { max-width: 720px; margin: 0 auto; padding: 0 var(--space-5); }
+
+/* ============================================================
+   LOGO LOCKUP — Variant B. Compact (gap 4)
+   ============================================================ */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-900);
+}
+.logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
+@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+.logo .logo-mark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: block;
+}
+.logo .logo-mark .bubble { fill: var(--color-brand); }
+.logo .logo-mark .check  {
+  stroke: var(--color-white);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.logo .k { color: var(--color-ink-700); }
+.logo .m { color: var(--color-brand); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+  white-space: nowrap;
+}
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.btn-sm { height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.btn-md { height: 44px; padding: 0 var(--space-5); font-size: 14px; }
+.btn-lg { height: 52px; padding: 0 var(--space-6); font-size: 16px; }
+.btn-primary {
+  background: var(--color-primary-600); color: var(--color-white);
+}
+.btn-primary:hover { background: var(--color-primary-700); }
+.btn-primary:active { transform: translateY(1px); background: var(--color-primary-900); }
+.btn-secondary {
+  background: var(--color-white); color: var(--color-primary-700);
+  border-color: var(--color-primary-600);
+}
+.btn-secondary:hover { background: var(--color-primary-50); }
+.btn-ghost {
+  background: transparent; color: var(--color-ink-700);
+}
+.btn-ghost:hover { background: var(--color-ink-100); color: var(--color-ink-900); }
+.btn-on-dark {
+  background: var(--color-white); color: var(--color-primary-700);
+}
+.btn-on-dark:hover { background: var(--color-primary-50); }
+.btn[disabled], .btn:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none;
+}
+.btn .arrow { font-size: 18px; line-height: 1; position: relative; top: -1px; }
+
+/* ============================================================
+   HEADER + NAV
+   ============================================================ */
+.site-header {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-ink-200);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px;
+}
+.nav { display: none; gap: var(--space-7); align-items: center; }
+.nav a {
+  text-decoration: none;
+  color: var(--color-ink-700);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 0;
+  position: relative;
+  transition: color var(--duration-fast);
+}
+.nav a:hover { color: var(--color-ink-900); }
+.nav a.active { color: var(--color-primary-600); }
+.nav a.active::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px; background: var(--color-primary-600); border-radius: 2px;
+}
+.nav-search svg{width:20px;height:20px;display:block}
+.nav-search{display:inline-flex;align-items:center}
+.header-actions { display: flex; gap: var(--space-4); align-items: center; }
+.hamburger {
+  display: flex; flex-direction: column; gap: 5px;
+  background: none; border: 0; cursor: pointer; padding: var(--space-2);
+  width: 44px; height: 44px; align-items: center; justify-content: center;
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast);
+}
+.hamburger:hover { background: var(--color-ink-100); }
+.hamburger:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.hamburger span {
+  width: 22px; height: 2px;
+  background: var(--color-ink-700); border-radius: 2px;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-fast) var(--ease-standard);
+  transform-origin: center;
+}
+/* Hamburger → X animatie wanneer menu open is */
+body.menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.menu-open .hamburger span:nth-child(2) { opacity: 0; }
+body.menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu {
+  position: fixed;
+  top: 80px; left: 0; right: 0; bottom: 0;
+  background: var(--color-white);
+  z-index: 49;
+  padding: var(--space-7) var(--space-5) var(--space-8);
+  overflow-y: auto;
+  transform: translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard),
+              visibility 0s linear var(--duration-base);
+}
+body.menu-open .mobile-menu {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard),
+              visibility 0s;
+}
+body.menu-open { overflow: hidden; }
+.mobile-menu .menu-inner {
+  max-width: 720px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--space-7);
+}
+.mobile-menu nav {
+  display: flex; flex-direction: column;
+}
+.mobile-menu nav a {
+  font-size: 24px; font-weight: 600;
+  color: var(--color-ink-900);
+  text-decoration: none;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-ink-100);
+  letter-spacing: -0.015em;
+  transition: color var(--duration-fast);
+}
+.mobile-menu nav a:hover { color: var(--color-primary-600); }
+.mobile-menu nav a.active { color: var(--color-primary-600); }
+.mobile-menu .menu-actions {
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.mobile-menu .menu-actions .btn {
+  width: 100%; height: 56px; font-size: 16px;
+}
+@media (min-width: 1024px) {
+  .nav { display: flex; }
+  .hamburger { display: none; }
+  .mobile-menu { display: none !important; }
+}
+/* Verberg ghost-knop in header op mobiel (gebruikt door .btn-ghost-lg helper) */
+@media (max-width: 1023px) {
+  .header-actions .btn-ghost-lg { display: none; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  background: var(--color-ink-900);
+  color: var(--color-ink-300);
+  padding: var(--space-8) 0 var(--space-6);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: var(--space-7); margin-bottom: var(--space-7);
+}
+@media (min-width: 768px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+}
+.footer-brand .logo { color: var(--color-white); margin-bottom: var(--space-3); }
+.footer-brand .logo .k { color: var(--color-white); }
+.footer-brand .logo .m { color: var(--color-brand); }
+.footer-brand p {
+  color: var(--color-ink-500);
+  font-size: 14px; max-width: 320px; line-height: 1.6;
+}
+.footer-col h4 {
+  font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--color-white); margin-bottom: var(--space-4);
+}
+.footer-col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.footer-col a {
+  color: var(--color-ink-300); text-decoration: none;
+  font-size: 14px; transition: color var(--duration-fast);
+}
+.footer-col a:hover { color: var(--color-white); }
+
+.footer-sitemap { border-top: 1px solid rgba(255,255,255,.08); margin-top: var(--space-7); padding-top: var(--space-5); margin-bottom: var(--space-5); }
+.footer-sitemap h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-white); margin-bottom: var(--space-3); }
+.footer-sitemap ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+.footer-sitemap a { color: var(--color-ink-300); text-decoration: none; font-size: 13px; transition: color var(--duration-fast); }
+.footer-sitemap a:hover { color: white; }
+.footer-bottom a{color:var(--color-ink-300);text-decoration:none}
+.footer-bottom a:hover{color:white}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: var(--space-5);
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  gap: var(--space-4); font-size: 13px; color: var(--color-ink-500);
+}
+
+/* ============================================================
+   EYEBROW + KICKER
+   ============================================================ */
+.eyebrow {
+  display: inline-flex; align-items: center;
+  gap: var(--space-2);
+  background: var(--color-white);
+  border: 1px solid var(--color-primary-100);
+  color: var(--color-primary-700);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: 13px; font-weight: 600;
+}
+.eyebrow::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--color-primary-500);
+  border-radius: 50%;
+}
+.kicker {
+  font-size: 14px; font-weight: 600;
+  color: var(--color-primary-600);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+.alert {
+  display: flex; gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-ink-200);
+  background: var(--color-ink-50);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.alert .icon {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+  background: var(--color-ink-200); color: var(--color-ink-700);
+}
+.alert-info    { background: var(--color-info-50);    border-color: rgba(var(--color-primary-rgb),.20); }
+.alert-info    .icon { background: var(--color-primary-500); color: var(--color-white); }
+.alert-success { background: var(--color-success-50); border-color: #A7F3D0; }
+.alert-success .icon { background: var(--color-success-500); color: var(--color-white); }
+.alert-warning { background: var(--color-warning-50); border-color: #FCD34D; }
+.alert-warning .icon { background: var(--color-warning-500); color: var(--color-white); }
+.alert-error   { background: var(--color-error-50);   border-color: #FCA5A5; }
+.alert-error   .icon { background: var(--color-error-500); color: var(--color-white); }
+
+</style>
+<style>
+/* ============================================================
+   Page-specific styles (Downloads)
+   Shared tokens/components → eerste <style> blok
+   ============================================================ */
+
+/* ---- page header band ---- */
+.page-head{background:linear-gradient(180deg,var(--color-primary-100) 0%,var(--color-primary-50) 50%,white 100%);padding:var(--space-8) 0 var(--space-7);position:relative;overflow:hidden;border-bottom:1px solid var(--color-ink-200)}
+.page-head .hero-bg{position:absolute;inset:0;background-image:radial-gradient(rgba(var(--color-primary-rgb),.16) 1px,transparent 1px);background-size:22px 22px;opacity:.6;mask-image:radial-gradient(ellipse 70% 80% at 50% 30%,black,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 30%,black,transparent 75%);pointer-events:none}
+.page-head .inner{position:relative;z-index:1;max-width:720px}
+.page-head .eyebrow{margin-bottom:var(--space-4)}
+.page-head h1{font-size:clamp(30px,4.5vw,44px);font-weight:800;color:var(--color-ink-900);letter-spacing:-0.025em;margin-bottom:var(--space-4)}
+.page-head p{font-size:18px;color:var(--color-ink-700);line-height:1.55}
+.page-head-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6);align-items:center}
+@media(min-width:900px){.page-head-grid{grid-template-columns:1.15fr .85fr;gap:var(--space-7)}}
+.page-head-grid .inner{max-width:none}
+.page-head-visual{display:none}
+@media(min-width:900px){.page-head-visual{display:block}}
+.page-head-visual img{width:100%;height:260px;object-fit:cover;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);display:block}
+.breadcrumb{display:flex;gap:var(--space-2);align-items:center;font-size:13px;color:var(--color-ink-500);margin-bottom:var(--space-5);position:relative;z-index:1}
+.breadcrumb a{color:var(--color-ink-500);text-decoration:none}
+.breadcrumb a:hover{color:var(--color-primary-600)}
+.breadcrumb .sep{color:var(--color-ink-300)}
+
+/* ---- layout ---- */
+.dl-section{padding:var(--space-8) 0 var(--space-9)}
+.dl-layout{display:grid;grid-template-columns:1fr;gap:var(--space-7)}
+@media (min-width:1024px){.dl-layout{grid-template-columns:1fr 320px;gap:var(--space-8);align-items:start}}
+
+/* ---- group heading ---- */
+.dl-group-head{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-5)}
+.dl-group-head .ico{width:40px;height:40px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:var(--color-primary-50);color:var(--color-primary-600);border-radius:var(--radius-md)}
+.dl-group-head .ico svg{width:22px;height:22px}
+.dl-group-head h2{font-size:24px;font-weight:700;color:var(--color-ink-900);letter-spacing:-0.02em}
+
+/* ---- download list ---- */
+.dl-list{display:flex;flex-direction:column;gap:var(--space-3)}
+.dl-item{display:flex;align-items:center;gap:var(--space-4);background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:var(--space-5);text-decoration:none;color:inherit;transition:border-color var(--duration-base) var(--ease-standard),box-shadow var(--duration-base) var(--ease-standard),transform var(--duration-fast) var(--ease-standard)}
+.dl-item:hover{border-color:rgba(var(--color-primary-rgb),.35);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.dl-item:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.dl-file{flex-shrink:0;width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-error-50);color:var(--color-error-500);display:inline-flex;align-items:center;justify-content:center;position:relative}
+.dl-file svg{width:24px;height:24px}
+.dl-file .ext{position:absolute;bottom:-3px;right:-4px;background:var(--color-error-500);color:white;font-size:9px;font-weight:700;letter-spacing:.04em;padding:1px 4px;border-radius:3px;line-height:1.3}
+.dl-body{flex:1;min-width:0}
+.dl-title{font-size:16px;font-weight:600;color:var(--color-ink-900);margin-bottom:2px}
+.dl-item:hover .dl-title{color:var(--color-primary-700)}
+.dl-desc{font-size:14px;color:var(--color-ink-700);line-height:1.5;margin-bottom:var(--space-2)}
+.dl-meta{font-size:12px;color:var(--color-ink-500);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.dl-action{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--color-primary-50);color:var(--color-primary-600);display:inline-flex;align-items:center;justify-content:center;transition:background var(--duration-fast),color var(--duration-fast)}
+.dl-action svg{width:18px;height:18px}
+.dl-item:hover .dl-action{background:var(--color-primary-600);color:var(--color-white)}
+@media (max-width:560px){.dl-item{flex-wrap:wrap}.dl-body{flex-basis:calc(100% - 64px)}.dl-action{margin-left:64px}}
+
+.dl-note{margin-top:var(--space-6)}
+
+/* ---- sidebar ---- */
+.dl-aside{display:flex;flex-direction:column;gap:var(--space-5)}
+@media (min-width:1024px){.dl-aside{position:sticky;top:96px}}
+.aside-card{background:linear-gradient(160deg,var(--color-primary-700) 0%,var(--color-primary-600) 100%);color:white;border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.aside-card::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px);background-size:16px 16px;opacity:.5;pointer-events:none}
+.aside-card h3{font-size:20px;font-weight:700;margin-bottom:var(--space-3);position:relative}
+.aside-card p{font-size:14px;color:rgba(255,255,255,.88);line-height:1.55;margin-bottom:var(--space-5);position:relative}
+.aside-card .btn{width:100%;position:relative}
+.aside-contact{background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.aside-contact h3{font-size:16px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-2)}
+.aside-contact p{font-size:14px;color:var(--color-ink-700);line-height:1.55;margin-bottom:var(--space-4)}
+.aside-contact .row{display:flex;align-items:center;gap:var(--space-3);font-size:14px;color:var(--color-ink-900);font-weight:600}
+.aside-contact .row .ico{width:32px;height:32px;flex-shrink:0;border-radius:var(--radius-md);background:var(--color-primary-50);color:var(--color-primary-600);display:inline-flex;align-items:center;justify-content:center}
+.aside-contact .row .ico svg{width:16px;height:16px}
+.aside-contact .row a{text-decoration:none}
+.aside-contact .row .sub{display:block;font-size:12px;font-weight:500;color:var(--color-ink-500)}
+
+
+/* ---- legal / content doc ---- */
+.doc-section{padding:var(--space-8) 0 var(--space-9)}
+.doc{max-width:820px;margin:0 auto;background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:var(--space-7)}
+@media(max-width:640px){.doc{padding:var(--space-5)}}
+.doc h2{font-size:20px;font-weight:700;color:var(--color-ink-900);margin:var(--space-6) 0 var(--space-3);letter-spacing:-0.01em}
+.doc h2:first-of-type{margin-top:var(--space-2)}
+.doc h3{font-size:16px;font-weight:700;color:var(--color-ink-900);margin:var(--space-5) 0 var(--space-2)}
+.doc p{font-size:15px;color:var(--color-ink-700);line-height:1.7;margin-bottom:var(--space-3)}
+.doc ul{margin:0 0 var(--space-4);padding-left:var(--space-5);display:flex;flex-direction:column;gap:var(--space-2)}
+.doc li{font-size:15px;color:var(--color-ink-700);line-height:1.6}
+.doc .meta{font-size:13px;color:var(--color-ink-500);margin-bottom:var(--space-5);padding-bottom:var(--space-4);border-bottom:1px solid var(--color-ink-200)}
+.doc a{font-weight:600}
+.doc strong{color:var(--color-ink-900)}
+
+/* ---- disclaimer band ---- */
+.disclaimer-band{background:var(--color-ink-50);border-top:1px solid var(--color-ink-200);padding:var(--space-6) 0}
+.disclaimer-band .inner{max-width:900px;margin:0 auto;display:flex;gap:var(--space-4);align-items:flex-start}
+.disclaimer-band .ico{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--color-ink-200);color:var(--color-ink-700);display:inline-flex;align-items:center;justify-content:center}
+.disclaimer-band .ico svg{width:20px;height:20px}
+.disclaimer-band p{font-size:14px;color:var(--color-ink-700);line-height:1.6}
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="logo" aria-label="Klicmelding.nl home">
+      <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+      <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+    </a>
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Home</a>
+      <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+      <a href="klicmelding-mockup-faq.html">FAQ</a>
+      <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+      <a href="klicmelding-mockup-downloads.html">Downloads</a>
+      <a href="klicmelding-mockup-zoeken.html" class="nav-search" aria-label="Zoeken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-secondary btn-md btn-ghost-lg" href="klicmelding-mockup-login.html">Inloggen</a>
+      <button class="hamburger" aria-label="Menu openen" aria-controls="mobile-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie">
+    <div class="menu-inner">
+      <nav aria-label="Hoofdnavigatie mobiel">
+        <a href="index.html">Home</a>
+        <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+        <a href="klicmelding-mockup-faq.html">FAQ</a>
+        <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+        <a href="klicmelding-mockup-downloads.html">Downloads</a>
+        <a href="klicmelding-mockup-zoeken.html">Zoeken</a>
+      </nav>
+      <div class="menu-actions">
+        <a class="btn btn-secondary" href="klicmelding-mockup-login.html">Inloggen</a>
+      </div>
+    </div>
+  </div>
+
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Kruimelpad">
+      <a href="index.html">Home</a><span class="sep">/</span><span>Algemene voorwaarden</span>
+    </nav>
+    <div class="inner">
+      <div class="eyebrow">Juridisch</div>
+      <h1>Algemene voorwaarden</h1>
+      <p>De algemene voorwaarden van Klicmelding.nl, van toepassing op iedere aanvraag, overeenkomst en dienst.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VOORWAARDEN -->
+<section class="doc-section">
+  <div class="container">
+    <article class="doc">
+      <p class="meta">Gedeponeerd bij de Kamer van Koophandel te Eindhoven onder nummer 53112016 · Laatst bijgewerkt: 1 juni 2026</p>
+
+      <h2>1. Definities</h2>
+      <p>Onder de volgende begrippen wordt verstaan:</p>
+      <ul>
+        <li><strong>1.1 Aanvraag:</strong> een door Afnemer geplaatste aanvraag voor het verrichten van Diensten.</li>
+        <li><strong>1.2 Afnemer:</strong> de natuurlijke of rechtspersoon die Diensten afneemt van Klicmelding.nl.</li>
+        <li><strong>1.3 Algemene Voorwaarden:</strong> de onderhavige algemene voorwaarden.</li>
+        <li><strong>1.4 Diensten:</strong> de (administratieve) afhandeling door Klicmelding.nl van een Klic-melding of een oriëntatieverzoek, inclusief verstrekking van een Rapportage waarin de gegevens van het Kadaster zijn verwerkt.</li>
+        <li><strong>1.5 Huisaansluitingen:</strong> kabels en leidingen die vanaf de hoofdleiding in de weg naar een gebouw lopen.</li>
+        <li><strong>1.6 Klic-melding:</strong> de melding die op grond van de WION bij het Kadaster moet worden gedaan.</li>
+        <li><strong>1.7 Klicmelding.nl:</strong> Graafmelding.nl B.V., gevestigd te Riethoven aan De Hoekakker 16, handelend onder de handelsnamen Klicmelding.nl en Graafmelding.nl.</li>
+        <li><strong>1.8 Overeenkomst:</strong> de overeenkomst tussen Klicmelding.nl en Afnemer op grond waarvan Klicmelding.nl Diensten verricht.</li>
+        <li><strong>1.9 Rapportage:</strong> het rapport waarin relevante informatie over kabels en leidingen is opgenomen ten aanzien van het perceel waarvoor de Klic-melding is gedaan.</li>
+        <li><strong>1.10 Website:</strong> de website van Klicmelding.nl, bereikbaar via www.klicmelding.nl en www.graafmelding.nl.</li>
+        <li><strong>1.11 WION:</strong> Wet Informatie-uitwisseling Ondergrondse Netten.</li>
+      </ul>
+
+      <h2>2. Toepasselijkheid</h2>
+      <p><strong>2.1</strong> Deze Algemene Voorwaarden zijn van toepassing op iedere Aanvraag, Overeenkomst en op de Diensten die door Klicmelding.nl worden verricht.</p>
+      <p><strong>2.2</strong> Afwijkingen zijn slechts geldig indien en voor zover deze uitdrukkelijk schriftelijk zijn overeengekomen, en hebben slechts betrekking op de Overeenkomst waarbij ze zijn gemaakt.</p>
+      <p><strong>2.3</strong> Algemene inkoop- of andere voorwaarden die Afnemer hanteert zijn niet van toepassing en worden uitdrukkelijk van de hand gewezen.</p>
+
+      <h2>3. Aanvraag en totstandkoming Overeenkomst</h2>
+      <p><strong>3.1</strong> Een Aanvraag dient minimaal vier (4) werkdagen vóór de beoogde aanvangsdatum van de graafwerkzaamheden door Klicmelding.nl te zijn ontvangen.</p>
+      <p><strong>3.2</strong> Een Aanvraag kan worden ingediend via de Website (door het online aanvraagformulier volledig in te vullen en in te dienen) of — voor zover Afnemer een rechtspersoon is met een account — door toezending van een volledig ingevuld en ondertekend faxformulier aan het faxnummer van Klicmelding.nl.</p>
+      <p><strong>3.3</strong> Een Overeenkomst komt tot stand nadat Klicmelding.nl de Aanvraag heeft ontvangen.</p>
+      <p><strong>3.4</strong> Afnemer is zelf verantwoordelijk voor de juiste invoer van de gegevens die nodig zijn voor de juiste afwikkeling van de Diensten en verzending van de Rapportage aan het juiste (e-mail)adres.</p>
+
+      <h2>4. Koop op afstand</h2>
+      <p><strong>4.1</strong> Indien Afnemer een natuurlijk persoon is die niet handelt in de uitoefening van een beroep of bedrijf, geldt in aanvulling op artikel 3 het bepaalde in dit artikel.</p>
+      <p><strong>4.2</strong> Afnemer heeft het recht om gedurende veertien (14) werkdagen na het sluiten van de Overeenkomst de koop op afstand zonder opgave van redenen te ontbinden, door toezending van een e-mail aan info@klicmelding.nl binnen die termijn.</p>
+      <p><strong>4.3</strong> Het bepaalde in lid 2 geldt niet indien de betreffende Klic-melding ten behoeve van Afnemer reeds bij het Kadaster is ingediend vóórdat de in lid 2 bedoelde termijn is verstreken.</p>
+
+      <h2>5. Account en wachtwoord</h2>
+      <p><strong>5.1</strong> Nadat voor de eerste maal een Aanvraag is ingediend, maakt Klicmelding.nl een account aan ten behoeve van Afnemer.</p>
+      <p><strong>5.2</strong> Afnemer ontvangt een e-mail met het verzoek de account te activeren door een wachtwoord op te geven dat voldoet aan de gestelde eisen.</p>
+      <p><strong>5.3</strong> Met een bepaald e-mailadres kan slechts eenmaal een account worden aangemaakt. Een account is strikt persoonlijk, niet overdraagbaar en gekoppeld aan de Afnemer die de account heeft aangemaakt.</p>
+      <p><strong>5.4</strong> Het wachtwoord is — in combinatie met het e-mailadres — nodig om in te loggen en een Aanvraag te plaatsen zonder opnieuw gegevens in te vullen.</p>
+      <p><strong>5.5</strong> Afnemer staat ervoor in dat de verstrekte gegevens juist, volledig en actueel zijn, en kan deze laten wijzigen via info@klicmelding.nl.</p>
+      <p><strong>5.6</strong> Afnemer behandelt het wachtwoord vertrouwelijk en neemt redelijke maatregelen om onbevoegd gebruik te voorkomen.</p>
+      <p><strong>5.7</strong> Afnemer meldt verlies, diefstal of (vermoedelijk) misbruik direct schriftelijk aan Klicmelding.nl. Tot het moment van ontvangst van die melding is Afnemer aansprakelijk voor alle schade die uit het gebruik voortvloeit.</p>
+      <p><strong>5.8</strong> Bij (vermoedelijk) onbevoegd gebruik heeft Klicmelding.nl het recht de account onmiddellijk te blokkeren en de geleden schade op Afnemer te verhalen.</p>
+
+      <h2>6. Uitvoering van de Overeenkomst</h2>
+      <p><strong>6.1</strong> Alle te leveren Diensten en producten, waaronder de Rapportage, worden (mede) gebaseerd op de door Afnemer verstrekte gegevens, van de juistheid en volledigheid waarvan wordt uitgegaan. Klicmelding.nl is niet gehouden tot vergoeding van schade of kosten als gevolg van onjuiste of onvolledige gegevens.</p>
+      <p><strong>6.2</strong> Klicmelding.nl is gerechtigd de uitvoering geheel of gedeeltelijk aan derden op te dragen indien zij dit nodig of nuttig acht.</p>
+      <p><strong>6.3</strong> Tenzij uitdrukkelijk schriftelijk anders overeengekomen, rust op Klicmelding.nl slechts een inspanningsverbintenis en geen resultaatsverbintenis.</p>
+
+      <h2>7. Levering en leveringstermijnen</h2>
+      <p><strong>7.1</strong> De Klic-melding wordt minimaal vier (4) tot maximaal twintig (20) werkdagen vóór de beoogde aanvangsdatum bij het Kadaster ingediend.</p>
+      <p><strong>7.2</strong> De Rapportage wordt geleverd als digitale versie per e-mail aan het opgegeven e-mailadres (en, voor zover van toepassing, als papieren versie per post aan het opgegeven postadres).</p>
+      <p><strong>7.3</strong> De Rapportage wordt binnen één (1) werkdag na aanlevering van de benodigde informatie door het Kadaster verzonden.</p>
+      <p><strong>7.4</strong> Indien Afnemer niet binnen drie (3) dagen na ontvangst van de digitale versie meldt dat hij een eventuele papieren versie niet heeft ontvangen, wordt hij geacht deze te hebben ontvangen.</p>
+      <p><strong>7.5</strong> De leveringstermijnen wijken af indien de periode tussen Aanvraag en beoogde aanvangsdatum meer dan 20 werkdagen bedraagt.</p>
+      <p><strong>7.6</strong> Klicmelding.nl dient de Klic-melding via de online applicatie van het Kadaster in. Bij een storing daarin worden de leveringstermijnen verlengd met de periode waarin indienen niet mogelijk is.</p>
+      <p><strong>7.7</strong> Opgegeven leveringstermijnen zijn indicatief en niet fataal. Overschrijding geeft geen aanspraak op schadevergoeding, tenzij dwingend recht anders bepaalt.</p>
+
+      <h2>8. Rapportage en graafwerkzaamheden</h2>
+      <p><strong>8.1</strong> Klicmelding.nl geeft geen garantie dat de van het Kadaster afkomstige informatie juist, volledig of actueel is en accepteert geen aansprakelijkheid voor schade als gevolg van het gebruik daarvan.</p>
+      <p><strong>8.2</strong> Afnemer controleert de Rapportage tijdig vóór de graafwerkzaamheden op juistheid en volledigheid, waaronder de gegevens van de aanvraag, de volledigheid aan de hand van de inhoudsopgave, de aanwezigheid van tekeningen van alle netbeheerders met een belang, en de A3-overzichtstekening in kleur (voor zover van toepassing).</p>
+      <p><strong>8.3</strong> Bij geconstateerde onjuistheid of onvolledigheid stelt Afnemer Klicmelding.nl zo spoedig mogelijk op de hoogte via info@klicmelding.nl.</p>
+      <p><strong>8.4</strong> Klicmelding.nl is niet aansprakelijk voor schade doordat Afnemer nalaat de Rapportage (tijdig) te controleren of begint met graven ondanks onjuistheid of onvolledigheid.</p>
+      <p><strong>8.5</strong> Netbeheerders zijn op grond van de WION niet verplicht informatie over Huisaansluitingen te verstrekken; deze kan dus ontbreken. Afnemer kan met het nummer van de klic-melding rechtstreeks contact opnemen met de betreffende netbeheerder(s).</p>
+      <p><strong>8.6</strong> Afnemer is zelf aansprakelijk voor het ter plaatse vaststellen van de werkelijke ligging van kabels en leidingen, bijvoorbeeld door proefsleuven te maken.</p>
+      <p><strong>8.7</strong> Klicmelding.nl is niet aansprakelijk voor schending van de WION door Afnemer; Afnemer vrijwaart Klicmelding.nl voor aanspraken van derden in dat kader.</p>
+
+      <h2>9. Prijzen en betaling</h2>
+      <p><strong>9.1</strong> Afnemer is een vergoeding verschuldigd op grond van de tarieven zoals vermeld op de Website.</p>
+      <p><strong>9.2</strong> De vergoeding bestaat uit (i) de kosten die het Kadaster in rekening brengt voor de Klic-melding en (ii) een vergoeding voor de Diensten van Klicmelding.nl.</p>
+      <p><strong>9.3</strong> Alle prijzen zijn uitgedrukt in euro’s en inclusief btw, tenzij uitdrukkelijk anders vermeld.</p>
+      <p><strong>9.4</strong> Betaling kan via vooruitbetaling met iDEAL of op factuur (alleen voor rechtspersonen).</p>
+      <p><strong>9.5</strong> De betalingstermijn bedraagt acht (8) dagen na factuurdatum. Bij niet-tijdige betaling is Afnemer zonder ingebrekestelling in verzuim en een rente van 2% per kalendermaand verschuldigd.</p>
+      <p><strong>9.6</strong> Gerechtelijke en buitengerechtelijke incassokosten komen ten laste van Afnemer; de buitengerechtelijke kosten bedragen 15% van de hoofdsom met een minimum van € 250,00.</p>
+      <p><strong>9.7</strong> De vordering is direct opeisbaar bij faillissement, surséance, beslag of ontbinding van Afnemer.</p>
+      <p><strong>9.8</strong> Ieder beroep op verrekening door Afnemer is uitgesloten.</p>
+
+      <h2>10. De Website</h2>
+      <p><strong>10.1</strong> Klicmelding.nl besteedt veel zorg aan betrouwbaarheid en actualiteit, maar accepteert geen aansprakelijkheid voor schade door onjuistheden of onvolledigheden. Essentiële informatie dient Afnemer zelf te verifiëren.</p>
+      <p><strong>10.2</strong> Klicmelding.nl kan niet garanderen dat de Website steeds zonder beperkingen of storingen functioneert, en streeft ernaar deze zo spoedig mogelijk te verhelpen.</p>
+      <p><strong>10.3</strong> Klicmelding.nl is niet aansprakelijk voor schade door problemen inherent aan het verspreiden van informatie via internet (storingen, virussen, verminking, onderbrekingen, fouten, vertraging).</p>
+      <p><strong>10.4</strong> Afnemer draagt zelf zorg voor de benodigde internettoegang, hardware, software en randapparatuur.</p>
+      <p><strong>10.5</strong> Het is Afnemer niet toegestaan processen in gang te zetten die andere internetgebruikers hinderen of het gebruik van de Website nadelig beïnvloeden.</p>
+
+      <h2>11. Intellectuele eigendom en informatie van derden</h2>
+      <p><strong>11.1</strong> Alle rechten, waaronder auteursrechten en andere intellectuele eigendomsrechten, op (de informatie op) de Website en de Rapportage berusten bij Klicmelding.nl, voor zover deze niet bij het Kadaster of andere derden berusten.</p>
+      <p><strong>11.2</strong> Afnemer mag (de informatie op) de Website en de Rapportage raadplegen en voor eigen gebruik kopiëren. Elk ander gebruik is niet toegestaan zonder uitdrukkelijke schriftelijke toestemming van Klicmelding.nl.</p>
+      <p><strong>11.3</strong> De informatie op de Website is (deels) afkomstig van derden; Klicmelding.nl is niet aansprakelijk voor schade door onjuiste of onvolledige informatie.</p>
+      <p><strong>11.4</strong> De Website bevat links naar externe pagina’s; Klicmelding.nl is niet aansprakelijk voor het gebruik of de inhoud daarvan.</p>
+
+      <h2>12. Persoonsgegevens en cookies</h2>
+      <p><strong>12.1</strong> De door Afnemer verstrekte persoonsgegevens worden door Klicmelding.nl verwerkt en uitsluitend gebruikt in het kader van de uitvoering van de Overeenkomst. Zie ook het <a href="klicmelding-mockup-privacy.html">privacy- en cookiebeleid</a>.</p>
+      <p><strong>12.2</strong> Klicmelding.nl verstrekt persoonsgegevens van Afnemer aan het Kadaster in het kader van de Klic-melding. Voor het gebruik daarvan verwijst Klicmelding.nl naar het Kadaster.</p>
+      <p><strong>12.3</strong> Op de Website worden cookies gebruikt, onder andere om het navigeren te vergemakkelijken, instellingen te onthouden en (via Google Analytics) bij te houden welke pagina’s worden bezocht.</p>
+      <p><strong>12.4</strong> Afnemer kan zijn browser zo instellen dat geen cookies worden ontvangen; mogelijk kan hij dan geen gebruik maken van alle onderdelen van de Website.</p>
+      <p><strong>12.5</strong> Klicmelding.nl behoudt zich het recht voor bezoekgedrag (waaronder het IP-adres) vast te leggen bij een vermoeden van misbruik via de account van Afnemer.</p>
+      <p><strong>12.6</strong> Zie voor meer informatie het <a href="klicmelding-mockup-privacy.html">privacy- en cookiebeleid</a>.</p>
+
+      <h2>13. Aansprakelijkheid</h2>
+      <p><strong>13.1</strong> De aansprakelijkheid van Klicmelding.nl beperkt zich tot vergoeding van directe schade, tot een maximum van € 2.500 per gebeurtenis (een reeks samenhangende gebeurtenissen geldt als één gebeurtenis). Onder directe schade vallen redelijke kosten ter vaststelling van oorzaak en omvang, ter beantwoording van de Diensten aan de Overeenkomst, en ter voorkoming of beperking van schade.</p>
+      <p><strong>13.2</strong> Mocht Klicmelding.nl toch aansprakelijk zijn voor indirecte schade, dan is deze beperkt tot € 25.000 per gebeurtenis.</p>
+      <p><strong>13.3</strong> De aansprakelijkheid is in ieder geval beperkt tot het bedrag dat de aansprakelijkheidsverzekering van Klicmelding.nl in het betreffende geval uitkeert.</p>
+
+      <h2>14. Toepasselijk recht en bevoegde rechter</h2>
+      <p><strong>14.1</strong> Op deze Algemene Voorwaarden en de daaruit voortvloeiende Diensten, Overeenkomsten en Aanvragen is uitsluitend Nederlands recht van toepassing.</p>
+      <p><strong>14.2</strong> Tenzij schriftelijk anders overeengekomen, worden geschillen voorgelegd aan de bevoegde rechter in het arrondissement waar Klicmelding.nl is gevestigd, tenzij de wet dwingend een andere rechter aanwijst.</p>
+    </article>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+          <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </a>
+        <p>Wij verzorgen de wettelijk verplichte klic-melding (WION) voor particulieren en bedrijven. Zelfstandige organisatie, niet gelieerd aan het Kadaster.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Diensten</h4>
+        <ul>
+          <li><a href="klicmelding-mockup-form-stap1.html">Klicmelding aanvragen</a></li>
+          <li><a href="#">Oriëntatieverzoek</a></li>
+          <li><a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informatie</h4>
+        <ul>
+          <li><a href="klicmelding-mockup-over.html">Over klicmelding</a></li>
+          <li><a href="klicmelding-mockup-faq.html">Vraag &amp; antwoord</a></li>
+          <li><a href="klicmelding-mockup-downloads.html">Downloads</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Juridisch</h4>
+        <ul>
+          <li><a href="klicmelding-mockup-disclaimer.html">Disclaimer</a></li>
+          <li><a href="klicmelding-mockup-voorwaarden.html">Algemene voorwaarden</a></li>
+          <li><a href="klicmelding-mockup-privacy.html">Privacy- &amp; cookiebeleid</a></li>
+          <li><a href="klicmelding-mockup-contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Klicmelding.nl &amp; Graafmelding.nl zijn handelsnamen van Graafmelding.nl BV — KvK Brabant 53.11.20.16</div>
+      <div><a href="klicmelding-mockup-links.html">Links</a> &middot; <a href="klicmelding-mockup-sitemap.html">Sitemap</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Mobile menu toggle */
+(function(){
+  var hamburger = document.querySelector('.hamburger');
+  var body = document.body;
+  if (!hamburger) return;
+  function setOpen(open){
+    body.classList.toggle('menu-open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    hamburger.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+  }
+  hamburger.addEventListener('click', function(){
+    setOpen(!body.classList.contains('menu-open'));
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && body.classList.contains('menu-open')) setOpen(false);
+  });
+  /* Sluit menu als nav-link aangeklikt wordt */
+  document.querySelectorAll('.mobile-menu nav a, .mobile-menu .menu-actions .btn').forEach(function(el){
+    el.addEventListener('click', function(){ setOpen(false); });
+  });
+})();
+</script>
+</body>
+</html>

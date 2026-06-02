@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl — Vraag & antwoord (redesign mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   GEDEELDE TOKENS + COMPONENTEN (uit klicmelding.css ingebed)
+   ============================================================
+   PALET WISSELEN — pas alleen het blok ":root → KLEUREN — PALET"
+   hieronder aan. Voor consistentie in alle vier de bestanden:
+   bewerk klicmelding.css en kopieer dit blok over.
+   ============================================================ */
+/* ==============================================================
+   klicmelding.nl — gedeeld stylesheet
+   --------------------------------------------------------------
+   Versie:     0.2 (concept)
+   Lettertype: Plus Jakarta Sans (laad in HTML <head>)
+   Palet:      Cobalt
+   --------------------------------------------------------------
+   PALET WISSELEN
+   Pas alleen onderstaand blok ":root → KLEUREN — PALET" aan.
+   Vier kant-en-klare presets — kopieer/plak het juiste setje:
+
+   Sky (vriendelijk)
+     50:#EFF9FD 100:#D6F0FA 500:#0EA5E9 600:#0284C7 700:#0369A1 900:#0C4A6E
+     primary-rgb: 2,132,199
+
+   Ocean (gezaghebbend)
+     50:#EEF7FB 100:#D2EAF4 500:#0284C7 600:#0369A1 700:#075985 900:#0C2945
+     primary-rgb: 3,105,161
+
+   Cobalt (zakelijk) ← HUIDIG
+     50:#EEF4FF 100:#DBE7FE 500:#3B82F6 600:#2563EB 700:#1D4ED8 900:#1E3A8A
+     primary-rgb: 37,99,235
+
+   Lagune (modern)
+     50:#ECFDFC 100:#CFFAF6 500:#06B6D4 600:#0891B2 700:#0E7490 900:#164E63
+     primary-rgb: 8,145,178
+
+   Het logo-blauw (--color-brand) volgt --color-primary-600
+   en wisselt dus automatisch mee met het palet.
+   ============================================================== */
+
+:root {
+  /* === KLEUREN — PALET (Cobalt) ============================ */
+  --color-primary-50:  #EEF4FF;
+  --color-primary-100: #DBE7FE;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-900: #1E3A8A;
+  --color-primary-rgb: 37, 99, 235;        /* primary-600 als R,G,B */
+
+  /* === MERKTEKEN ========================================== */
+  --color-brand:       var(--color-primary-600); /* logo-kleur — volgt het primary-600 palet */
+
+  /* === NEUTRALEN ========================================== */
+  --color-ink-900:     #0F172A;
+  --color-ink-700:     #334155;
+  --color-ink-500:     #64748B;
+  --color-ink-300:     #CBD5E1;
+  --color-ink-200:     #E2E8F0;
+  --color-ink-100:     #F1F5F9;
+  --color-ink-50:      #F8FAFC;
+  --color-white:       #FFFFFF;
+
+  /* === STATUSKLEUREN ====================================== */
+  --color-success-500: #10B981;
+  --color-success-50:  #ECFDF5;
+  --color-warning-500: #F59E0B;
+  --color-warning-50:  #FFFBEB;
+  --color-error-500:   #EF4444;
+  --color-error-50:    #FEF2F2;
+  --color-info-500:    #0EA5E9;
+  --color-info-50:     #EFF9FD;
+
+  /* === SPACING (8-point) ================================== */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  /* === RADIUS ============================================ */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  /* === SHADOWS =========================================== */
+  --shadow-sm:    0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
+  --shadow-md:    0 4px 6px -1px rgba(15,23,42,.08), 0 2px 4px -2px rgba(15,23,42,.06);
+  --shadow-lg:    0 12px 24px -8px rgba(15,23,42,.12), 0 4px 8px -4px rgba(15,23,42,.08);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), .35);
+
+  /* === MOTION ============================================ */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* === TYPOGRAFIE ======================================== */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* ============================================================
+   RESET & BASIS
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-900);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.site-footer { margin-top: auto; }
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+p { margin: 0; }
+a { color: var(--color-primary-600); }
+a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: 2px; }
+small { color: var(--color-ink-500); }
+code, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-ink-100);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-700);
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
+@media (min-width: 1024px) { .container { padding: 0 var(--space-7); } }
+.narrow { max-width: 720px; margin: 0 auto; padding: 0 var(--space-5); }
+
+/* ============================================================
+   LOGO LOCKUP — Variant B. Compact (gap 4)
+   ============================================================ */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-900);
+}
+.logo:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
+@media (max-width: 767px){ .site-header .logo > span { display: none; } }
+.logo .logo-mark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: block;
+}
+.logo .logo-mark .bubble { fill: var(--color-brand); }
+.logo .logo-mark .check  {
+  stroke: var(--color-white);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.logo .k { color: var(--color-ink-700); }
+.logo .m { color: var(--color-brand); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+  white-space: nowrap;
+}
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.btn-sm { height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+.btn-md { height: 44px; padding: 0 var(--space-5); font-size: 14px; }
+.btn-lg { height: 52px; padding: 0 var(--space-6); font-size: 16px; }
+.btn-primary {
+  background: var(--color-primary-600); color: var(--color-white);
+}
+.btn-primary:hover { background: var(--color-primary-700); }
+.btn-primary:active { transform: translateY(1px); background: var(--color-primary-900); }
+.btn-secondary {
+  background: var(--color-white); color: var(--color-primary-700);
+  border-color: var(--color-primary-600);
+}
+.btn-secondary:hover { background: var(--color-primary-50); }
+.btn-ghost {
+  background: transparent; color: var(--color-ink-700);
+}
+.btn-ghost:hover { background: var(--color-ink-100); color: var(--color-ink-900); }
+.btn-on-dark {
+  background: var(--color-white); color: var(--color-primary-700);
+}
+.btn-on-dark:hover { background: var(--color-primary-50); }
+.btn[disabled], .btn:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none;
+}
+.btn .arrow { font-size: 18px; line-height: 1; position: relative; top: -1px; }
+
+/* ============================================================
+   HEADER + NAV
+   ============================================================ */
+.site-header {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-ink-200);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px;
+}
+.nav { display: none; gap: var(--space-7); align-items: center; }
+.nav a {
+  text-decoration: none;
+  color: var(--color-ink-700);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 0;
+  position: relative;
+  transition: color var(--duration-fast);
+}
+.nav a:hover { color: var(--color-ink-900); }
+.nav a.active { color: var(--color-primary-600); }
+.nav a.active::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px; background: var(--color-primary-600); border-radius: 2px;
+}
+.nav-search svg{width:20px;height:20px;display:block}
+.nav-search{display:inline-flex;align-items:center}
+.header-actions { display: flex; gap: var(--space-4); align-items: center; }
+.hamburger {
+  display: flex; flex-direction: column; gap: 5px;
+  background: none; border: 0; cursor: pointer; padding: var(--space-2);
+  width: 44px; height: 44px; align-items: center; justify-content: center;
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast);
+}
+.hamburger:hover { background: var(--color-ink-100); }
+.hamburger:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.hamburger span {
+  width: 22px; height: 2px;
+  background: var(--color-ink-700); border-radius: 2px;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-fast) var(--ease-standard);
+  transform-origin: center;
+}
+/* Hamburger → X animatie wanneer menu open is */
+body.menu-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.menu-open .hamburger span:nth-child(2) { opacity: 0; }
+body.menu-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu {
+  position: fixed;
+  top: 80px; left: 0; right: 0; bottom: 0;
+  background: var(--color-white);
+  z-index: 49;
+  padding: var(--space-7) var(--space-5) var(--space-8);
+  overflow-y: auto;
+  transform: translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard),
+              visibility 0s linear var(--duration-base);
+}
+body.menu-open .mobile-menu {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard),
+              visibility 0s;
+}
+body.menu-open { overflow: hidden; }
+.mobile-menu .menu-inner {
+  max-width: 720px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--space-7);
+}
+.mobile-menu nav {
+  display: flex; flex-direction: column;
+}
+.mobile-menu nav a {
+  font-size: 24px; font-weight: 600;
+  color: var(--color-ink-900);
+  text-decoration: none;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-ink-100);
+  letter-spacing: -0.015em;
+  transition: color var(--duration-fast);
+}
+.mobile-menu nav a:hover { color: var(--color-primary-600); }
+.mobile-menu nav a.active { color: var(--color-primary-600); }
+.mobile-menu .menu-actions {
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.mobile-menu .menu-actions .btn {
+  width: 100%; height: 56px; font-size: 16px;
+}
+@media (min-width: 1024px) {
+  .nav { display: flex; }
+  .hamburger { display: none; }
+  .mobile-menu { display: none !important; }
+}
+/* Verberg ghost-knop in header op mobiel (gebruikt door .btn-ghost-lg helper) */
+@media (max-width: 1023px) {
+  .header-actions .btn-ghost-lg { display: none; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  background: var(--color-ink-900);
+  color: var(--color-ink-300);
+  padding: var(--space-8) 0 var(--space-6);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: var(--space-7); margin-bottom: var(--space-7);
+}
+@media (min-width: 768px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+}
+.footer-brand .logo { color: var(--color-white); margin-bottom: var(--space-3); }
+.footer-brand .logo .k { color: var(--color-white); }
+.footer-brand .logo .m { color: var(--color-brand); }
+.footer-brand p {
+  color: var(--color-ink-500);
+  font-size: 14px; max-width: 320px; line-height: 1.6;
+}
+.footer-col h4 {
+  font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--color-white); margin-bottom: var(--space-4);
+}
+.footer-col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.footer-col a {
+  color: var(--color-ink-300); text-decoration: none;
+  font-size: 14px; transition: color var(--duration-fast);
+}
+.footer-col a:hover { color: var(--color-white); }
+
+.footer-sitemap { border-top: 1px solid rgba(255,255,255,.08); margin-top: var(--space-7); padding-top: var(--space-5); margin-bottom: var(--space-5); }
+.footer-sitemap h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-white); margin-bottom: var(--space-3); }
+.footer-sitemap ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+.footer-sitemap a { color: var(--color-ink-300); text-decoration: none; font-size: 13px; transition: color var(--duration-fast); }
+.footer-sitemap a:hover { color: white; }
+.footer-bottom a{color:var(--color-ink-300);text-decoration:none}
+.footer-bottom a:hover{color:white}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: var(--space-5);
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  gap: var(--space-4); font-size: 13px; color: var(--color-ink-500);
+}
+
+/* ============================================================
+   EYEBROW + KICKER
+   ============================================================ */
+.eyebrow {
+  display: inline-flex; align-items: center;
+  gap: var(--space-2);
+  background: var(--color-white);
+  border: 1px solid var(--color-primary-100);
+  color: var(--color-primary-700);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: 13px; font-weight: 600;
+}
+.eyebrow::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--color-primary-500);
+  border-radius: 50%;
+}
+.kicker {
+  font-size: 14px; font-weight: 600;
+  color: var(--color-primary-600);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+.alert {
+  display: flex; gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-ink-200);
+  background: var(--color-ink-50);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.alert .icon {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+  background: var(--color-ink-200); color: var(--color-ink-700);
+}
+.alert-info    { background: var(--color-info-50);    border-color: rgba(var(--color-primary-rgb),.20); }
+.alert-info    .icon { background: var(--color-primary-500); color: var(--color-white); }
+.alert-success { background: var(--color-success-50); border-color: #A7F3D0; }
+.alert-success .icon { background: var(--color-success-500); color: var(--color-white); }
+.alert-warning { background: var(--color-warning-50); border-color: #FCD34D; }
+.alert-warning .icon { background: var(--color-warning-500); color: var(--color-white); }
+.alert-error   { background: var(--color-error-50);   border-color: #FCA5A5; }
+.alert-error   .icon { background: var(--color-error-500); color: var(--color-white); }
+
+</style>
+<style>
+/* ============================================================
+   Page-specific styles (FAQ — Vraag & Antwoord)
+   Tokens, reset, container, knoppen, header, footer, logo,
+   eyebrow, kicker, alerts → klicmelding.css
+   ============================================================ */
+
+/* ---- page header band ---- */
+.page-head{background:linear-gradient(180deg,var(--color-primary-100) 0%,var(--color-primary-50) 50%,white 100%);padding:var(--space-8) 0 var(--space-7);position:relative;overflow:hidden;border-bottom:1px solid var(--color-ink-200)}
+.page-head .hero-bg{position:absolute;inset:0;background-image:radial-gradient(rgba(var(--color-primary-rgb),.16) 1px,transparent 1px);background-size:22px 22px;opacity:.6;mask-image:radial-gradient(ellipse 70% 80% at 50% 30%,black,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 30%,black,transparent 75%);pointer-events:none}
+.page-head .inner{position:relative;z-index:1;max-width:720px}
+.page-head .eyebrow{margin-bottom:var(--space-4)}
+.page-head h1{font-size:clamp(30px,4.5vw,44px);font-weight:800;color:var(--color-ink-900);letter-spacing:-0.025em;margin-bottom:var(--space-4)}
+.page-head p{font-size:18px;color:var(--color-ink-700);line-height:1.55}
+.page-head-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6);align-items:center}
+@media(min-width:900px){.page-head-grid{grid-template-columns:1.15fr .85fr;gap:var(--space-7)}}
+.page-head-grid .inner{max-width:none}
+.page-head-visual{display:none}
+@media(min-width:900px){.page-head-visual{display:block}}
+.page-head-visual img{width:100%;height:260px;object-fit:cover;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);display:block}
+.breadcrumb{display:flex;gap:var(--space-2);align-items:center;font-size:13px;color:var(--color-ink-500);margin-bottom:var(--space-5);position:relative;z-index:1}
+.breadcrumb a{color:var(--color-ink-500);text-decoration:none}
+.breadcrumb a:hover{color:var(--color-primary-600)}
+.breadcrumb .sep{color:var(--color-ink-300)}
+
+/* ---- FAQ layout ---- */
+.faq-section{padding:var(--space-8) 0 var(--space-9)}
+.faq-layout{display:grid;grid-template-columns:1fr;gap:var(--space-7)}
+@media (min-width:1024px){.faq-layout{grid-template-columns:1fr 320px;gap:var(--space-8);align-items:start}}
+
+/* category jump chips */
+.cat-nav{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-7)}
+.cat-nav a{display:inline-flex;align-items:center;gap:var(--space-2);font-size:14px;font-weight:600;color:var(--color-ink-700);background:var(--color-white);border:1px solid var(--color-ink-200);padding:8px var(--space-4);border-radius:var(--radius-pill);text-decoration:none;transition:all var(--duration-fast) var(--ease-standard)}
+.cat-nav a:hover{border-color:var(--color-primary-600);color:var(--color-primary-700);background:var(--color-primary-50)}
+.cat-nav a .num{font-size:12px;color:var(--color-ink-500)}
+
+/* category block */
+.faq-cat{margin-bottom:var(--space-8);scroll-margin-top:96px}
+.faq-cat:last-child{margin-bottom:0}
+.faq-cat-head{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-5)}
+.faq-cat-head .ico{width:40px;height:40px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:var(--color-primary-50);color:var(--color-primary-600);border-radius:var(--radius-md)}
+.faq-cat-head .ico svg{width:22px;height:22px}
+.faq-cat-head h2{font-size:24px;font-weight:700;color:var(--color-ink-900);letter-spacing:-0.02em}
+
+/* accordion item (details/summary) */
+.acc{display:flex;flex-direction:column;gap:var(--space-3)}
+.acc-item{background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow var(--duration-base) var(--ease-standard),border-color var(--duration-base) var(--ease-standard)}
+.acc-item[open]{border-color:rgba(var(--color-primary-rgb),.35);box-shadow:var(--shadow-md)}
+.acc-item summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-5) var(--space-6);font-size:16px;font-weight:600;color:var(--color-ink-900);transition:color var(--duration-fast)}
+.acc-item summary::-webkit-details-marker{display:none}
+.acc-item summary:hover{color:var(--color-primary-700)}
+.acc-item summary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.acc-item summary .chev{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-ink-100);color:var(--color-ink-700);display:inline-flex;align-items:center;justify-content:center;transition:transform var(--duration-base) var(--ease-standard),background var(--duration-fast),color var(--duration-fast)}
+.acc-item summary .chev svg{width:16px;height:16px}
+.acc-item[open] summary .chev{transform:rotate(180deg);background:var(--color-primary-600);color:var(--color-white)}
+.acc-body{padding:0 var(--space-6) var(--space-5);color:var(--color-ink-700);line-height:1.65;font-size:15px}
+.acc-body p{margin-bottom:var(--space-3)}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body ul{margin:0 0 var(--space-3);padding-left:var(--space-5);display:flex;flex-direction:column;gap:var(--space-2)}
+.acc-body a{font-weight:600}
+.price-tag{display:inline-flex;align-items:baseline;gap:4px;font-weight:700;color:var(--color-primary-700)}
+.price-tag .amt{font-size:18px}
+
+/* ---- sidebar ---- */
+.faq-aside{display:flex;flex-direction:column;gap:var(--space-5)}
+@media (min-width:1024px){.faq-aside{position:sticky;top:96px}}
+.aside-card{background:linear-gradient(160deg,var(--color-primary-700) 0%,var(--color-primary-600) 100%);color:white;border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.aside-card::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px);background-size:16px 16px;opacity:.5;pointer-events:none}
+.aside-card h3{font-size:20px;font-weight:700;margin-bottom:var(--space-3);position:relative}
+.aside-card p{font-size:14px;color:rgba(255,255,255,.88);line-height:1.55;margin-bottom:var(--space-5);position:relative}
+.aside-card .btn{width:100%;position:relative}
+.aside-contact{background:var(--color-white);border:1px solid var(--color-ink-200);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.aside-contact h3{font-size:16px;font-weight:700;color:var(--color-ink-900);margin-bottom:var(--space-2)}
+.aside-contact p{font-size:14px;color:var(--color-ink-700);line-height:1.55;margin-bottom:var(--space-4)}
+.aside-contact .row{display:flex;align-items:center;gap:var(--space-3);font-size:14px;color:var(--color-ink-900);font-weight:600;margin-bottom:var(--space-3)}
+.aside-contact .row:last-child{margin-bottom:0}
+.aside-contact .row .ico{width:32px;height:32px;flex-shrink:0;border-radius:var(--radius-md);background:var(--color-primary-50);color:var(--color-primary-600);display:inline-flex;align-items:center;justify-content:center}
+.aside-contact .row .ico svg{width:16px;height:16px}
+.aside-contact .row a{text-decoration:none}
+.aside-contact .row .sub{display:block;font-size:12px;font-weight:500;color:var(--color-ink-500)}
+
+/* ---- not found block ---- */
+.faq-help{margin-top:var(--space-7)}
+.faq-help .alert{align-items:center}
+
+/* ---- disclaimer band ---- */
+.disclaimer-band{background:var(--color-ink-50);border-top:1px solid var(--color-ink-200);padding:var(--space-6) 0}
+.disclaimer-band .inner{max-width:900px;margin:0 auto;display:flex;gap:var(--space-4);align-items:flex-start}
+.disclaimer-band .ico{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--color-ink-200);color:var(--color-ink-700);display:inline-flex;align-items:center;justify-content:center}
+.disclaimer-band .ico svg{width:20px;height:20px}
+.disclaimer-band p{font-size:14px;color:var(--color-ink-700);line-height:1.6}
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="logo" aria-label="Klicmelding.nl home">
+      <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+      <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+    </a>
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a href="index.html">Home</a>
+      <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+      <a href="klicmelding-mockup-faq.html" class="active">FAQ</a>
+      <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+      <a href="klicmelding-mockup-downloads.html">Downloads</a>
+      <a href="klicmelding-mockup-zoeken.html" class="nav-search" aria-label="Zoeken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-secondary btn-md btn-ghost-lg" href="klicmelding-mockup-login.html">Inloggen</a>
+      <button class="hamburger" aria-label="Menu openen" aria-controls="mobile-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie">
+    <div class="menu-inner">
+      <nav aria-label="Hoofdnavigatie mobiel">
+        <a href="index.html">Home</a>
+        <a href="klicmelding-mockup-over.html">Over klicmelding</a>
+        <a href="klicmelding-mockup-faq.html" class="active">FAQ</a>
+        <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>
+        <a href="klicmelding-mockup-downloads.html">Downloads</a>
+        <a href="klicmelding-mockup-zoeken.html">Zoeken</a>
+      </nav>
+      <div class="menu-actions">
+        <a class="btn btn-secondary" href="klicmelding-mockup-login.html">Inloggen</a>
+      </div>
+    </div>
+  </div>
+
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Kruimelpad">
+      <a href="index.html">Home</a><span class="sep">/</span><span>Vraag &amp; antwoord</span>
+    </nav>
+    <div class="page-head-grid">
+      <div class="inner">
+      <div class="eyebrow">Hulp &amp; informatie</div>
+      <h1>Vraag &amp; antwoord</h1>
+      <p>Alles wat u wilt weten over de klicmelding, de regelgeving en de kosten — overzichtelijk verdeeld in vier categorieën.</p>
+    </div>
+      <div class="page-head-visual">
+        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=900&q=80&auto=format&fit=crop" alt="Heeft u een vraag? Neem contact met ons op" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-layout">
+
+      <!-- MAIN -->
+      <div class="faq-main">
+
+        <!-- category jump nav -->
+        <nav class="cat-nav" aria-label="Categorieën">
+          <a href="#cat-alles"><span class="num">01</span> Alles over Klicmelding.nl</a>
+          <a href="#cat-regelgeving"><span class="num">02</span> De regelgeving</a>
+          <a href="#cat-kosten"><span class="num">03</span> Kosten</a>
+          <a href="#cat-contact"><span class="num">04</span> Contact</a>
+        </nav>
+
+        <!-- CAT 1 -->
+        <div class="faq-cat" id="cat-alles">
+          <div class="faq-cat-head">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+            <h2>Alles over Klicmelding.nl</h2>
+          </div>
+          <div class="acc">
+            <details class="acc-item" open>
+              <summary>Wat kan klicmelding.nl voor u betekenen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Wij kunnen de aanvraag van uw klic-melding volledig voor u verzorgen. U ontvangt per e-mail een overzichtelijke digitale rapportage (pdf) van uw klic-melding, die u snel en eenvoudig bekijkt op uw tablet, telefoon of pc.</p>
+                <p>Klicmelding.nl werkt voor u snel en eenvoudig. U bespaart hiermee veel kostbare tijd — tijd die u kunt investeren in uw dagelijkse werkzaamheden of in uw klanten.</p>
+                <p>Kortom: uw klic-melding, onze zorg!</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe kan ik een klic-melding bij klicmelding.nl aanvragen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Dit gaat heel eenvoudig. Ga naar de homepage van klicmelding.nl. Hier maakt u de keuze of u particulier of zakelijk bent en klikt u op de knop ‘Klik hier’. U komt nu in het aanvraagmenu. Loop snel en eenvoudig door de stappen heen en bevestig als laatste stap uw aanvraag.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Waarom krijg ik als bedrijf een wachtwoord toegewezen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>U kunt bij uw tweede of volgende aanvraag met uw e-mailadres en wachtwoord extra snel uw aanvraag indienen. U vult op de homepage van klicmelding.nl bij ‘Aanmelden (bedrijven)’ uw e-mailadres en wachtwoord in. U komt dan in het aanvraagmenu waar al uw gegevens automatisch staan ingevuld. U hoeft dan alleen nog aan te geven waar en wanneer u gaat graven en wat de aard van uw werkzaamheden is, akkoord te gaan met de algemene voorwaarden en uw aanvraag te bevestigen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Moet ik de klic-melding op de werklocatie bij me hebben? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Ja. Als mechanisch grondroerder bent u verplicht om de klic-melding tijdens de uitvoering van de werkzaamheden op de werklocatie (graaflocatie) bij de hand te hebben.</p>
+                <p>De digitale rapportage (pdf) die u van ons per e-mail ontvangt, opent u hiervoor eenvoudig op uw telefoon of tablet. Zo heeft u alle gegevens altijd bij de hand en voldoet u aan de wettelijke eisen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe lang duurt het voordat klicmelding.nl de gegevens aanlevert? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Levering vindt bij 95% van de aanvragen plaats binnen 1 werkdag. U ontvangt de digitale rapportage per e-mail.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Waarom is klicmelding.nl telefonisch niet bereikbaar? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Klicmelding.nl is een volledig online dienstverlener die als doel heeft een klic-melding te verzorgen voor een zo gunstig mogelijk tarief. Een telefonische helpdesk brengt veel extra kosten met zich mee.</p>
+                <p>Wij hebben er bewust voor gekozen om op een moderne, voordelige, snelle en efficiënte manier met onze klanten te communiceren (geen wachttijden of muziekjes tijdens het wachten). U kunt al uw vragen stellen door een e-mail te sturen aan <a href="mailto:info@klicmelding.nl">info@klicmelding.nl</a> of te faxen naar 084 - 00 31 434.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Kan ik een vraag stellen aan klicmelding.nl? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Op de website staan onder Vraag &amp; Antwoord de meest voorkomende vragen met antwoord vermeld. Staat uw vraag hier niet bij? Dan kunt u uw vraag online stellen door een e-mail te sturen aan <a href="mailto:info@klicmelding.nl">info@klicmelding.nl</a> of een fax te sturen naar 084 - 00 31 434.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Kan ik als particulier ook mijn klic-melding faxen of mailen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Nee, de faxservice is alleen mogelijk voor bedrijven. E-mailen is ook niet mogelijk.</p>
+                <p>Als particulier dient u de aanvraag altijd via de site te laten verlopen. Dit kan snel en eenvoudig: via de homepage klikt u op de knop ‘Klik hier’ onder particulieren en volgt u de stappen. Als u alle stappen heeft doorlopen en de aanvraag bevestigt, is uw aanvraag definitief.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe werkt de faxservice voor bedrijven? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Als zakelijke klant krijgt u bij uw eerste klic-melding een klantnummer toegewezen en wordt u opgenomen in onze database. Als u in het bezit bent van een klantnummer kunt u gebruikmaken van onze faxservice.</p>
+                <p>U kunt alleen een aanvraag faxen met de faxformulieren van klicmelding.nl. U vindt deze onder het kopje Downloads, waar u het faxformulier kunt uitprinten. Ook kunt u ons een e-mail sturen aan <a href="mailto:info@klicmelding.nl">info@klicmelding.nl</a> met het verzoek om enkele faxformulieren per post toe te sturen. Hierop is dan als extra service uw klantnummer alvast ingevuld.</p>
+                <p>Zorg ervoor dat u altijd een aantal faxformulieren op kantoor klaar heeft liggen; dat werkt snel en bespaart u veel tijd. U faxt uw volledig ingevulde formulier naar 084 - 00 31 434.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe lang voorafgaand aan de werkzaamheden kan ik de aanvraag indienen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>U kunt uw klic-melding aan ons doorgeven wanneer het u schikt — ook meer dan 20 werkdagen voordat de graafactiviteiten plaatsvinden. Uw aanvraag wordt dan opgenomen in onze planning (wij plaatsen u in de wacht).</p>
+                <p>Wij kunnen de klic-melding niet eerder dan 20 werkdagen voordat de graafactiviteiten plaatsvinden indienen bij het Kadaster.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe weet ik of mijn aanvraag in behandeling wordt genomen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Als wij uw aanvraag hebben ontvangen, krijgt u van ons een e-mail (of een fax bij gebruik van de faxservice) met het bericht of wij uw aanvraag wel of niet in behandeling nemen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe groot is de maximale polygoon (gebied) per klic-melding? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>De maximale polygoon (gebied) die u in één melding kunt opgeven is:</p>
+                <ul>
+                  <li>Bij een klic-melding: 500 m × 500 m.</li>
+                  <li>Bij een oriëntatieverzoek: 2500 m × 2500 m.</li>
+                </ul>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wat moet ik doen als mijn werkgebied groter is dan 500 × 500 meter? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Dan dient u meerdere klic-meldingen aan te vragen. Het maximale werkgebied dat in één klic-melding verwerkt kan worden is 500 × 500 meter. Voor een oriëntatieverzoek geldt een maximaal werkgebied van 2500 × 2500 meter.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Kunt u aan de hand van het kadastraal sectienummer de klicmelding aanvragen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Wij kunnen aan de hand van het kadastrale sectienummer uw aanvraag indienen. Hiervoor worden echter wel extra kosten in rekening gebracht, omdat wij aan de hand van het sectienummer een kadastraal bericht object moeten aanvragen om uw exacte graaflocatie te bepalen. Wij brengen hiervoor € 12,50 excl. btw in rekening.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Heeft klicmelding.nl algemene voorwaarden? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Jazeker. Op alle transacties van klicmelding.nl zijn onze algemene voorwaarden van toepassing. Deze zijn gedeponeerd bij de Kamer van Koophandel te Eindhoven onder nummer 53112016 en staan ook op de website onder het kopje Downloads.</p>
+                <p>Klicmelding.nl en Graafmelding.nl handelen in opdracht van Graafmelding.nl BV.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- CAT 2 -->
+        <div class="faq-cat" id="cat-regelgeving">
+          <div class="faq-cat-head">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-4 9 4"/><path d="M4 10v8"/><path d="M20 10v8"/><path d="M8 10v8"/><path d="M16 10v8"/><path d="M2 20h20"/></svg></span>
+            <h2>De regelgeving</h2>
+          </div>
+          <div class="acc">
+            <details class="acc-item">
+              <summary>Wanneer is een klicmelding verplicht? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Een klic-melding is verplicht als u de grond mechanisch gaat roeren. Roert u de grond met een spade of schop, dan is dat niet mechanisch en hoeft u geen klic-melding aan te vragen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wat is het belangrijkste doel van de wet WION? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Deze wet heeft tot doel het voorkomen van graafincidenten bij kabels en leidingen. Uit onderzoek is gebleken dat er zich jaarlijks ongeveer 40.000 graafincidenten voordoen. Dat betekent niet alleen veel schade aan kabels en leidingen (zo'n 40 à 75 miljoen per jaar), maar het kan ook gevaarlijk zijn voor de omgeving (denk aan een gaslek). Een graafincident leidt ook tot veel ongemak wanneer burgers en bedrijven worden geconfronteerd met een stroomstoring of geen elektronische communicatie hebben.</p>
+                <p>Kortom: graafschade voorkomen, dat is het belangrijkste doel van de wet WION.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Waarom is de WION-wet ingevoerd? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Om graafschades te voorkomen. Uit onderzoek is gebleken dat er zich jaarlijks ongeveer 40.000 graafincidenten voordoen. Dat betekent niet alleen veel schade aan kabels en leidingen (zo'n 50 à 75 miljoen per jaar), maar het kan ook gevaarlijk zijn voor de omgeving. Een graafincident leidt ook tot veel ongemak en kosten wanneer burgers en bedrijven te maken krijgen met een stroomstoring of uitval van communicatie.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wat is de hoogte van een boete als ik de wet overtreed? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Dat is afhankelijk van de overtreding en de omstandigheden; er is daarom geen vast bedrag in de wet opgenomen. Boetes kunnen variëren van € 1.000,- tot € 20.000,-.</p>
+                <p>Het Agentschap Telecom, onderdeel van het ministerie van Economische Zaken, zorgt voor de handhaving van de WION-wet. Er zijn enkele interessante berichten hierover terug te vinden op de Downloads-pagina van deze site.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Keert een verzekeraar uit bij graafschade als er geen klicmelding is gedaan? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Meestal niet, maar dat verschilt per maatschappij. Kijk dit goed na in uw eigen polis of informeer hiernaar bij uw verzekeringsagent.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Zijn netbeheerders verplicht om huisaansluitschetsen te leveren? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Wanneer u kiest voor huisaansluitschetsen is het niet gegarandeerd dat alle betrokken netbeheerders deze ook leveren. Op basis van de wet (WION en de RION) kán de netbeheerder huisaansluitschetsen leveren, maar hij is dit niet verplicht.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe lang voor aanvang van het werk dient de klicmelding te worden gedaan? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Het Kadaster heeft als regel een verwerkingstijd van maximaal 3 werkdagen. Als u daarbij de verwerkingstijd van klicmelding.nl optelt, moet u rekenen op een totale verwerkingstijd van maximaal 4 werkdagen. Dit houdt in dat u de klic-melding uiterlijk 4 dagen voorafgaand aan uw werkzaamheden aanvraagt; eerder mag uiteraard altijd.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Dienen de tekeningen op de graaflocatie aanwezig te zijn, en waarom? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Ja, het is verplicht dat de tekeningen tijdens de graafwerkzaamheden op de werklocatie aanwezig zijn. Als er tijdens de werkzaamheden schade ontstaat, moet degene die de werkzaamheden uitvoert in staat zijn om de juiste netbeheerder te bereiken. Is het kaartmateriaal niet aanwezig, dan gaat kostbare tijd verloren en kan verwarring ontstaan over het beschadigde netwerk. Daarnaast is het van belang om afwijkende situaties te kunnen vergelijken met het kaartmateriaal.</p>
+                <p>Het Agentschap Telecom kan u controleren op de aanwezigheid van uw tekeningen op de werklocatie. Vraag daarom uw klic-melding aan bij klicmelding.nl: u ontvangt uw klicmeldgegevens als digitale rapportage (pdf). Open deze op de werklocatie eenvoudig op uw telefoon of tablet en u voldoet aan de wettelijke eisen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe lang is een klic-melding / graafmelding geldig? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>De WION heeft geen geldigheidstermijn bepaald voor graafmeldingen. Graafwerkzaamheden mogen starten nadat al het kaartmateriaal is ontvangen. Binnen 20 werkdagen na het doen van de graafmelding dient een aanvang te worden genomen met de graafwerkzaamheden. Nadat een grondroerder is gestart en hij controle heeft over werkzaamheden binnen zijn graafpolygoon, is het niet noodzakelijk opnieuw een graafmelding te doen.</p>
+                <p><strong>Toelichting.</strong> Om graafincidenten te voorkomen is het van belang dat de grondroerder de actualiteit van het kaartmateriaal kan beoordelen. Daarom is bepaald dat hij binnen 20 werkdagen na de melding moet starten (art. 8 lid 1). Binnen die termijn is de kans op wijzigingen in de ligging van kabels en leidingen gering.</p>
+                <p>Bij de aanleg van een leidingtracé is de grondroerder vaak wel dagelijks aanwezig, maar is er meestal geen controle over het gehele tracé mogelijk. In dergelijke situaties is het beter om graafmeldingen te doen voor opeenvolgende fasen van de uitvoering.</p>
+                <p><strong>WION Artikel 8.</strong> 1) Een grondroerder meldt het voornemen tot graafwerkzaamheden ten hoogste twintig werkdagen voorafgaand aan de aanvang. 2) Bij de graafmelding geeft de grondroerder een graafpolygoon op. 3) Het eerste lid is niet van toepassing indien de werkzaamheden een beperkte diepgang hebben en worden uitgevoerd in grond die in eigendom of beheer is van de grondroerder, en hij weet dat de ligging van de netten sinds de vorige melding niet is veranderd.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Dien ik als particulier een klicmelding te doen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Ja. Als een particulier de grond mechanisch gaat roeren, dient ook hij een klic-melding te doen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Zijn er richtlijnen voor ‘zorgvuldig graven’? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Ja. Het CROW heeft richtlijnen voor zorgvuldig graven opgesteld. Deze zogenoemde CROW-richtlijn brengt het hele proces in kaart: vanaf het eerste initiatief tot het dempen van de sleuf. Onder het kopje Downloads staan deze richtlijnen vermeld.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Voor welke werkzaamheden is een klic-melding vereist? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Voor alle mechanische grondroeringen is een klic-melding vereist. Hieronder een aantal voorbeelden:</p>
+                <ul style="column-count:2;column-gap:24px">
+                  <li>Aarding slaan</li>
+                  <li>Archeologisch onderzoek</li>
+                  <li>Baggerwerk</li>
+                  <li>Bestratingswerk</li>
+                  <li>Bodemonderzoek / sonderingen</li>
+                  <li>Bodemsaneringen</li>
+                  <li>Bomen rooien / planten</li>
+                  <li>Bouwwerkzaamheden</li>
+                  <li>CAI-kabel leggen</li>
+                  <li>Damwand / beschoeiing slaan</li>
+                  <li>Diepploegen</li>
+                  <li>Drainage</li>
+                  <li>Duikers leggen</li>
+                  <li>Funderingswerk</li>
+                  <li>Gasleiding leggen</li>
+                  <li>Grondwerk / bouwrijp maken</li>
+                  <li>HDPE-buis leggen</li>
+                  <li>Handholes plaatsen</li>
+                  <li>Heien</li>
+                  <li>Hekwerk plaatsen</li>
+                  <li>Hoveniers­werkzaamheden</li>
+                  <li>Huisaansluitingen maken</li>
+                  <li>Kabels / leidingen leggen</li>
+                  <li>Kabels / leidingen verleggen</li>
+                  <li>Leggen hoogspanning</li>
+                  <li>Leggen middenspanning</li>
+                  <li>Leggen laagspanning</li>
+                  <li>Mantelbuis leggen</li>
+                  <li>O.V.-werkzaamheden</li>
+                  <li>Palen / masten plaatsen of verwijderen</li>
+                  <li>Persing / boring</li>
+                  <li>Proefsleuven graven</li>
+                  <li>Reconstructie­werkzaamheden</li>
+                  <li>Rioleringswerkzaamheden</li>
+                  <li>Ruilverkaveling</li>
+                  <li>Sloopwerkzaamheden</li>
+                  <li>Stadsverwarming leggen</li>
+                  <li>Stobben frezen</li>
+                  <li>Tanks / putten / containers graven</li>
+                  <li>Telefoonkabel leggen</li>
+                  <li>Trafostations plaatsen</li>
+                  <li>Verwijderen kabels / leidingen</li>
+                  <li>Vijver graven</li>
+                  <li>Voerkuilen graven</li>
+                  <li>Waterbouwkundige werken</li>
+                  <li>Waterleidingen leggen</li>
+                  <li>Wegenbouw</li>
+                  <li>Werk aan bestaande leidingen</li>
+                  <li>Woningbouw</li>
+                  <li>Woonrijp maken</li>
+                </ul>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wat betekent WION? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Wet Informatie-uitwisseling Ondergrondse Netten.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Moeten kabels en leidingen op eigen terrein ook bij het Kadaster worden geregistreerd? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Volgens de WION zijn alle netbeheerders verplicht om hun belang aan te melden bij het Kadaster. Of er sprake kan zijn van een vrijstelling voor netten die in eigen grond of in eigen beheer liggen, hangt af van een aantal voorwaarden.</p>
+                <p>Als de kabels en leidingen in niet-openbare grond liggen, voor eigen gebruik bedoeld zijn (dus niet ten behoeve van derden) én geen gevaarlijke stoffen bevatten, hoeven zij niet te worden aangemeld.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Moet u voor het frezen van asfalt wel of geen klic-melding doen? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Het Agentschap Telecom, toezichthouder van de WION, zegt hierover het volgende: asfalt is een constructie op de ondergrond. De WION ziet toe op graafwerkzaamheden in de ondergrond. Het frezen van asfalt of het boren erin, waarbij de ondergrond niet wordt geroerd, valt niet onder graafwerkzaamheden.</p>
+                <p>Als asfalt geheel verwijderd wordt, wordt dit wél gezien als grondroeren en dient u dus een klic-melding te doen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Staan zinkers en duikers ook vermeld op een klic-melding? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Zinkers en duikers staan ook geregistreerd bij het Kadaster. Als u een klic-melding doet in een gebied waar ze aanwezig zijn, zouden deze op de klic-melding moeten staan.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Dient de netbeheerder ook huisaansluitingen aan te leveren? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Wanneer u kiest voor huisaansluitschetsen is het niet gegarandeerd dat alle betrokken netbeheerders deze ook leveren. Op basis van de wet (WION en de RION) kán de netbeheerder huisaansluitschetsen leveren, maar hij is dit niet verplicht.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Is voor het wegzuigen van zand ook een graafmelding nodig? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Bij het wegzuigen van zand is geen sprake van mechanische werkzaamheden in de ondergrond. Als het zand handmatig wordt vrijgemaakt en met een zuiginstallatie uit de ontgraving wordt verwijderd, is een graafmelding niet noodzakelijk. Uiteraard is het wel toegestaan om op voorhand een graafmelding te doen.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wat is een afwijkende situatie? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Soms ligt een kabel of leiding niet op de plek waar deze volgens de informatie zou moeten liggen, of wordt een tot dusver onbekend net gevonden. We spreken dan van een afwijkende situatie. Volgens de WION is een grondroerder verplicht een afwijkende situatie te melden aan het Kadaster, dat vervolgens de betreffende netbeheerder informeert.</p>
+                <p><strong>Afwijkende ligging.</strong> Hiervan is sprake als de werkelijke ligging meer dan 1 meter (horizontaal) afwijkt van de verstrekte tekening, of als het net niet wordt aangetroffen terwijl het wel op de tekening staat.</p>
+                <p><strong>Onbekend net.</strong> Hiervan is sprake als er netten gevonden worden die niet op de gebiedsinformatie staan, of als onduidelijk is wie het net beheert.</p>
+                <p><strong>Voor grondroerders.</strong> Treft u een afwijkende situatie aan, meld dit dan direct met het formulier ‘KLIC-melding afwijkende situatie’ (te downloaden op kadaster.nl), met een situatieschets. Na uw melding kunt u verder met uw werkzaamheden.</p>
+                <p><strong>Voor netbeheerders en gemeenten.</strong> De vermoedelijke beheerder ontvangt van het Kadaster een ‘melding afwijkende situatie’ en moet een net binnen 10 werkdagen claimen en zijn informatie binnen 30 werkdagen aanpassen. Claimt geen enkele netbeheerder het net, dan wordt het aangemerkt als ‘weesleiding’ en geregistreerd door de gemeente.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wie moet worden gezien als ‘de netbeheerder’? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>De netbeheerder is degene die — als natuurlijk persoon in de uitoefening van beroep of bedrijf, dan wel als rechtspersoon — een net beheert. Dat iemand beheerder is van een net kan blijken uit het volgende:</p>
+                <ul>
+                  <li>Hij was (financieel) verantwoordelijk voor de aanleg van het net;</li>
+                  <li>Hij is (financieel) verantwoordelijk voor het in stand houden / onderhouden van het net;</li>
+                  <li>Hij ontvangt gelden voor de benutting van het net door anderen;</li>
+                  <li>Het net staat op de balans;</li>
+                  <li>Hij heeft het de laatste 20 jaar gebruikt en onderhouden, zonder dat anderen de eigendom hebben opgeëist.</li>
+                </ul>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Welke informatie moet een beheerder minimaal versturen na een graafmelding? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Een beheerder verstuurt als reactie op een graafmelding minimaal een tekening met daarop een weergave van zijn netwerk, een legenda en de functie van het netwerk conform de functie-indeling uit de ministeriële regeling. Het versturen van alleen een schriftelijke reactie — zonder tekening — is onvoldoende.</p>
+                <p><strong>Toelichting.</strong> Zodra een graafpolygoon samenvalt met de beheerpolygoon van een beheerder, moet deze informatie verstrekken over de ligging van zijn net (art. 10 lid 1). Die beheerdersinformatie bestaat uit de liggingsgegevens, de relevante eigenschappen van het net, eventuele voorzorgsmaatregelen en de contactgegevens van de beheerder.</p>
+                <p>De liggingsgegevens worden weergegeven op een tekening op een bij ministeriële regeling bepaalde schaalgrootte en zijn gebaseerd op de meest nauwkeurige metingen die beschikbaar zijn, met ten minste een nauwkeurigheid van één meter. Het ontbreken van metingen met die nauwkeurigheid ontslaat de beheerder niet van het verstrekken van een tekening en de relevante eigenschappen van het net.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Is voor het maaien van sloten een graafmelding nodig? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Bij het maaien van begroeiing in sloten vinden geen graafwerkzaamheden plaats; het maaien gebeurt boven de slootbodem. Het uitbaggeren van sloten valt wél onder graafwerkzaamheden — daarbij vinden werkzaamheden plaats in de slootbodem en zijn de verplichtingen uit de WION volledig van kracht.</p>
+                <p>Dit betekent niet dat degene die maait niet aansprakelijk is voor schade aan een kabel of leiding in de sloot; dat is een civiele zaak tussen partijen. Het advies is om kabels en leidingen in de slootbodem te verwerken en de ligging aan de slootkant te markeren.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- CAT 3 -->
+        <div class="faq-cat" id="cat-kosten">
+          <div class="faq-cat-head">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+            <h2>Kosten</h2>
+          </div>
+          <div class="acc">
+            <details class="acc-item">
+              <summary>Wat zijn de kosten voor een klicmelding bij klicmelding.nl? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Een klicmelding kost in totaal € 58,80 inclusief btw. Dit is inclusief het verwerken van de aanvraag, het opstellen van de digitale rapportage en de kosten van het Kadaster. De volledige prijsopbouw vindt u op de pagina <a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a>.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Hoe werkt de betaling aan klicmelding.nl? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Als particuliere klant betaalt u altijd vooraf via iDEAL, bij de aanvraag van uw klic-melding. Heeft u een bedrijf? Dan heeft u de keuze om uw betaling te laten lopen via iDEAL of via een factuur die binnen 8 dagen betaald dient te zijn.</p>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary>Wat is een iDEAL-betaling? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>iDEAL betekent dat u met internetbankieren betaalt. Het is de snelste manier om te betalen: als u met iDEAL betaalt, wordt uw aanvraag zo spoedig mogelijk in behandeling genomen. iDEAL is beveiligd, zodat er geen misbruik van uw gegevens kan worden gemaakt.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- CAT 4 -->
+        <div class="faq-cat" id="cat-contact">
+          <div class="faq-cat-head">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+            <h2>Contact</h2>
+          </div>
+          <div class="acc">
+            <details class="acc-item">
+              <summary>Hoe kom ik met klicmelding.nl in contact? <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+              <div class="acc-body">
+                <p>Klicmelding.nl is een volledig online dienstverlener en daarom telefonisch niet bereikbaar. U kunt uw vragen aan ons voorleggen door een e-mail te sturen aan <a href="mailto:info@klicmelding.nl">info@klicmelding.nl</a> of te faxen naar 084 - 00 31 434.</p>
+                <p><strong>Correspondentie- / postadres</strong><br>Klicmelding.nl<br>de Hoekakker 16<br>5561 CE Riethoven</p>                <p>Btw-nummer: NL850751755B01. KvK Brabant: 53.11.20.16.</p>
+                <p>Klicmelding.nl en Graafmelding.nl zijn handelsnamen van Graafmelding.nl BV.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-help">
+            <div class="alert alert-info">
+              <span class="icon" aria-hidden="true">?</span>
+              <div>Staat uw vraag er niet bij? Stuur een e-mail naar <a href="mailto:info@klicmelding.nl">info@klicmelding.nl</a> en wij helpen u graag verder.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ASIDE -->
+      <aside class="faq-aside">
+        <div class="aside-card">
+          <h3>Direct aanvragen</h3>
+          <p>Vraag snel en eenvoudig in vijf stappen uw klicmelding aan — ongeveer vijf minuten werk.</p>
+          <a class="btn btn-on-dark btn-lg" href="klicmelding-mockup-form-stap1.html">Klicmelding aanvragen <span class="arrow">&rarr;</span></a>
+        </div>
+        <div class="aside-contact">
+          <h3>Vraag niet gevonden?</h3>
+          <p>Onze klantenservice helpt u graag persoonlijk verder.</p>
+          <div class="row">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+            <a href="mailto:info@klicmelding.nl">info@klicmelding.nl<span class="sub">Reactie binnen 1 werkdag</span></a>
+          </div>
+          <div class="row">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <span>Ma&ndash;vr 08:30&ndash;17:00<span class="sub">Telefonisch &amp; per e-mail</span></span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER BAND -->
+<section class="disclaimer-band">
+  <div class="container">
+    <div class="inner">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      <p>Graafmelding.nl BV is een zelfstandige organisatie die niet is gelieerd aan het Kadaster. Wij verzorgen namens u de administratieve afhandeling van een klicmelding. Wilt u uw klicmelding zelf regelen? Dan verwijzen wij u naar het Kadaster.</p>
+    </div>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bubble" d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z"/><path class="check" d="M14.5 18.5l5.5 5.5L30 14"/></svg>
+          <span><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </a>
+        <p>Wij verzorgen de wettelijk verplichte klic-melding (WION) voor particulieren en bedrijven. Zelfstandige organisatie, niet gelieerd aan het Kadaster.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Diensten</h4>
+        <ul>
+          <li><a href="klicmelding-mockup-form-stap1.html">Klicmelding aanvragen</a></li>
+          <li><a href="#">Oriëntatieverzoek</a></li>
+          <li><a href="klicmelding-mockup-onze-dienst.html">Onze dienst</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informatie</h4>
+        <ul>
+          <li><a href="klicmelding-mockup-over.html">Over klicmelding</a></li>
+          <li><a href="klicmelding-mockup-faq.html">Vraag &amp; antwoord</a></li>
+          <li><a href="klicmelding-mockup-downloads.html">Downloads</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Juridisch</h4>
+        <ul>
+          <li><a href="klicmelding-mockup-disclaimer.html">Disclaimer</a></li>
+          <li><a href="klicmelding-mockup-voorwaarden.html">Algemene voorwaarden</a></li>
+          <li><a href="klicmelding-mockup-privacy.html">Privacy- &amp; cookiebeleid</a></li>
+          <li><a href="klicmelding-mockup-contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Klicmelding.nl &amp; Graafmelding.nl zijn handelsnamen van Graafmelding.nl BV — KvK Brabant 53.11.20.16</div>
+      <div><a href="klicmelding-mockup-links.html">Links</a> &middot; <a href="klicmelding-mockup-sitemap.html">Sitemap</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Mobile menu toggle */
+(function(){
+  var hamburger = document.querySelector('.hamburger');
+  var body = document.body;
+  if (!hamburger) return;
+  function setOpen(open){
+    body.classList.toggle('menu-open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    hamburger.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+  }
+  hamburger.addEventListener('click', function(){
+    setOpen(!body.classList.contains('menu-open'));
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && body.classList.contains('menu-open')) setOpen(false);
+  });
+  /* Sluit menu als nav-link aangeklikt wordt */
+  document.querySelectorAll('.mobile-menu nav a, .mobile-menu .menu-actions .btn').forEach(function(el){
+    el.addEventListener('click', function(){ setOpen(false); });
+  });
+})();
+</script>
+</body>
+</html>

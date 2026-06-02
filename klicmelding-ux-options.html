@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klicmelding.nl — UX style guide (kiesopties)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* neutrals — gedeeld tussen alle paletten */
+  --ink-900:#0F172A; --ink-700:#334155; --ink-500:#64748B;
+  --ink-300:#CBD5E1; --ink-200:#E2E8F0; --ink-100:#F1F5F9; --ink-50:#F8FAFC;
+  --white:#FFFFFF;
+  --success:#10B981;
+  /* spacing */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px; --s-7:48px; --s-8:64px;
+  --r-sm:6px; --r-md:10px; --r-lg:14px; --r-pill:999px;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.08);
+  --shadow-md:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px; line-height:1.6; color:var(--ink-900); background:var(--ink-50);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;line-height:1.15;letter-spacing:-0.015em;font-weight:700}
+p{margin:0}
+small{color:var(--ink-500)}
+code{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:13px;background:var(--ink-100);padding:2px 6px;border-radius:4px;color:var(--ink-700)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:var(--s-8) var(--s-5)}
+
+/* page header */
+.page-head{margin-bottom:var(--s-8)}
+.page-head .kicker{display:inline-block;font-size:12px;font-weight:700;color:var(--ink-500);text-transform:uppercase;letter-spacing:.12em;margin-bottom:var(--s-3)}
+.page-head h1{font-size:40px;font-weight:800;letter-spacing:-0.025em;margin-bottom:var(--s-3)}
+.page-head p{font-size:18px;color:var(--ink-700);max-width:680px}
+
+/* section header */
+.section{background:white;border:1px solid var(--ink-200);border-radius:var(--r-lg);padding:var(--s-7);margin-bottom:var(--s-6);box-shadow:var(--shadow-sm)}
+.section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s-4);margin-bottom:var(--s-6);padding-bottom:var(--s-5);border-bottom:1px solid var(--ink-200)}
+.section-head h2{font-size:24px}
+.section-head .lede{color:var(--ink-700);font-size:15px;max-width:580px;margin-top:6px}
+.section-head .pick{font-size:13px;color:var(--ink-500);background:var(--ink-50);border:1px dashed var(--ink-300);border-radius:var(--r-sm);padding:8px 12px;font-weight:500}
+
+/* ==== TYPOGRAPHY SECTION ==== */
+.type-stack > * + *{margin-top:var(--s-5)}
+.type-row{display:grid;grid-template-columns:80px 1fr;gap:var(--s-5);align-items:baseline;padding-bottom:var(--s-4);border-bottom:1px dashed var(--ink-200)}
+.type-row:last-child{border-bottom:0}
+.type-meta{font-size:11px;color:var(--ink-500);font-weight:600;text-transform:uppercase;letter-spacing:.08em;line-height:1.4}
+.type-meta b{display:block;color:var(--ink-700);font-size:13px;text-transform:none;letter-spacing:0}
+.t-display{font-size:48px;font-weight:800;letter-spacing:-0.03em;line-height:1.05}
+.t-h1{font-size:36px;font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+.t-h2{font-size:28px;font-weight:700;letter-spacing:-0.015em;line-height:1.2}
+.t-h3{font-size:20px;font-weight:600;letter-spacing:-0.01em;line-height:1.3}
+.t-lede{font-size:18px;font-weight:400;line-height:1.55;color:var(--ink-700)}
+.t-body{font-size:16px;font-weight:400;line-height:1.6}
+.t-small{font-size:13px;font-weight:500;color:var(--ink-500)}
+.t-caps{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-500)}
+
+/* ==== LOGO SPACING SECTION ==== */
+.logo-grid{display:grid;grid-template-columns:1fr;gap:var(--s-4)}
+@media (min-width:720px){.logo-grid{grid-template-columns:1fr 1fr}}
+.lock{display:flex;flex-direction:column;gap:var(--s-3);padding:var(--s-5);background:var(--ink-50);border:1px solid var(--ink-200);border-radius:var(--r-md);transition:border-color .15s}
+.lock:hover{border-color:var(--ink-300)}
+.lock .lock-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink-500);font-weight:500}
+.lock .lock-meta b{font-size:14px;color:var(--ink-900);font-weight:700}
+.lock .lockup{display:flex;align-items:center;background:white;border:1px solid var(--ink-200);border-radius:var(--r-md);padding:14px 18px;min-height:64px}
+.lock .lockup .word{font-weight:700;font-size:20px;letter-spacing:-0.01em}
+.lock .lockup .word .k{color:var(--ink-700)}
+.lock .lockup .word .m{color:#2563EB}
+.lock .lockup svg{width:40px;height:40px;flex-shrink:0;display:block}
+.lockup-A{gap:0px}
+.lockup-A svg{margin-right:-6px}
+.lockup-B{gap:4px}
+.lockup-C{gap:8px}
+.lockup-D{gap:14px}
+.lockup-E{gap:20px}
+.lockup-F{gap:0px}
+.lockup-F svg{margin-right:0px}
+
+/* ==== COLOR VARIATION SECTION ==== */
+.palette-grid{display:grid;grid-template-columns:1fr;gap:var(--s-5)}
+@media (min-width:900px){.palette-grid{grid-template-columns:1fr 1fr}}
+.palette{border:1px solid var(--ink-200);border-radius:var(--r-md);overflow:hidden;background:white}
+.palette-head{padding:var(--s-5) var(--s-5) var(--s-3);display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-3)}
+.palette-head h3{font-size:18px;font-weight:700;margin-bottom:2px}
+.palette-head p{font-size:13px;color:var(--ink-500);line-height:1.5}
+.palette-head .tag{font-size:11px;font-weight:700;color:var(--ink-500);background:var(--ink-100);padding:4px 8px;border-radius:var(--r-pill);text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
+.swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--ink-200)}
+.swatch{padding:var(--s-4) var(--s-3);display:flex;flex-direction:column;justify-content:flex-end;min-height:80px;color:white}
+.swatch.light{color:var(--ink-900)}
+.swatch .num{font-size:11px;font-weight:600;opacity:.85;letter-spacing:.04em}
+.swatch .hex{font-size:11px;font-weight:600;font-family:ui-monospace,monospace;margin-top:2px;opacity:.95}
+.preview{padding:var(--s-5);background:var(--ink-50);display:flex;flex-direction:column;gap:var(--s-4)}
+.preview .row{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:center}
+.btn{display:inline-flex;align-items:center;gap:var(--s-2);font-family:inherit;font-weight:600;border-radius:var(--r-md);border:1px solid transparent;padding:0 var(--s-5);height:42px;font-size:14px;cursor:pointer;text-decoration:none;transition:background-color .15s}
+.btn-secondary{background:white;font-weight:600}
+.eyebrow{display:inline-flex;align-items:center;gap:var(--s-2);background:white;padding:5px 12px;border-radius:var(--r-pill);font-size:12px;font-weight:600}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%}
+.linklike{font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.minihero{padding:var(--s-6) var(--s-5);text-align:center}
+.minihero h4{font-size:22px;font-weight:700;letter-spacing:-0.015em;margin-bottom:6px}
+.minihero h4 .accent{}
+.minihero p{font-size:14px;color:var(--ink-700);margin-bottom:var(--s-4)}
+
+/* palette A — Sky (huidige) */
+.p-A .swatch.s50{background:#EFF9FD;color:#0C4A6E}
+.p-A .swatch.s100{background:#D6F0FA;color:#0C4A6E}
+.p-A .swatch.s500{background:#0EA5E9}
+.p-A .swatch.s600{background:#0284C7}
+.p-A .swatch.s700{background:#0369A1}
+.p-A .btn-primary{background:#0284C7;color:white;border-color:#0284C7}
+.p-A .btn-secondary{color:#0369A1;border-color:#0284C7}
+.p-A .eyebrow{border:1px solid #D6F0FA;color:#0369A1}
+.p-A .eyebrow::before{background:#0EA5E9}
+.p-A .linklike{color:#0284C7}
+.p-A .minihero{background:linear-gradient(180deg,#EFF9FD 0%,white 100%)}
+.p-A .minihero .accent{color:#0284C7}
+
+/* palette B — Ocean (dieper, gezaghebbend) */
+.p-B .swatch.s50{background:#EEF7FB;color:#0C2945}
+.p-B .swatch.s100{background:#D2EAF4;color:#0C2945}
+.p-B .swatch.s500{background:#0284C7}
+.p-B .swatch.s600{background:#0369A1}
+.p-B .swatch.s700{background:#075985}
+.p-B .btn-primary{background:#0369A1;color:white;border-color:#0369A1}
+.p-B .btn-secondary{color:#075985;border-color:#0369A1}
+.p-B .eyebrow{border:1px solid #D2EAF4;color:#075985}
+.p-B .eyebrow::before{background:#0284C7}
+.p-B .linklike{color:#0369A1}
+.p-B .minihero{background:linear-gradient(180deg,#EEF7FB 0%,white 100%)}
+.p-B .minihero .accent{color:#0369A1}
+
+/* palette C — Cobalt (koeler, zakelijker) */
+.p-C .swatch.s50{background:#EEF4FF;color:#1E2A78}
+.p-C .swatch.s100{background:#DBE7FE;color:#1E2A78}
+.p-C .swatch.s500{background:#3B82F6}
+.p-C .swatch.s600{background:#2563EB}
+.p-C .swatch.s700{background:#1D4ED8}
+.p-C .btn-primary{background:#2563EB;color:white;border-color:#2563EB}
+.p-C .btn-secondary{color:#1D4ED8;border-color:#2563EB}
+.p-C .eyebrow{border:1px solid #DBE7FE;color:#1D4ED8}
+.p-C .eyebrow::before{background:#3B82F6}
+.p-C .linklike{color:#2563EB}
+.p-C .minihero{background:linear-gradient(180deg,#EEF4FF 0%,white 100%)}
+.p-C .minihero .accent{color:#2563EB}
+
+/* palette D — Teal/Cyan (modern, fris) */
+.p-D .swatch.s50{background:#ECFDFC;color:#134E4A}
+.p-D .swatch.s100{background:#CFFAF6;color:#134E4A}
+.p-D .swatch.s500{background:#06B6D4}
+.p-D .swatch.s600{background:#0891B2}
+.p-D .swatch.s700{background:#0E7490}
+.p-D .btn-primary{background:#0891B2;color:white;border-color:#0891B2}
+.p-D .btn-secondary{color:#0E7490;border-color:#0891B2}
+.p-D .eyebrow{border:1px solid #CFFAF6;color:#0E7490}
+.p-D .eyebrow::before{background:#06B6D4}
+.p-D .linklike{color:#0891B2}
+.p-D .minihero{background:linear-gradient(180deg,#ECFDFC 0%,white 100%)}
+.p-D .minihero .accent{color:#0891B2}
+
+/* combined preview */
+.combo{display:grid;grid-template-columns:1fr;gap:var(--s-5);margin-top:var(--s-5)}
+@media (min-width:900px){.combo{grid-template-columns:1fr 1fr}}
+.combo-card{border:1px solid var(--ink-200);border-radius:var(--r-md);overflow:hidden;background:white}
+.combo-card .lbl{font-size:12px;font-weight:700;color:var(--ink-500);padding:10px 14px;border-bottom:1px solid var(--ink-200);text-transform:uppercase;letter-spacing:.08em;background:var(--ink-50)}
+.combo-body{padding:var(--s-6) var(--s-5);text-align:center}
+.combo-body .eyebrow{margin-bottom:var(--s-3)}
+.combo-body h3{font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:var(--s-3)}
+.combo-body p{font-size:14px;color:var(--ink-700);margin-bottom:var(--s-4);max-width:380px;margin-left:auto;margin-right:auto}
+
+/* footer */
+.foot{margin-top:var(--s-8);padding:var(--s-5) 0;text-align:center;color:var(--ink-500);font-size:13px;border-top:1px solid var(--ink-200)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page-head">
+    <div class="kicker">UX style guide · concept</div>
+    <h1>Kies de richting voor klicmelding.nl</h1>
+    <p>Vier kleurvarianten en zes opties voor de logo-lockup. Klik niets — bekijk wat je rustig vindt aanvoelen en laat me weten welke combinatie. Daarna leg ik dat vast in het definitieve stylesheet en de mockups.</p>
+  </header>
+
+  <!-- ============ TYPOGRAFIE ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Typografie — Plus Jakarta Sans</h2>
+        <p class="lede">Eén familie voor alles. Plus Jakarta Sans heeft net iets meer karakter dan Inter, leest goed op kleine maten en oogt modern zonder vluchtig te zijn.</p>
+      </div>
+      <span class="pick">Vast: Plus Jakarta Sans</span>
+    </div>
+
+    <div class="type-stack">
+      <div class="type-row">
+        <div class="type-meta"><b>Display</b>48 / 800<br>tracking −3</div>
+        <div class="t-display">Uw klicmelding, onze zorg.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>H1</b>36 / 700<br>tracking −2</div>
+        <div class="t-h1">Van aanvraag tot rapport in drie stappen</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>H2</b>28 / 700<br>tracking −1.5</div>
+        <div class="t-h2">Voor wie is dit bedoeld?</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>H3</b>20 / 600<br>tracking −1</div>
+        <div class="t-h3">Vijf stappen, vijf minuten</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>Lede</b>18 / 400<br>1.55</div>
+        <div class="t-lede">Klicmelding.nl regelt de wettelijk verplichte klic-melding voor u — snel, digitaal en compleet, inclusief kleurentekeningen.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>Body</b>16 / 400<br>1.6</div>
+        <div class="t-body">U vult het formulier in vijf stappen in. Wij dienen de melding namens u in bij het Kadaster en verzamelen de tekeningen van alle netbeheerders. Binnen enkele werkdagen ontvangt u een compleet PDF-rapport.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>Small</b>13 / 500</div>
+        <div class="t-small">Tussentijds opslaan? Uw aanvraag blijft bewaard.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>Caps</b>12 / 700<br>tracking +1</div>
+        <div class="t-caps">Hoe werkt het</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOGO LOCKUP SPACING ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Logo-lockup — afstand tussen merkteken en woordmerk</h2>
+        <p class="lede">Zes varianten van strak tegen elkaar tot ruim opgezet. Het merkteken is identiek, alleen de gap (en eventuele negatieve marge om de tail-ruimte van de SVG mee te tellen) verandert.</p>
+      </div>
+      <span class="pick">Mijn aanbeveling: optie C of D</span>
+    </div>
+
+    <div class="logo-grid">
+
+      <div class="lock">
+        <div class="lock-meta"><b>A. Krap</b><span>gap 0 · marge −6</span></div>
+        <div class="lockup lockup-A">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z" fill="#0EA5E9"/>
+            <path d="M14.5 18.5l5.5 5.5L30 14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="word"><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </div>
+      </div>
+
+      <div class="lock">
+        <div class="lock-meta"><b>B. Compact</b><span>gap 4</span></div>
+        <div class="lockup lockup-B">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z" fill="#0EA5E9"/>
+            <path d="M14.5 18.5l5.5 5.5L30 14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="word"><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </div>
+      </div>
+
+      <div class="lock">
+        <div class="lock-meta"><b>C. Standaard</b><span>gap 8</span></div>
+        <div class="lockup lockup-C">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z" fill="#0EA5E9"/>
+            <path d="M14.5 18.5l5.5 5.5L30 14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="word"><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </div>
+      </div>
+
+      <div class="lock">
+        <div class="lock-meta"><b>D. Comfortabel</b><span>gap 14</span></div>
+        <div class="lockup lockup-D">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z" fill="#0EA5E9"/>
+            <path d="M14.5 18.5l5.5 5.5L30 14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="word"><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </div>
+      </div>
+
+      <div class="lock">
+        <div class="lock-meta"><b>E. Ruim</b><span>gap 20</span></div>
+        <div class="lockup lockup-E">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z" fill="#0EA5E9"/>
+            <path d="M14.5 18.5l5.5 5.5L30 14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="word"><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </div>
+      </div>
+
+      <div class="lock">
+        <div class="lock-meta"><b>F. Optisch (alleen tail-ruimte)</b><span>gap 0 · marge 0</span></div>
+        <div class="lockup lockup-F">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 2c-8.84 0-16 7.16-16 16s7.16 16 16 16c1.42 0 2.79-.18 4.1-.53L33 38l-2.13-6.39C35.17 28.7 38 23.69 38 18 38 9.16 30.84 2 22 2z" fill="#0EA5E9"/>
+            <path d="M14.5 18.5l5.5 5.5L30 14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="word"><span class="k">Klic</span><span class="m">melding.nl</span></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ KLEURVARIATIES ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Kleurvariaties — vier subtiele richtingen</h2>
+        <p class="lede">Het logo-blauw (#0EA5E9) blijft bij elke variant gelijk. Wat verandert is de actiekleur (knoppen, links, accenten) en de bijbehorende tinten 50–700.</p>
+      </div>
+      <span class="pick">Kies één van A · B · C · D</span>
+    </div>
+
+    <div class="palette-grid">
+
+      <!-- A. Sky -->
+      <div class="palette p-A">
+        <div class="palette-head">
+          <div>
+            <h3>A. Sky <small style="color:var(--ink-500);font-weight:500">(huidig)</small></h3>
+            <p>Vriendelijk en helder. Actieblauw iets donkerder dan het logo voor contrast.</p>
+          </div>
+          <span class="tag">Friendly</span>
+        </div>
+        <div class="swatches">
+          <div class="swatch s50 light"><span class="num">50</span><span class="hex">#EFF9FD</span></div>
+          <div class="swatch s100 light"><span class="num">100</span><span class="hex">#D6F0FA</span></div>
+          <div class="swatch s500"><span class="num">500</span><span class="hex">#0EA5E9</span></div>
+          <div class="swatch s600"><span class="num">600</span><span class="hex">#0284C7</span></div>
+          <div class="swatch s700"><span class="num">700</span><span class="hex">#0369A1</span></div>
+        </div>
+        <div class="minihero">
+          <span class="eyebrow">Online dienst · WION</span>
+          <h4>Uw klicmelding, <span class="accent">onze zorg.</span></h4>
+          <p>Snel, digitaal en compleet — met kleurentekeningen.</p>
+          <div class="row" style="justify-content:center">
+            <button class="btn btn-primary">Aanvragen →</button>
+            <a class="linklike" href="#">Hoe werkt het?</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- B. Ocean -->
+      <div class="palette p-B">
+        <div class="palette-head">
+          <div>
+            <h3>B. Ocean</h3>
+            <p>Iets dieper en gezaghebbender. Actieblauw schuift een stap richting marine.</p>
+          </div>
+          <span class="tag">Authoritative</span>
+        </div>
+        <div class="swatches">
+          <div class="swatch s50 light"><span class="num">50</span><span class="hex">#EEF7FB</span></div>
+          <div class="swatch s100 light"><span class="num">100</span><span class="hex">#D2EAF4</span></div>
+          <div class="swatch s500"><span class="num">500</span><span class="hex">#0284C7</span></div>
+          <div class="swatch s600"><span class="num">600</span><span class="hex">#0369A1</span></div>
+          <div class="swatch s700"><span class="num">700</span><span class="hex">#075985</span></div>
+        </div>
+        <div class="minihero">
+          <span class="eyebrow">Online dienst · WION</span>
+          <h4>Uw klicmelding, <span class="accent">onze zorg.</span></h4>
+          <p>Snel, digitaal en compleet — met kleurentekeningen.</p>
+          <div class="row" style="justify-content:center">
+            <button class="btn btn-primary">Aanvragen →</button>
+            <a class="linklike" href="#">Hoe werkt het?</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- C. Cobalt -->
+      <div class="palette p-C">
+        <div class="palette-head">
+          <div>
+            <h3>C. Cobalt</h3>
+            <p>Koeler en zakelijker. Logo blijft cyaan, knoppen krijgen een royaler blauw.</p>
+          </div>
+          <span class="tag">Corporate</span>
+        </div>
+        <div class="swatches">
+          <div class="swatch s50 light"><span class="num">50</span><span class="hex">#EEF4FF</span></div>
+          <div class="swatch s100 light"><span class="num">100</span><span class="hex">#DBE7FE</span></div>
+          <div class="swatch s500"><span class="num">500</span><span class="hex">#3B82F6</span></div>
+          <div class="swatch s600"><span class="num">600</span><span class="hex">#2563EB</span></div>
+          <div class="swatch s700"><span class="num">700</span><span class="hex">#1D4ED8</span></div>
+        </div>
+        <div class="minihero">
+          <span class="eyebrow">Online dienst · WION</span>
+          <h4>Uw klicmelding, <span class="accent">onze zorg.</span></h4>
+          <p>Snel, digitaal en compleet — met kleurentekeningen.</p>
+          <div class="row" style="justify-content:center">
+            <button class="btn btn-primary">Aanvragen →</button>
+            <a class="linklike" href="#">Hoe werkt het?</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- D. Teal/Cyan -->
+      <div class="palette p-D">
+        <div class="palette-head">
+          <div>
+            <h3>D. Lagune</h3>
+            <p>Modern en fris. Cyan-tinten met een teal-ondertoon — onderscheidend zonder lawaai.</p>
+          </div>
+          <span class="tag">Modern</span>
+        </div>
+        <div class="swatches">
+          <div class="swatch s50 light"><span class="num">50</span><span class="hex">#ECFDFC</span></div>
+          <div class="swatch s100 light"><span class="num">100</span><span class="hex">#CFFAF6</span></div>
+          <div class="swatch s500"><span class="num">500</span><span class="hex">#06B6D4</span></div>
+          <div class="swatch s600"><span class="num">600</span><span class="hex">#0891B2</span></div>
+          <div class="swatch s700"><span class="num">700</span><span class="hex">#0E7490</span></div>
+        </div>
+        <div class="minihero">
+          <span class="eyebrow">Online dienst · WION</span>
+          <h4>Uw klicmelding, <span class="accent">onze zorg.</span></h4>
+          <p>Snel, digitaal en compleet — met kleurentekeningen.</p>
+          <div class="row" style="justify-content:center">
+            <button class="btn btn-primary">Aanvragen →</button>
+            <a class="linklike" href="#">Hoe werkt het?</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ ACCENT KLEUREN ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Status­kleuren — vast over alle paletten</h2>
+        <p class="lede">Geen variant op deze: deze kleuren betekenen iets en moeten herkenbaar blijven (succes, waarschuwing, fout, info).</p>
+      </div>
+      <span class="pick">Vast</span>
+    </div>
+    <div class="swatches" style="border-radius:var(--r-md);overflow:hidden">
+      <div class="swatch" style="background:#10B981"><span class="num">Succes</span><span class="hex">#10B981</span></div>
+      <div class="swatch" style="background:#F59E0B"><span class="num">Waarschuwing</span><span class="hex">#F59E0B</span></div>
+      <div class="swatch" style="background:#EF4444"><span class="num">Fout</span><span class="hex">#EF4444</span></div>
+      <div class="swatch" style="background:#0EA5E9"><span class="num">Info</span><span class="hex">#0EA5E9</span></div>
+      <div class="swatch light" style="background:#F8FAFC"><span class="num">Neutraal-50</span><span class="hex">#F8FAFC</span></div>
+    </div>
+  </section>
+
+  <p class="foot">Laat me weten welke combinatie (bv. "C + D-kleur") je het mooist vindt — daarna verwerk ik het in het stylesheet en de mockups.</p>
+
+</div>
+
+</body>
+</html>
